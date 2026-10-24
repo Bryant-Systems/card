@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Kyle Bryant · Bryant Systems</title>
+<meta name="description" content="Kyle Bryant, Founder / Developer at Bryant Systems. Proposa handles the finance side of federal research proposals.">
+<meta name="theme-color" content="#0f1113">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bryant Systems">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:title" content="Kyle Bryant · Bryant Systems">
+<meta property="og:description" content="Proposa: the finance side of federal research proposals, handled.">
+<meta property="og:image" content="icon-512.png">
+<link rel="preload" href="fonts/Archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/AzeretMono-var.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Layout: a drawing set of eight sheets (BS-KB-001); swipe sideways; one colour of linework at two weights; Archivo + Azeret Mono. */
+  :root {
+    --page: #0f1113; --sheet: #1a1c1f; --line: #8c7457; --mark: #c9976a; --copper: #4a3a2c;
+    --heat: #ff9d66; --crimson: #a54840; --gold: #ecc37d;
+    --ink: #ece6dc; --ink-2: #a8a093; --ink-3: #736c62;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --data: "Azeret Mono", "SF Mono", Menlo, monospace;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    color-scheme: dark;
+  }
+  @font-face { font-family: "Archivo"; src: url("fonts/Archivo-var.woff2") format("woff2"); font-weight: 400 600; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: "Azeret Mono"; src: url("fonts/AzeretMono-var.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: var(--page); height: 100%; }
+  body { color: var(--ink); font: 400 15px/1.4 var(--data); -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+  .deck { height: 100%; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none;
+    overscroll-behavior-x: contain; }
+  .deck::-webkit-scrollbar { display: none; }
+  .slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: center; scroll-snap-stop: always; display: grid; place-items: center;
+    padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right, 0px)) calc(64px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left, 0px)); }
+  .sheet { position: relative; width: min(100%, 440px, calc((100svh - 96px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 400 / 820));
+    aspect-ratio: 400 / 820; container-type: inline-size; box-shadow: 0 30px 60px -30px rgba(0,0,0,.85); }
+  .sheet-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .at { position: absolute; left: calc(var(--x) * .25cqw); top: calc(var(--y) * .25cqw); width: calc(var(--w) * .25cqw); height: calc(var(--h) * .25cqw); }
+
+  .paper { fill: var(--sheet); }
+  .thick { fill: none; stroke: var(--line); stroke-width: 1; }
+  .thin { fill: none; stroke: var(--line); stroke-width: .5; }
+  .phantom { fill: none; stroke: var(--line); stroke-width: .5; stroke-dasharray: 16 3 3 3 3 3; }
+  .centre { fill: none; stroke: var(--line); stroke-width: .5; stroke-dasharray: 12 2.5 2 2.5; }
+  .ah { fill: var(--line); }
+  .zone { font: 500 6.5px var(--data); fill: var(--line); text-anchor: middle; }
+  .m-fill { fill: var(--mark); } .m-line { fill: none; stroke: var(--mark); stroke-width: 2; stroke-linejoin: round; } .m-slot { fill: var(--sheet); }
+  .enamel { fill: #ebe5d9; } .qr { stroke: #17191c; }
+  .tb-lab { font: 500 5.6px var(--data); fill: var(--ink-3); letter-spacing: .08em; }
+  .tb-val { font: 500 9.4px var(--data); fill: var(--ink-2); }
+  .box-k { font: 500 8px var(--data); fill: var(--ink-2); letter-spacing: .1em; }
+  .box-t { font: 400 10.5px var(--display); fill: var(--ink-3); }
+  .stamp { font: 500 7.6px var(--data); fill: var(--ink-2); letter-spacing: .08em; }
+  .tick { font: 500 7.6px var(--data); fill: var(--ink-3); }
+  .dim { font: 500 7.6px var(--data); fill: var(--gold); letter-spacing: .08em; }
+  .node { fill: var(--sheet); stroke: var(--line); stroke-width: .5; }
+
+  .net .cu { fill: none; stroke: var(--copper); stroke-width: 2; stroke-linejoin: round; }
+  .net .hot { fill: none; stroke: var(--heat); stroke-width: 1.1; stroke-linejoin: round; stroke-linecap: round; filter: url(#heat);
+    stroke-dasharray: 100 100; stroke-dashoffset: 100; opacity: 0; transition: stroke-dashoffset .75s var(--ease), opacity .6s var(--ease) .1s; }
+  .net .netname { font: 500 6px var(--data); fill: var(--ink-3); letter-spacing: .12em; transition: fill .6s var(--ease); }
+  .net.live .hot { stroke-dashoffset: 0; opacity: .95; transition: stroke-dashoffset .75s var(--ease), opacity .15s linear; }
+  .net.live .netname { fill: var(--heat); }
+  .pad { fill: var(--copper); }
+  .draw { stroke-dasharray: 1000; stroke-dashoffset: 0; }
+  .slide:not(.seen) .draw { stroke-dashoffset: 1000; }
+  .slide.seen .draw { transition: stroke-dashoffset 1.4s var(--ease); }
+
+  .name { font-family: var(--display); font-weight: 500; font-stretch: 125%; font-size: 10.2cqw; line-height: 1; letter-spacing: -.012em;
+    color: var(--ink); display: flex; align-items: flex-end; white-space: nowrap; }
+  .subtitle { font: 400 4.2cqw var(--display); color: var(--ink-2); display: flex; align-items: center; }
+  .org, .lab, .cap-k, .act, .add .ft, .eyebrow, .mod-k, .mod-s, .ro-k { font: 500 2.6cqw var(--data); letter-spacing: .1em; text-transform: uppercase; }
+  .org { color: var(--ink-3); display: flex; align-items: center; }
+  .cell { display: flex; align-items: center; text-decoration: none; color: var(--ink); min-width: 0; }
+  .add { justify-content: space-between; padding: 0 3.4cqw 0 4cqw; background: var(--crimson); color: #f7f0e6;
+    font-family: var(--display); font-weight: 500; font-stretch: 112%; font-size: 4.4cqw; transition: background .4s var(--ease); }
+  .add .ft { color: rgba(247,240,230,.62); text-transform: none; letter-spacing: .04em; }
+  .add:hover, .add:focus-visible { background: #b0514a; }
+  .lab { color: var(--ink-3); padding-left: 4cqw; flex: none; width: 14cqw; }
+  .val { font: 400 3.4cqw var(--data); color: var(--ink); padding-left: 3.2cqw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-variant-numeric: tabular-nums; transition: color .4s var(--ease); }
+  .act { justify-content: center; color: var(--ink-2); transition: color .4s var(--ease); }
+  .act:hover, .act:focus-visible, .row:hover .val, .row:focus-visible .val { color: var(--heat); }
+  .cap { display: grid; align-content: start; gap: 2.2cqw; }
+  .cap-k { color: var(--gold); }
+  .cap-t { font: 400 3.4cqw/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .cap-s { font: 400 2.6cqw var(--data); color: var(--ink-3); overflow-wrap: anywhere; }
+
+  .eyebrow { color: var(--ink-3); display: flex; justify-content: space-between; align-items: center; }
+  .eyebrow.solo { color: var(--ink-2); }
+  .headline { font-family: var(--display); font-weight: 500; font-stretch: 118%; font-size: 7cqw; line-height: 1.08; letter-spacing: -.01em;
+    color: var(--ink); text-wrap: balance; display: flex; align-items: flex-start; }
+  .body { font: 400 4cqw/1.5 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .note { font: 400 3.5cqw/1.5 var(--display); color: var(--ink-2); text-wrap: pretty; border-left: 1px solid var(--gold); padding-left: 3cqw; }
+  .fine { font: 400 2.5cqw/1.4 var(--data); color: var(--ink-3); }
+  .module, .other { padding: 4cqw 3.6cqw; display: flex; flex-direction: column; gap: 2cqw; }
+  .mod-k { color: var(--ink); }
+  .mod-t { font: 400 3.5cqw/1.42 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .module .mod-s { margin-top: auto; color: var(--ink-3); }
+  .mod-s[data-s="built"] { color: var(--ink); }
+  .mod-s[data-s="building-now"] { color: var(--heat); }
+
+  .scale { -webkit-appearance: none; appearance: none; background: transparent; margin: 0; cursor: pointer; touch-action: pan-y; }
+  .scale::-webkit-slider-runnable-track { height: 100%; background: transparent; }
+  .scale::-moz-range-track { height: 100%; background: transparent; }
+  .scale::-webkit-slider-thumb { -webkit-appearance: none; width: 3.4cqw; height: 9cqw; margin-top: 0; background: var(--heat);
+    clip-path: polygon(50% 100%, 0 62%, 0 0, 100% 0, 100% 62%); }
+  .scale::-moz-range-thumb { width: 3.4cqw; height: 9cqw; border: 0; border-radius: 0; background: var(--heat);
+    clip-path: polygon(50% 100%, 0 62%, 0 0, 100% 0, 100% 62%); }
+  .scale:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+  .readout { display: grid; align-content: start; gap: 1.4cqw; }
+  .ro-k { color: var(--ink-3); }
+  .ro-v { font-family: var(--display); font-weight: 500; font-stretch: 125%; font-size: 11cqw; line-height: 1.05; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ro-t { font: 400 3.5cqw/1.45 var(--display); color: var(--ink-2); }
+
+  nav.pager { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left, 0px)); }
+  .pg-btn { white-space: nowrap; flex: none; background: none; border: 1px solid rgba(140,116,87,.6); color: var(--ink-2); font: 500 11px var(--data); letter-spacing: .1em;
+    text-transform: uppercase; padding: 0 14px; height: 40px; min-width: 64px; cursor: pointer; transition: color .3s var(--ease), border-color .3s var(--ease); }
+  .pg-btn:hover, .pg-btn:focus-visible { color: var(--heat); border-color: var(--heat); }
+  .pg-btn[disabled] { opacity: .3; cursor: default; }
+  #prev[disabled] { visibility: hidden; width: 0; min-width: 0; padding: 0; border: 0; }
+  .pg-btn.lead { color: var(--ink); border-color: var(--line); }
+  .ticks { display: flex; gap: 2px; min-width: 0; }
+  .ticks button { width: 14px; height: 40px; background: none; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; }
+  .ticks button::before { content: ""; width: 1px; height: 12px; background: var(--line); transition: height .3s var(--ease), background .3s var(--ease), width .3s var(--ease); }
+  .ticks button[aria-current="true"]::before { height: 22px; width: 2px; background: var(--heat); }
+  a:focus-visible, button:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .deck { scroll-behavior: auto; }
+    .net .hot, .net.live .hot, .slide.seen .draw, .add, .act, .val, .pg-btn, .ticks button::before { transition: none; }
+    .slide:not(.seen) .draw { stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<filter id="heat" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs></svg>
+<main class="deck" aria-roledescription="carousel" aria-label="Bryant Systems pocket deck">
+
+<section class="slide" id="sheet-1" aria-label="Sheet 1 of 8: contact card"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><path class="centre" d="M159.92 126 H240.08 M200 70.16999999999999 V169.86"/><g class="net" data-net="1-vcard"><path class="cu" d="M168.92 140.28 H74 L30 184.28 V356.0 H40 M30 356.0 V609.0 H40"/><path class="hot" pathLength="100" d="M168.92 140.28 H74 L30 184.28 V356.0 H40 M30 356.0 V609.0 H40"/><text class="netname" x="118" y="136.28" text-anchor="start">VCARD</text></g><g class="net" data-net="1-tel"><path class="cu" d="M231.08 140.28 H328 L366 178.28 V407.0 H360"/><path class="hot" pathLength="100" d="M231.08 140.28 H328 L366 178.28 V407.0 H360"/><text class="netname" x="318" y="136.28" text-anchor="end">TEL</text></g><g class="net" data-net="1-mail"><path class="cu" d="M215.12 160.86 L227.12 172.86 H336 L374 210.86 V457.0 H360"/><path class="hot" pathLength="100" d="M215.12 160.86 L227.12 172.86 H336 L374 210.86 V457.0 H360"/><text class="netname" x="330" y="181.36" text-anchor="end">MAIL</text></g><rect class="pad" x="166.72" y="138.08" width="4.4" height="4.4"/><rect class="pad" x="228.88000000000002" y="138.08" width="4.4" height="4.4"/><rect class="pad" x="212.92000000000002" y="158.66000000000003" width="4.4" height="4.4"/><rect class="pad" x="37.8" y="353.8" width="4.4" height="4.4"/><rect class="pad" x="357.8" y="404.8" width="4.4" height="4.4"/><rect class="pad" x="357.8" y="454.8" width="4.4" height="4.4"/><rect class="pad" x="37.8" y="606.8" width="4.4" height="4.4"/><g transform="translate(149.60 75.60) scale(4.2)">
+<circle cx="12" cy="2.7" r="1.85" class="m-fill"/>
+<path d="M8.4 6.1 H15.6 L19.4 9.9 V15.4 L15.6 20.3 H8.4 L4.6 15.4 V9.9 Z" class="m-line"/>
+<path d="M7.5 10.7 H16.5 L14.9 13.9 H9.1 Z" class="m-fill"/>
+<path d="M8.85 11.6 H15.15 V12.6 H8.85 Z" class="m-slot"/>
+<rect x="9.2" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+<rect x="11.35" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+<rect x="13.5" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+</g><path class="thin" d="M40 312 H360"/><rect class="thick" x="40" y="330" width="320" height="152"/><path class="thin" d="M40 382 H360 M40 432 H360 M96 382 V482 M252 382 V432 M306 382 V432"/><rect class="enamel" x="40" y="525" width="168" height="168"/><rect class="thin" x="40" y="525" width="168" height="168"/><g transform="translate(48 533) scale(2.8679)" shape-rendering="crispEdges"><path class="qr" d="M0 0.5h7m1 0h1m2 0h6m1 0h2m1 0h1m1 0h1m1 0h2m1 0h4m1 0h1m3 0h1m1 0h4m3 0h7m-53 1h1m5 0h1m1 0h1m2 0h1m2 0h1m1 0h1m5 0h3m2 0h1m1 0h2m2 0h2m1 0h1m1 0h6m2 0h1m5 0h1m-53 1h1m1 0h3m1 0h1m2 0h2m1 0h2m3 0h2m1 0h2m1 0h2m1 0h1m2 0h1m1 0h1m2 0h2m3 0h1m3 0h1m2 0h1m1 0h3m1 0h1m-53 1h1m1 0h3m1 0h1m1 0h2m4 0h1m4 0h1m3 0h1m4 0h4m1 0h5m1 0h1m1 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-53 1h1m1 0h3m1 0h1m4 0h4m4 0h1m4 0h5m4 0h1m3 0h2m1 0h1m1 0h1m3 0h1m1 0h3m1 0h1m-53 1h1m5 0h1m2 0h1m2 0h1m3 0h2m1 0h1m1 0h2m1 0h1m3 0h5m1 0h1m4 0h2m1 0h1m3 0h1m5 0h1m-53 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-45 1h1m3 0h1m2 0h2m1 0h4m2 0h1m3 0h2m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m-44 1h1m1 0h2m1 0h3m1 0h1m1 0h1m1 0h1m3 0h6m1 0h5m1 0h2m3 0h1m4 0h2m2 0h1m1 0h1m2 0h1m1 0h2m-53 1h1m3 0h1m3 0h2m1 0h6m1 0h1m2 0h2m3 0h2m1 0h3m3 0h3m1 0h4m2 0h1m3 0h1m1 0h1m-52 1h1m3 0h1m1 0h3m1 0h1m2 0h5m7 0h3m2 0h1m1 0h1m1 0h1m9 0h3m1 0h4m-51 1h1m1 0h3m1 0h1m1 0h2m1 0h3m4 0h1m2 0h2m3 0h5m1 0h1m1 0h3m3 0h1m5 0h3m-49 1h6m2 0h5m2 0h1m2 0h2m2 0h2m1 0h1m4 0h1m3 0h2m4 0h8m2 0h1m-51 1h1m2 0h1m4 0h2m2 0h4m2 0h1m3 0h2m1 0h2m2 0h1m2 0h1m4 0h2m1 0h1m1 0h3m2 0h3m-49 1h1m1 0h3m3 0h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h3m2 0h2m1 0h2m1 0h2m3 0h1m1 0h1m1 0h4m1 0h2m-53 1h2m2 0h2m4 0h1m1 0h5m2 0h1m2 0h4m1 0h1m1 0h1m2 0h2m1 0h2m1 0h2m1 0h4m4 0h1m2 0h1m-51 1h3m1 0h2m2 0h1m2 0h1m3 0h1m2 0h2m1 0h1m1 0h1m3 0h4m1 0h1m3 0h2m5 0h1m1 0h1m2 0h1m-48 1h1m1 0h1m1 0h3m3 0h5m1 0h3m1 0h1m2 0h2m3 0h1m1 0h5m3 0h1m4 0h1m1 0h1m3 0h1m-53 1h1m2 0h2m1 0h2m2 0h1m1 0h1m3 0h1m2 0h1m1 0h1m1 0h1m5 0h1m3 0h1m1 0h1m1 0h2m7 0h1m2 0h1m-50 1h1m2 0h2m3 0h1m5 0h1m1 0h1m4 0h1m1 0h1m2 0h1m1 0h2m1 0h1m2 0h2m1 0h2m2 0h1m1 0h1m2 0h2m1 0h4m-52 1h1m1 0h2m1 0h7m2 0h1m2 0h1m3 0h1m3 0h1m1 0h2m5 0h1m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m2 0h1m-48 1h1m1 0h3m2 0h1m4 0h2m4 0h3m3 0h2m1 0h2m1 0h1m6 0h2m1 0h1m2 0h1m-48 1h1m1 0h2m1 0h3m2 0h2m1 0h1m2 0h1m2 0h1m1 0h1m3 0h1m2 0h2m1 0h3m1 0h2m1 0h1m2 0h2m1 0h2m1 0h1m1 0h2m-50 1h3m2 0h6m1 0h1m3 0h2m1 0h1m3 0h1m1 0h2m2 0h1m1 0h2m2 0h1m1 0h1m1 0h3m1 0h4m-49 1h1m2 0h6m2 0h1m1 0h3m2 0h1m1 0h1m2 0h6m5 0h3m1 0h2m1 0h2m1 0h9m-53 1h5m3 0h2m2 0h4m2 0h2m1 0h4m3 0h2m2 0h1m3 0h3m4 0h2m3 0h3m1 0h1m-52 1h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h6m3 0h1m2 0h1m1 0h1m1 0h1m2 0h1m1 0h1m8 0h3m1 0h1m1 0h1m2 0h2m-53 1h2m2 0h1m3 0h1m1 0h1m1 0h3m3 0h1m1 0h1m3 0h1m3 0h1m1 0h1m5 0h3m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1m-51 1h1m2 0h5m1 0h1m2 0h1m3 0h2m2 0h1m2 0h8m1 0h1m5 0h1m1 0h2m1 0h5m1 0h3m-53 1h2m2 0h1m2 0h1m1 0h3m1 0h2m1 0h1m3 0h2m1 0h4m1 0h2m1 0h4m1 0h1m2 0h3m2 0h1m1 0h1m2 0h2m1 0h1m-52 1h1m4 0h1m2 0h3m2 0h2m1 0h1m9 0h3m1 0h4m2 0h2m3 0h3m5 0h1m-51 1h1m3 0h2m6 0h3m1 0h4m1 0h1m3 0h3m1 0h1m1 0h1m3 0h3m1 0h3m1 0h2m1 0h1m1 0h4m-52 1h2m2 0h1m1 0h1m1 0h2m1 0h3m1 0h3m1 0h1m2 0h1m1 0h2m1 0h3m1 0h1m1 0h3m2 0h3m2 0h1m5 0h1m1 0h2m-53 1h5m6 0h2m1 0h2m2 0h1m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m5 0h1m2 0h4m1 0h5m1 0h1m1 0h1m-52 1h1m1 0h1m2 0h2m2 0h2m1 0h3m1 0h1m3 0h1m1 0h1m2 0h1m4 0h1m9 0h1m2 0h2m3 0h3m-52 1h1m1 0h1m1 0h2m1 0h1m1 0h4m9 0h1m1 0h1m2 0h2m1 0h1m1 0h3m2 0h1m1 0h4m1 0h3m1 0h1m2 0h2m-53 1h10m4 0h2m1 0h2m1 0h1m4 0h1m1 0h1m3 0h1m1 0h1m1 0h4m6 0h2m2 0h1m2 0h1m-51 1h1m2 0h1m4 0h1m2 0h1m3 0h1m1 0h1m2 0h1m1 0h1m2 0h1m3 0h1m3 0h2m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m-50 1h1m4 0h3m3 0h2m1 0h2m1 0h1m1 0h3m2 0h3m5 0h1m1 0h1m1 0h1m1 0h1m3 0h2m1 0h2m1 0h2m1 0h2m-53 1h1m2 0h2m3 0h2m2 0h1m1 0h1m3 0h1m2 0h5m1 0h1m1 0h1m1 0h3m2 0h1m1 0h2m2 0h3m1 0h1m1 0h2m-50 1h1m3 0h3m2 0h3m1 0h1m2 0h3m2 0h6m2 0h6m4 0h1m2 0h1m3 0h1m1 0h1m1 0h3m-53 1h4m1 0h1m2 0h1m1 0h4m1 0h3m1 0h1m2 0h3m1 0h4m1 0h2m1 0h2m7 0h1m5 0h1m2 0h1m-53 1h2m1 0h4m1 0h1m2 0h4m2 0h2m5 0h1m1 0h1m1 0h2m3 0h2m2 0h1m1 0h3m1 0h1m4 0h1m2 0h1m-51 1h2m4 0h2m2 0h1m3 0h2m2 0h3m2 0h2m1 0h1m1 0h3m2 0h2m2 0h3m7 0h5m-50 1h1m2 0h1m1 0h1m4 0h1m3 0h12m1 0h2m3 0h1m2 0h1m1 0h2m1 0h6m1 0h1m1 0h1m-45 1h5m1 0h1m4 0h1m1 0h2m1 0h1m3 0h3m1 0h1m4 0h1m1 0h1m2 0h1m1 0h1m3 0h2m1 0h2m-53 1h7m1 0h2m2 0h4m7 0h2m1 0h1m1 0h1m2 0h1m6 0h1m1 0h2m1 0h2m1 0h1m1 0h2m1 0h1m-52 1h1m5 0h1m1 0h1m1 0h1m2 0h1m2 0h2m1 0h6m3 0h1m1 0h2m1 0h1m7 0h1m2 0h1m3 0h1m2 0h2m-53 1h1m1 0h3m1 0h1m2 0h1m4 0h2m1 0h1m1 0h1m1 0h1m1 0h8m2 0h1m2 0h1m5 0h1m1 0h5m2 0h2m-53 1h1m1 0h3m1 0h1m1 0h2m2 0h1m2 0h2m2 0h3m1 0h4m1 0h1m3 0h2m1 0h2m1 0h1m2 0h1m5 0h1m1 0h2m1 0h1m-53 1h1m1 0h3m1 0h1m1 0h5m1 0h1m1 0h4m3 0h2m3 0h1m1 0h2m3 0h1m1 0h1m1 0h2m4 0h3m1 0h2m-51 1h1m5 0h1m2 0h1m4 0h3m4 0h7m1 0h1m3 0h2m1 0h1m3 0h1m1 0h4m2 0h2m1 0h1m-52 1h7m1 0h2m1 0h4m2 0h3m1 0h2m4 0h7m4 0h2m1 0h3m1 0h2m3 0h2"/></g><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">Contact card</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">1 of 8</text></svg>
+  <h1 class="at name" style="--x:40;--y:212;--w:320;--h:44">Kyle Bryant</h1>
+  <p class="at subtitle" style="--x:40;--y:262;--w:320;--h:20">Founder / Developer</p>
+  <p class="at org" style="--x:40;--y:284;--w:320;--h:14">Bryant Systems</p>
+  
+  <a class="at cell add" data-net="1-vcard" style="--x:40;--y:330;--w:320;--h:52" href="kyle-bryant.vcf" download="Kyle Bryant - Bryant Systems.vcf">Add to contacts<span class="ft">.vcf</span></a>
+  <a class="at cell row" data-net="1-tel" style="--x:40;--y:382;--w:212;--h:50" href="tel:+14433886836" aria-label="Call +1 443 388 6836"><span class="lab">Tel</span><span class="val">+1 443 388 6836</span></a>
+  <a class="at cell act" data-net="1-tel" style="--x:252;--y:382;--w:54;--h:50" href="tel:+14433886836">Call</a>
+  <a class="at cell act" data-net="1-tel" style="--x:306;--y:382;--w:54;--h:50" href="sms:+14433886836">Text</a>
+  <a class="at cell row" data-net="1-mail" style="--x:40;--y:432;--w:320;--h:50" href="mailto:Bryant.Systems@proton.me"><span class="lab">Mail</span><span class="val">Bryant.Systems@proton.me</span></a>
+  <div class="at cap" style="--x:230;--y:529;--w:130;--h:160">
+    <p class="cap-k">Detail A</p>
+    <p class="cap-t">Point a phone camera here to add this contact.</p>
+    <p class="cap-s">vCard 3.0</p>
+  </div>
+</div></section>
+<section class="slide" id="sheet-2" aria-label="Sheet 2: the problem"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><rect class="thin draw" x="40" y="318" width="250" height="50"/><text class="box-k" x="52" y="338">SOLICITATION</text><text class="box-t" x="52" y="356">what the agency asks for</text><rect class="thick draw" x="40" y="394" width="250" height="50"/><text class="box-k" x="52" y="414">BUDGET + RATES</text><text class="box-t" x="52" y="432">price the work, apply rates</text><path class="thick draw" d="M165 368 V393"/><path class="ah" d="M165.00 393.00 L162.80 386.00 L167.20 386.00 Z"/><rect class="thick draw" x="40" y="470" width="250" height="50"/><text class="box-k" x="52" y="490">SF-424 R&AMP;R FORMS</text><text class="box-t" x="52" y="508">the federal budget forms</text><path class="thick draw" d="M165 444 V469"/><path class="ah" d="M165.00 469.00 L162.80 462.00 L167.20 462.00 Z"/><rect class="thick draw" x="40" y="546" width="250" height="50"/><text class="box-k" x="52" y="566">PORTAL ENTRY</text><text class="box-t" x="52" y="584">NSPIRES · Research.gov · Grants.gov</text><path class="thick draw" d="M165 520 V545"/><path class="ah" d="M165.00 545.00 L162.80 538.00 L167.20 538.00 Z"/><path class="thin" d="M294 394 H338 M294 596 H338"/><path class="thin" d="M330 395 V595"/><path class="ah" d="M330.00 394.00 L332.20 401.00 L327.80 401.00 Z"/><path class="ah" d="M330.00 596.00 L327.80 589.00 L332.20 589.00 Z"/><text class="dim" transform="translate(324 495.0) rotate(-90)" text-anchor="middle">≥ 2 H OF FINANCE TIME</text><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">The problem</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">2 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>The problem</span><span>02 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:110">Every federal proposal starts with a budget.</h2>
+  <p class="at body" style="--x:40;--y:190;--w:320;--h:110">Before a researcher can submit, someone in finance prices the work, applies the institution&rsquo;s rates, fills out the federal budget forms, and enters it all again in the agency&rsquo;s portal.</p>
+  <p class="at note" style="--x:40;--y:640;--w:320;--h:80">That is at least two hours of a financial manager&rsquo;s time for every proposal built from scratch.</p>
+</div></section>
+<section class="slide" id="sheet-3" aria-label="Sheet 3: why I'm building this"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><path class="thick draw" d="M52 400 H348"/><path class="thin" d="M52.0 394 V406"/><text class="tick" x="52.0" y="420" text-anchor="middle">2022</text><path class="thin" d="M126.0 394 V406"/><text class="tick" x="126.0" y="420" text-anchor="middle">2023</text><path class="thin" d="M200.0 394 V406"/><text class="tick" x="200.0" y="420" text-anchor="middle">2024</text><path class="thin" d="M274.0 394 V406"/><text class="tick" x="274.0" y="420" text-anchor="middle">2025</text><path class="thin" d="M348.0 394 V406"/><text class="tick" x="348.0" y="420" text-anchor="middle">2026</text><path class="thin" d="M52 386 V370 H348 V386"/><text class="box-k" x="200.0" y="362" text-anchor="middle">JOHNS HOPKINS APL · SPACE SECTOR</text><rect class="thin" x="40" y="460" width="98" height="30"/><text class="stamp" x="89" y="479" text-anchor="middle">NSPIRES</text><rect class="thin" x="150" y="460" width="98" height="30"/><text class="stamp" x="199" y="479" text-anchor="middle">RESEARCH.GOV</text><rect class="thin" x="262" y="460" width="98" height="30"/><text class="stamp" x="311" y="479" text-anchor="middle">GRANTS.GOV</text><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">Why I build this</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">3 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>Why I&rsquo;m building this</span><span>03 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:110">I&rsquo;ve built these budgets by hand, hundreds of times.</h2>
+  <p class="at body" style="--x:40;--y:190;--w:320;--h:120">From 2022 to 2026 I was a Space Sector Financial Manager at the Johns Hopkins Applied Physics Laboratory, behind hundreds of NASA and NSF proposal submissions.</p>
+  <p class="at body" style="--x:40;--y:524;--w:320;--h:160">Proposa is the tool I wanted on my desk: a seasoned financial manager&rsquo;s judgement, available to every researcher on every proposal.</p>
+</div></section>
+<section class="slide" id="sheet-4" aria-label="Sheet 4: Proposa"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><rect class="thick" x="40" y="250" width="320" height="380"/><path class="thin" d="M200 250 V630 M40 440 H360"/><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">Proposa</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">4 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>The product</span><span>04 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:100">Proposa handles the finance side of a proposal.</h2>
+  <p class="at body" style="--x:40;--y:176;--w:320;--h:60">Built for sponsored-programs offices and the researchers they support.</p>
+  <div class="at module" style="--x:40;--y:250;--w:160;--h:190"><p class="mod-k">Find</p><p class="mod-t">Open federal funding that fits a researcher, with comparable past awards.</p><p class="mod-s" data-s="building-now">Building now</p></div><div class="at module" style="--x:200;--y:250;--w:160;--h:190"><p class="mod-k">Budget</p><p class="mod-t">Compliant budgets with your institution&rsquo;s rates, ready for the SF-424 R&amp;R.</p><p class="mod-s" data-s="built">Built</p></div><div class="at module" style="--x:40;--y:440;--w:160;--h:190"><p class="mod-k">Check</p><p class="mod-t">Catches identity leaks in files before a dual-anonymous review.</p><p class="mod-s" data-s="building-now">Building now</p></div><div class="at module" style="--x:200;--y:440;--w:160;--h:190"><p class="mod-k">Fill</p><p class="mod-t">Enters the finished budget into the agency portal for you.</p><p class="mod-s" data-s="in-development">In development</p></div>
+  <p class="at note" style="--x:40;--y:650;--w:320;--h:70">Status as of 2026-10-24. &ldquo;Built&rdquo; means working code with tests today.</p>
+</div></section>
+<section class="slide" id="sheet-5" aria-label="Sheet 5: what it saves"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><path class="thick" d="M52 236 H348"/><path class="thin" d="M52.0 236 V246"/><text class="tick" x="52.0" y="258" text-anchor="middle">0</text><path class="thin" d="M61.9 236 V241"/><path class="thin" d="M71.7 236 V241"/><path class="thin" d="M81.6 236 V241"/><path class="thin" d="M91.5 236 V241"/><path class="thin" d="M101.3 236 V246"/><text class="tick" x="101.3" y="258" text-anchor="middle">50</text><path class="thin" d="M111.2 236 V241"/><path class="thin" d="M121.1 236 V241"/><path class="thin" d="M130.9 236 V241"/><path class="thin" d="M140.8 236 V241"/><path class="thin" d="M150.7 236 V246"/><text class="tick" x="150.7" y="258" text-anchor="middle">100</text><path class="thin" d="M160.5 236 V241"/><path class="thin" d="M170.4 236 V241"/><path class="thin" d="M180.3 236 V241"/><path class="thin" d="M190.1 236 V241"/><path class="thin" d="M200.0 236 V246"/><text class="tick" x="200.0" y="258" text-anchor="middle">150</text><path class="thin" d="M209.9 236 V241"/><path class="thin" d="M219.7 236 V241"/><path class="thin" d="M229.6 236 V241"/><path class="thin" d="M239.5 236 V241"/><path class="thin" d="M249.3 236 V246"/><text class="tick" x="249.3" y="258" text-anchor="middle">200</text><path class="thin" d="M259.2 236 V241"/><path class="thin" d="M269.1 236 V241"/><path class="thin" d="M278.9 236 V241"/><path class="thin" d="M288.8 236 V241"/><path class="thin" d="M298.7 236 V246"/><text class="tick" x="298.7" y="258" text-anchor="middle">250</text><path class="thin" d="M308.5 236 V241"/><path class="thin" d="M318.4 236 V241"/><path class="thin" d="M328.3 236 V241"/><path class="thin" d="M338.1 236 V241"/><path class="thin" d="M348.0 236 V246"/><text class="tick" x="348.0" y="258" text-anchor="middle">300</text><path class="thin" d="M40 444 H360"/><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">Time back</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">5 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>What it saves</span><span>05 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:90">Give your finance team its time back.</h2>
+  <p class="at eyebrow solo" style="--x:40;--y:176;--w:320;--h:14">Proposals your office supports per year</p>
+  <input class="at scale" id="props" type="range" min="10" max="300" step="10" value="50" aria-label="Proposals per year" style="--x:48;--y:200;--w:304;--h:40">
+  <div class="at readout" style="--x:40;--y:284;--w:320;--h:140">
+    <p class="ro-k"><output id="props-n" for="props">50</output> proposals a year</p>
+    <p class="ro-v">&ge; <output id="props-h" for="props">100</output> hours</p>
+    <p class="ro-t">of financial-manager time on proposal budgets alone, at a floor of two hours per proposal.</p>
+  </div>
+  <p class="at eyebrow solo" style="--x:40;--y:462;--w:320;--h:14">After the award</p>
+  <p class="at body" style="--x:40;--y:486;--w:320;--h:120">At a lab managing about 250 active awards, keeping the books can take one to two people full time. That is the work Proposa is designed to take on.</p>
+  <p class="at fine" style="--x:40;--y:700;--w:320;--h:30">Estimates from the founder&rsquo;s experience, not measured customer results.</p>
+</div></section>
+<section class="slide" id="sheet-6" aria-label="Sheet 6: ARCH-IE"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><rect class="phantom" x="40" y="330" width="320" height="310"/><text class="box-k" x="50" y="348">YOUR ORGANIZATION</text><g class="net" data-net="6-rates"><path class="cu" d="M200 488 H90 V384"/><path class="hot" pathLength="100" d="M200 488 H90 V384"/></g><g class="net" data-net="6-templates"><path class="cu" d="M200 488 H310 V384"/><path class="hot" pathLength="100" d="M200 488 H310 V384"/></g><g class="net" data-net="6-past-proposals"><path class="cu" d="M200 488 H90 V600"/><path class="hot" pathLength="100" d="M200 488 H90 V600"/></g><g class="net" data-net="6-proposa"><path class="cu" d="M200 488 H310 V600"/><path class="hot" pathLength="100" d="M200 488 H310 V600"/></g><rect class="node" x="46" y="369" width="88" height="30"/><text class="stamp" x="90" y="388.5" text-anchor="middle">RATES</text><rect class="node" x="266" y="369" width="88" height="30"/><text class="stamp" x="310" y="388.5" text-anchor="middle">TEMPLATES</text><rect class="node" x="46" y="585" width="88" height="30"/><text class="stamp" x="90" y="604.5" text-anchor="middle">PAST PROPOSALS</text><rect class="node" x="266" y="585" width="88" height="30"/><text class="stamp" x="310" y="604.5" text-anchor="middle">PROPOSA</text><circle class="node" cx="200" cy="488" r="44"/><g transform="translate(168.80 456.80) scale(2.6)">
+<circle cx="12" cy="2.7" r="1.85" class="m-fill"/>
+<path d="M8.4 6.1 H15.6 L19.4 9.9 V15.4 L15.6 20.3 H8.4 L4.6 15.4 V9.9 Z" class="m-line"/>
+<path d="M7.5 10.7 H16.5 L14.9 13.9 H9.1 Z" class="m-fill"/>
+<path d="M8.85 11.6 H15.15 V12.6 H8.85 Z" class="m-slot"/>
+<rect x="9.2" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+<rect x="11.35" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+<rect x="13.5" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+</g><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">ARCH-IE engine</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">6 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>The engine</span><span>06 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:100">ARCH-IE: your organization&rsquo;s private AI.</h2>
+  <p class="at body" style="--x:40;--y:176;--w:320;--h:130">ARCH-IE is the AI operating system behind everything Bryant Systems builds. Inside Proposa it becomes your organization&rsquo;s own AI: it learns your rates, templates and past proposals, and it runs on hardware you control.</p>
+  <p class="at note" style="--x:40;--y:656;--w:320;--h:60">Proposa integration in development. ARCH-IE runs today on an NVIDIA DGX Spark in the Bryant Systems lab.</p>
+</div></section>
+<section class="slide" id="sheet-7" aria-label="Sheet 7: also building"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><rect class="thick" x="40" y="236" width="320" height="420"/><path class="thin" d="M40 376 H360"/><path class="thin" d="M40 516 H360"/><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">Also building</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">7 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>Also from Bryant Systems</span><span>07 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:90">One engine, several products.</h2>
+  <p class="at body" style="--x:40;--y:160;--w:320;--h:60">Each one runs on ARCH-IE.</p>
+  <div class="at other" style="--x:40;--y:236;--w:320;--h:140"><p class="mod-k">BryantForge</p><p class="mod-t">Turn an idea into a working design suite and automated workflows for small businesses.</p></div><div class="at other" style="--x:40;--y:376;--w:320;--h:140"><p class="mod-k">Gnomie</p><p class="mod-t">Home projects and task management, indoors and out.</p></div><div class="at other" style="--x:40;--y:516;--w:320;--h:140"><p class="mod-k">Sentinel</p><p class="mod-t">Westminster Sentinel: local civic intelligence.</p></div>
+</div></section>
+<section class="slide" id="sheet-8" aria-label="Sheet 8: contact"><div class="sheet">
+  <svg class="sheet-art" viewBox="0 0 400 820" aria-hidden="true"><rect width="400" height="820" class="paper"/><rect x="10" y="10" width="380" height="800" class="thin"/><rect x="20" y="20" width="360" height="780" class="thick"/><path class="thin" d="M110.0 10 V20 M110.0 800 V810"/><path class="thin" d="M200.0 10 V20 M200.0 800 V810"/><path class="thin" d="M290.0 10 V20 M290.0 800 V810"/><text class="zone" x="65.0" y="17.6">1</text><text class="zone" x="65.0" y="807.6">1</text><text class="zone" x="155.0" y="17.6">2</text><text class="zone" x="155.0" y="807.6">2</text><text class="zone" x="245.0" y="17.6">3</text><text class="zone" x="245.0" y="807.6">3</text><text class="zone" x="335.0" y="17.6">4</text><text class="zone" x="335.0" y="807.6">4</text><path class="thin" d="M10 150.0 H20 M380 150.0 H390"/><path class="thin" d="M10 280.0 H20 M380 280.0 H390"/><path class="thin" d="M10 410.0 H20 M380 410.0 H390"/><path class="thin" d="M10 540.0 H20 M380 540.0 H390"/><path class="thin" d="M10 670.0 H20 M380 670.0 H390"/><text class="zone" x="15" y="87.4">A</text><text class="zone" x="385" y="87.4">A</text><text class="zone" x="15" y="217.4">B</text><text class="zone" x="385" y="217.4">B</text><text class="zone" x="15" y="347.4">C</text><text class="zone" x="385" y="347.4">C</text><text class="zone" x="15" y="477.4">D</text><text class="zone" x="385" y="477.4">D</text><text class="zone" x="15" y="607.4">E</text><text class="zone" x="385" y="607.4">E</text><text class="zone" x="15" y="737.4">F</text><text class="zone" x="385" y="737.4">F</text><path class="thick" d="M200.0 6 V26 M200.0 794 V814 M6 410.0 H26 M374 410.0 H394"/><rect class="thick" x="40" y="236" width="320" height="152"/><path class="thin" d="M40 288 H360 M40 338 H360 M96 288 V388 M252 288 V338 M306 288 V338"/><rect class="enamel" x="40" y="430" width="150" height="150"/><rect class="thin" x="40" y="430" width="150" height="150"/><g transform="translate(50 440) scale(4.4828)" shape-rendering="crispEdges"><path class="qr" d="M0 0.5h7m1 0h1m1 0h2m1 0h6m1 0h1m1 0h7m-29 1h1m5 0h1m2 0h2m2 0h1m3 0h1m1 0h1m2 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h4m3 0h2m1 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h3m1 0h1m3 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h4m4 0h2m1 0h1m2 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h1m2 0h1m2 0h5m1 0h1m-21 1h1m3 0h1m1 0h5m1 0h3m2 0h1m2 0h6m2 0h1m-29 1h1m4 0h1m1 0h2m1 0h2m1 0h6m3 0h7m-29 1h1m3 0h4m3 0h2m2 0h1m1 0h1m2 0h1m7 0h1m-29 1h1m4 0h1m2 0h1m2 0h2m3 0h3m1 0h2m1 0h1m1 0h1m1 0h2m-23 1h1m2 0h1m1 0h1m1 0h2m2 0h1m1 0h3m5 0h1m-28 1h2m3 0h1m1 0h1m6 0h3m4 0h8m-29 1h3m3 0h1m1 0h3m2 0h3m1 0h2m3 0h1m2 0h2m1 0h1m-29 1h1m2 0h3m4 0h2m1 0h1m3 0h1m2 0h5m2 0h2m-28 1h1m3 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h1m3 0h1m-28 1h2m1 0h1m5 0h1m1 0h1m1 0h3m1 0h2m3 0h4m1 0h2m-26 1h2m1 0h1m1 0h2m1 0h1m3 0h1m1 0h1m2 0h1m2 0h2m1 0h1m1 0h1m-27 1h3m2 0h1m2 0h3m1 0h1m2 0h1m1 0h1m2 0h2m3 0h2m-29 1h4m1 0h3m4 0h4m1 0h1m1 0h7m2 0h1m-21 1h1m1 0h1m1 0h1m2 0h2m3 0h1m3 0h1m3 0h1m-29 1h7m1 0h2m2 0h4m1 0h4m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m2 0h1m1 0h3m1 0h6m3 0h1m2 0h1m-28 1h1m1 0h3m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1m1 0h7m1 0h1m-28 1h1m1 0h3m1 0h1m4 0h6m1 0h1m1 0h2m1 0h1m4 0h1m-29 1h1m1 0h3m1 0h1m4 0h2m2 0h2m3 0h1m4 0h4m-29 1h1m5 0h1m2 0h2m3 0h1m2 0h1m1 0h7m1 0h2m-29 1h7m1 0h3m2 0h1m1 0h1m1 0h2m1 0h3m1 0h2m1 0h1"/></g><path class="thick" d="M20 736 H380"/><path class="thin" d="M20 768.0 H380"/><path class="thin" d="M200 736 V800"/><path class="thin" d="M300 736 V800"/><text class="tb-lab" x="26" y="745.5">TITLE</text><text class="tb-val" x="26" y="760">Contact</text><text class="tb-lab" x="206" y="745.5">DRAWING NO.</text><text class="tb-val" x="206" y="760">BS-KB-001</text><text class="tb-lab" x="306" y="745.5">REV</text><text class="tb-val" x="306" y="760">A</text><text class="tb-lab" x="26" y="777.5">ORIGINATOR</text><text class="tb-val" x="26" y="792.0">Bryant Systems</text><text class="tb-lab" x="206" y="777.5">ISSUED</text><text class="tb-val" x="206" y="792.0">2026-10-24</text><text class="tb-lab" x="306" y="777.5">SHEET</text><text class="tb-val" x="306" y="792.0">8 of 8</text></svg>
+  <p class="at eyebrow" style="--x:40;--y:42;--w:320;--h:14"><span>Let&rsquo;s talk</span><span>08 / 08</span></p><h2 class="at headline" style="--x:40;--y:66;--w:320;--h:90">Let&rsquo;s talk about Proposa.</h2>
+  <p class="at body" style="--x:40;--y:160;--w:320;--h:60">Kyle Bryant, Founder / Developer, Bryant Systems.</p>
+  
+  <a class="at cell add" data-net="8-vcard" style="--x:40;--y:236;--w:320;--h:52" href="kyle-bryant.vcf" download="Kyle Bryant - Bryant Systems.vcf">Add to contacts<span class="ft">.vcf</span></a>
+  <a class="at cell row" data-net="8-tel" style="--x:40;--y:288;--w:212;--h:50" href="tel:+14433886836" aria-label="Call +1 443 388 6836"><span class="lab">Tel</span><span class="val">+1 443 388 6836</span></a>
+  <a class="at cell act" data-net="8-tel" style="--x:252;--y:288;--w:54;--h:50" href="tel:+14433886836">Call</a>
+  <a class="at cell act" data-net="8-tel" style="--x:306;--y:288;--w:54;--h:50" href="sms:+14433886836">Text</a>
+  <a class="at cell row" data-net="8-mail" style="--x:40;--y:338;--w:320;--h:50" href="mailto:Bryant.Systems@proton.me"><span class="lab">Mail</span><span class="val">Bryant.Systems@proton.me</span></a>
+  <div class="at cap" style="--x:212;--y:434;--w:148;--h:142">
+    <p class="cap-k">Detail B</p>
+    <p class="cap-t">Scan to open this deck on another phone.</p>
+    <p class="cap-s">bryant-systems.github.io<br>/card</p>
+  </div>
+</div></section>
+</main>
+<nav class="pager" aria-label="Sheets">
+  <button class="pg-btn" id="prev" type="button" aria-label="Previous sheet">&larr;</button>
+  <div class="ticks"></div>
+  <button class="pg-btn lead" id="next" type="button">Next &rarr;</button>
+</nav>
+<script>
+  const deck = document.querySelector(".deck");
+  const slides = [...document.querySelectorAll(".slide")];
+  const ticks = document.querySelector(".ticks");
+  const prev = document.getElementById("prev"), next = document.getElementById("next");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let current = 0;
+  slides.forEach((s, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.setAttribute("aria-label", "Sheet " + (i + 1)); b.onclick = () => go(i);
+    ticks.appendChild(b);
+  });
+  function go(i) { slides[Math.max(0, Math.min(slides.length - 1, i))].scrollIntoView({ behavior: still ? "auto" : "smooth", inline: "center" }); }
+  function setCurrent(i) {
+    current = i;
+    [...ticks.children].forEach((b, j) => b.setAttribute("aria-current", j === i ? "true" : "false"));
+    prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+    next.textContent = i === 0 ? "What I’m building →" : "Next →";
+    next.classList.toggle("lead", i === 0);
+    const s = slides[i];
+    if (!s.classList.contains("seen")) { s.classList.add("seen"); powerOn(s); }
+    try { history.replaceState(null, "", i ? "#sheet-" + (i + 1) : location.pathname); } catch (e) {}
+  }
+  let raf = 0;
+  deck.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => {
+    const i = Math.round(deck.scrollLeft / deck.clientWidth); if (i !== current || !slides[i].classList.contains("seen")) setCurrent(i); }); }, { passive: true });
+  prev.onclick = () => go(current - 1); next.onclick = () => go(current + 1);
+  addEventListener("keydown", e => { if (e.key === "ArrowRight") go(current + 1); if (e.key === "ArrowLeft") go(current - 1); });
+
+  // Nets: power on once when their sheet is first seen; an action energises its own net while hovered or pressed.
+  function powerOn(s) {
+    if (still) return;
+    [...s.querySelectorAll(".net")].forEach((n, i) => {
+      setTimeout(() => n.classList.add("live"), 400 + i * 220);
+      setTimeout(() => n.classList.remove("live"), 1800 + i * 220);
+    });
+  }
+  for (const a of document.querySelectorAll("a[data-net]")) {
+    const n = document.querySelector('.net[data-net="' + a.dataset.net + '"]');
+    if (!n) continue;
+    const on = () => n.classList.add("live"), off = () => n.classList.remove("live");
+    a.addEventListener("pointerenter", on); a.addEventListener("pointerleave", off);
+    a.addEventListener("focus", on); a.addEventListener("blur", off);
+    a.addEventListener("pointerdown", on); a.addEventListener("pointerup", () => setTimeout(off, 1200));
+  }
+
+  // Time-back scale: a floor of two hours per proposal.
+  const props = document.getElementById("props"), pn = document.getElementById("props-n"), ph = document.getElementById("props-h");
+  const fmt = new Intl.NumberFormat("en-US");
+  props.addEventListener("input", () => { pn.value = props.value; ph.value = fmt.format(props.value * 2); });
+
+  const start = location.hash.match(/^#sheet-(\d)$/);
+  if (start) { const i = +start[1] - 1; deck.scrollLeft = i * deck.clientWidth; setCurrent(i); }
+  else setCurrent(0);
+</script>
+</body>
+</html>

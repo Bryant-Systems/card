@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+<style>.m-fill{fill:#c9976a}.m-line{fill:none;stroke:#c9976a;stroke-width:2;stroke-linejoin:round}.m-slot{fill:#1a1c1f}</style>
+<rect width="120" height="120" fill="#1a1c1f"/>
+<rect x="7" y="7" width="106" height="106" fill="none" stroke="#8c7457" stroke-width=".6"/>
+<path d="M18 60 H102 M60 14 V106" fill="none" stroke="#8c7457" stroke-width=".35" stroke-dasharray="7 1.6 1.2 1.6"/>
+<g transform="translate(26 26) scale(2.833)">
+<circle cx="12" cy="2.7" r="1.85" class="m-fill"/>
+<path d="M8.4 6.1 H15.6 L19.4 9.9 V15.4 L15.6 20.3 H8.4 L4.6 15.4 V9.9 Z" class="m-line"/>
+<path d="M7.5 10.7 H16.5 L14.9 13.9 H9.1 Z" class="m-fill"/>
+<path d="M8.85 11.6 H15.15 V12.6 H8.85 Z" class="m-slot"/>
+<rect x="9.2" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+<rect x="11.35" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+<rect x="13.5" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+</g>
+</svg>
