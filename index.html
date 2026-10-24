@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>Kyle Bryant · Bryant Systems</title>
-<meta name="description" content="Kyle Bryant, Founder / Developer at Bryant Systems. Proposa handles the finance side of federal research proposals.">
+<meta name="description" content="Kyle Bryant, Founder / Developer at Bryant Systems. Proposa takes the grant paperwork off researchers&rsquo; desks.">
 <meta name="theme-color" content="#1a1c1f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -15,7 +15,7 @@
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="manifest" href="manifest.webmanifest">
 <meta property="og:title" content="Kyle Bryant · Bryant Systems">
-<meta property="og:description" content="Proposa: the finance side of federal research proposals, handled.">
+<meta property="og:description" content="Proposa takes the grant paperwork off researchers&rsquo; desks.">
 <meta property="og:image" content="icon-512.png">
 <link rel="preload" href="fonts/Archivo-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/AzeretMono-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -137,8 +137,11 @@
   .module .mod-s { margin-top: auto; color: var(--ink-3); }
   .mod-s[data-s="built"] { color: var(--ink); }
   .mod-s[data-s="building-now"] { color: var(--heat); }
-  .creds { list-style: none; padding: 0; display: grid; gap: 2.6cqw; }
-  .creds li { font: 400 3.8cqw/1.42 var(--display); color: var(--ink-2); padding-left: 4.4cqw; position: relative; text-wrap: pretty; }
+  .role { font: 500 2.7cqw/1.4 var(--data); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; }
+  .ledger-k { font: 500 2.7cqw var(--data); letter-spacing: .14em; text-transform: uppercase; color: var(--heat); }
+  .creds b { font-weight: 600; color: var(--ink); }
+  .creds { list-style: none; padding: 0; display: grid; gap: 2.2cqw; align-content: start; }
+  .creds li { font: 400 3.45cqw/1.38 var(--display); color: var(--ink-2); padding-left: 4.4cqw; position: relative; text-wrap: pretty; }
   .creds li::before { content: ""; position: absolute; left: 0; top: .62em; width: 2cqw; height: 1px; background: var(--heat); }
   .stat { display: grid; align-content: start; gap: 1.4cqw; }
   .st-k { font-family: var(--display); font-weight: 600; font-stretch: 112%; font-size: 6.8cqw; line-height: 1; color: var(--ink); }
@@ -247,19 +250,16 @@
   <p class="at lbl" style="--x:106;--y:322;--w:120;--h:16">Question</p><p class="at lbl" style="--x:106;--y:444;--w:120;--h:16">Approach</p><p class="at lbl" style="--x:106;--y:582;--w:120;--h:16">Results</p><p class="at lbl r" style="--x:144;--y:356;--w:140;--h:16">Notice of intent</p><p class="at lbl r" style="--x:144;--y:420;--w:140;--h:16">Budget + rates</p><p class="at lbl r" style="--x:144;--y:484;--w:140;--h:16">Federal forms</p><p class="at lbl r" style="--x:144;--y:548;--w:140;--h:16">Portal entry</p><p class="at lbl r" style="--x:144;--y:612;--w:140;--h:16">Award admin</p>
   <p class="at pull" style="--x:24;--y:640;--w:352;--h:50">The PI keeps the question. Proposa carries the rest.</p>
 </div></section>
-<section class="slide" id="sheet-3" aria-label="Why I am building this"><div class="sheet" style="--hc:690">
-  <svg class="sheet-art" viewBox="0 0 400 690" aria-hidden="true"><path class="cu-solid" d="M36 300 H364"/><path class="hot life" pathLength="100" d="M36 300 H364"/><path class="thin" d="M36 286 V278 H364 V286"/><rect class="node solid" x="32.0" y="296" width="8" height="8"/><text class="stage" x="36.0" y="322" text-anchor="middle">IDEA</text><rect class="node solid" x="97.6" y="296" width="8" height="8"/><text class="stage" x="101.6" y="322" text-anchor="middle">NOI</text><rect class="node solid" x="163.2" y="296" width="8" height="8"/><text class="stage" x="167.2" y="322" text-anchor="middle">PROPOSAL</text><rect class="node solid" x="228.79999999999998" y="296" width="8" height="8"/><text class="stage" x="232.8" y="322" text-anchor="middle">AWARD</text><rect class="node solid" x="294.4" y="296" width="8" height="8"/><text class="stage" x="298.4" y="322" text-anchor="middle">EXECUTION</text><rect class="node solid" x="360.0" y="296" width="8" height="8"/><text class="stage" x="364.0" y="322" text-anchor="middle">CLOSEOUT</text><path class="thick" d="M24 352 H174"/><path class="thick" d="M214 352 H364"/></svg>
+<section class="slide" id="sheet-3" aria-label="Why me"><div class="sheet" style="--hc:704">
+  <svg class="sheet-art" viewBox="0 0 400 704" aria-hidden="true"><path class="cu-solid" d="M36 196 H364"/><path class="hot life" pathLength="100" d="M36 196 H364"/><rect class="node solid" x="32.0" y="192" width="8" height="8"/><text class="stage" x="36.0" y="216" text-anchor="middle">IDEA</text><rect class="node solid" x="97.6" y="192" width="8" height="8"/><text class="stage" x="101.6" y="216" text-anchor="middle">NOI</text><rect class="node solid" x="163.2" y="192" width="8" height="8"/><text class="stage" x="167.2" y="216" text-anchor="middle">PROPOSAL</text><rect class="node solid" x="228.79999999999998" y="192" width="8" height="8"/><text class="stage" x="232.8" y="216" text-anchor="middle">AWARD</text><rect class="node solid" x="294.4" y="192" width="8" height="8"/><text class="stage" x="298.4" y="216" text-anchor="middle">EXECUTION</text><rect class="node solid" x="360.0" y="192" width="8" height="8"/><text class="stage" x="364.0" y="216" text-anchor="middle">CLOSEOUT</text><path class="thick" d="M24 240 H376"/><path class="thick" d="M24 474 H376"/></svg>
   
-  <p class="at eyebrow" style="--x:24;--y:0;--w:352;--h:14">Why I&rsquo;m building this</p>
-  <h2 class="at headline" style="--x:24;--y:20;--w:352;--h:96">I&rsquo;ve run every stage, from idea to closeout.</h2>
-  <p class="at body" style="--x:24;--y:126;--w:352;--h:110">Space Sector Financial Manager at the Johns Hopkins Applied Physics Laboratory, 2022 to 2026.</p>
-  <div class="at stat" style="--x:24;--y:362;--w:150;--h:96"><p class="st-k">Hundreds</p><p class="st-t">of proposals submitted</p></div><div class="at stat" style="--x:214;--y:362;--w:150;--h:96"><p class="st-k">100+</p><p class="st-t">grant and contract awards managed at once</p></div>
-  <ul class="at creds" style="--x:24;--y:466;--w:352;--h:150">
-    <li>Proposed and managed a NIAC Phase III firm-fixed-price program</li>
-    <li>Managed the TIMED spacecraft mission</li>
-    <li>Led budget formulation for APL&rsquo;s Space Formulation mission area, and served as the sector&rsquo;s expert on new-business investments</li>
-  </ul>
-  <p class="at pull" style="--x:24;--y:626;--w:352;--h:60">Now I engineer the AI and systems that do this work for every PI.</p>
+  <p class="at eyebrow" style="--x:24;--y:0;--w:352;--h:14">Why me</p>
+  <h2 class="at headline" style="--x:24;--y:20;--w:352;--h:96">I&rsquo;ve run the grant business. Now I build its systems.</h2>
+  <p class="at role" style="--x:24;--y:124;--w:352;--h:30">Space Sector Financial Manager &middot; Johns Hopkins APL &middot; 2022&ndash;2026</p>
+  <p class="at ledger-k" style="--x:24;--y:248;--w:352;--h:16">The business</p>
+  <ul class="at creds" style="--x:24;--y:270;--w:352;--h:196"><li><b>100+</b> grant and contract awards managed at once</li><li><b>Hundreds</b> of NASA and NSF proposals through NSPIRES, Research.gov and Grants.gov</li><li>Proposed and managed a <b>NIAC Phase III</b> firm-fixed-price program, plus the <b>TIMED</b> spacecraft mission</li><li>Led <b>Space Formulation</b> mission-area budget formulation; the sector&rsquo;s new-business investment expert</li></ul>
+  <p class="at ledger-k" style="--x:24;--y:482;--w:352;--h:16">The systems</p>
+  <ul class="at creds" style="--x:24;--y:504;--w:352;--h:200"><li>Built Proposa&rsquo;s budget engine: <b>2 CFR 200</b> MTDC, F&amp;A, escalation and cost share in exact decimal math, reconciled to the <b>SF-424 R&amp;R</b></li><li>Every line held to a <b>100%</b> branch-coverage test gate</li><li>Runs <b>ARCH-IE</b>, a private AI operating system, on my own NVIDIA DGX Spark</li><li>Directs a team of <b>Claude, Codex and Grok</b> agents building Proposa</li></ul>
 </div></section>
 <section class="slide" id="sheet-4" aria-label="Proposa"><div class="sheet" style="--hc:690">
   <svg class="sheet-art" viewBox="0 0 400 690" aria-hidden="true"><rect class="thick" x="24" y="236" width="352.0" height="380"/><path class="thin" d="M200.0 236 V616 M24 426 H376.0"/></svg>
