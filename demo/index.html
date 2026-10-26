@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bryant Systems · Investor demo</title>
+<meta name="description" content="Bryant Systems: Proposa, ARCH-IE 4.0 and the business card, on one link.">
+<meta name="theme-color" content="#0f1113">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bryant Systems">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preload" href="fonts/Archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/AzeretMono-var.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Fonts ship with the page (SIL OFL 1.1) so it renders offline. Same sheet language as BS-KB-001. */
+  @font-face { font-family: "Archivo"; src: url("fonts/Archivo-var.woff2") format("woff2"); font-weight: 400 600; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: "Azeret Mono"; src: url("fonts/AzeretMono-var.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+  :root {
+    --page: #0f1113; --sheet: #1a1c1f;
+    --line: #8c7457; --mark: #c9976a; --copper: #4a3a2c; --heat: #ff9d66; --crimson: #a54840; --gold: #ecc37d;
+    --ink: #ece6dc; --ink-2: #a8a093; --ink-3: #736c62;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --data: "Azeret Mono", "SF Mono", Menlo, monospace;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; min-width: 0; }
+  html, body { background: var(--page); }
+  body { color: var(--ink); font: 400 15px/1.45 var(--data); -webkit-font-smoothing: antialiased;
+    padding: max(16px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+    display: flex; justify-content: center; }
+  .sheet { width: 100%; max-width: 760px; background: var(--sheet); border: 1px solid var(--line); outline: .5px solid var(--line); outline-offset: 6px;
+    padding: 22px 18px 0; box-shadow: 0 30px 60px -30px rgba(0,0,0,.85); overflow-wrap: anywhere; }
+  .head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: .5px solid var(--line); }
+  .mark { width: 36px; height: 36px; flex: none; }
+  .m-fill { fill: var(--mark); } .m-line { fill: none; stroke: var(--mark); stroke-width: 2; stroke-linejoin: round; } .m-slot { fill: var(--sheet); }
+  .lab { font: 500 11px var(--data); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+  h1 { font: 500 30px/1.05 var(--display); font-stretch: 125%; letter-spacing: -.012em; color: var(--ink); }
+  .intro { padding: 18px 0 16px; font: 400 16px/1.5 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .list { display: grid; gap: 12px; padding-bottom: 18px; }
+  .card { display: block; text-decoration: none; color: inherit; border: .5px solid var(--line); padding: 14px 14px 12px; position: relative;
+    transition: border-color .3s var(--ease), background .3s var(--ease); }
+  .card:hover, .card:focus-visible { border-color: var(--heat); background: rgba(255,157,102,.04); outline: none; }
+  .card:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+  .card .k { display: flex; justify-content: space-between; gap: 10px; }
+  .card .k .id { color: var(--ink-3); }
+  .card .k .st { color: var(--ink-3); }
+  .card.live .k .st { color: var(--heat); }
+  .card h2 { font: 500 22px/1.1 var(--display); font-stretch: 112%; margin: 6px 0 6px; }
+  .card p { font: 400 14px/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .card .go { margin-top: 10px; font: 500 11px var(--data); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .card.primary { background: var(--crimson); border-color: var(--crimson); color: #f7f0e6; }
+  .card.primary p, .card.primary .k .id, .card.primary .k .st, .card.primary .go { color: rgba(247,240,230,.78); }
+  .card.primary:hover, .card.primary:focus-visible { background: #b0514a; border-color: #b0514a; }
+  .cap { border: .5px solid var(--line); padding: 12px 14px; margin-bottom: 18px; display: grid; gap: 6px; }
+  .cap-k { font: 500 11px var(--data); letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+  .cap-t { font: 400 14px/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .cap-s { font: 400 12px/1.5 var(--data); color: var(--ink-3); }
+  /* title block on the border, like the card */
+  .tb { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--line); margin: 0 -18px; }
+  .tb div { padding: 8px 10px 9px; border-right: .5px solid var(--line); border-bottom: .5px solid var(--line); }
+  .tb div:nth-child(3n) { border-right: 0; }
+  .tb div:nth-child(n+4) { border-bottom: 0; }
+  .tb .l { display: block; font: 500 9px var(--data); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .tb .v { display: block; font: 500 12px/1.3 var(--data); color: var(--ink-2); overflow-wrap: anywhere; }
+  @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+</style>
+</head>
+<body>
+<main class="sheet" aria-label="Bryant Systems investor demo">
+  <header class="head">
+    <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="2.7" r="1.85" class="m-fill"/>
+      <path d="M8.4 6.1 H15.6 L19.4 9.9 V15.4 L15.6 20.3 H8.4 L4.6 15.4 V9.9 Z" class="m-line"/>
+      <path d="M7.5 10.7 H16.5 L14.9 13.9 H9.1 Z" class="m-fill"/>
+      <path d="M8.85 11.6 H15.15 V12.6 H8.85 Z" class="m-slot"/>
+      <rect x="9.2" y="16.2" width="1.3" height="1.3" class="m-fill"/><rect x="11.35" y="16.2" width="1.3" height="1.3" class="m-fill"/><rect x="13.5" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+    </svg>
+    <div>
+      <p class="lab">Investor demo · 2026-10-24</p>
+      <h1>Bryant Systems</h1>
+    </div>
+  </header>
+
+  <p class="intro">Bryant Systems builds software for university research administration: Proposa brings federal funding records, past award matches, a draft metadata check, and a grant-engine budget into one walkthrough. The same team builds ARCH-IE, an agent workspace whose tested foundation and remaining release gates are shown here.</p>
+
+  <nav class="list" aria-label="Demos">
+    <a class="card primary" href="proposa.html">
+      <span class="k"><span class="id">D1</span><span class="st">Demo · 4 steps</span></span>
+      <h2>Proposa</h2>
+      <p>Explore federal funding and past award matches, inspect a sample draft's metadata findings, and read an example budget computed by grant-engine (SF-424 R&amp;R). Data is labelled with its source, fetch time and coverage gaps.</p>
+      <span class="go">Open demo →</span>
+    </a>
+    <a class="card" href="archie.html">
+      <span class="k"><span class="id">D2</span><span class="st">Harness accepted · adoption withheld</span></span>
+      <h2>ARCH-IE 4.0</h2>
+      <p>What it is, the acceptance evidence with captures, today's gate status, and the real agent roster that built this demo.</p>
+      <span class="go">Open page →</span>
+    </a>
+    <a class="card" href="https://bryant-systems.github.io/card/">
+      <span class="k"><span class="id">D3</span><span class="st">BS-KB-001</span></span>
+      <h2>Business card</h2>
+      <p>Kyle Bryant, Founder / Developer. Contact card and the eight-sheet pocket deck, hosted separately.</p>
+      <span class="go">Open card →</span>
+    </a>
+  </nav>
+
+  <aside class="cap">
+    <p class="cap-k">Detail A · how to read this</p>
+    <p class="cap-t">Only what is on screen is claimed. Data files carry their source and fetch time. Fictional names appear only in sample proposal files and in grant-engine's example budget scenario, and are labelled.</p>
+    <p class="cap-s">Phone first (390 px). Load the pages with a connection; the demos use bundled fonts and data, with external links to source records.</p>
+  </aside>
+
+  <footer class="tb" aria-label="Title block">
+    <div><span class="l">Title</span><span class="v">Investor hub</span></div>
+    <div><span class="l">Drawing no.</span><span class="v">BS-IH-001</span></div>
+    <div><span class="l">Rev</span><span class="v">A</span></div>
+    <div><span class="l">Originator</span><span class="v">Bryant Systems</span></div>
+    <div><span class="l">Issued</span><span class="v">2026-10-24</span></div>
+    <div><span class="l">Sheet</span><span class="v">1 of 1</span></div>
+  </footer>
+</main>
+</body>
+</html>

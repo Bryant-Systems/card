@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proposa · pre-award demo · Bryant Systems</title>
+<meta name="description" content="Proposa pre-award demo: find funding, comparable awards, anonymization check, budget. Drawing BS-PD-001.">
+<meta name="theme-color" content="#0f1113">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preload" href="fonts/Archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/AzeretMono-var.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Fonts ship with the page (SIL OFL 1.1) so it renders offline. Same faces as BS-KB-001. */
+  @font-face { font-family: "Archivo"; src: url("fonts/Archivo-var.woff2") format("woff2"); font-weight: 400 600; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: "Azeret Mono"; src: url("fonts/AzeretMono-var.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+  /* Drawing-sheet language (BS-KB-001): one line colour, two weights; sheet panels; title block on the border. */
+  :root {
+    --page: #0f1113;
+    --sheet: #1a1c1f;
+    --line: #8c7457;     /* drafting linework, one colour, two weights */
+    --mark: #c9976a;     /* Facet mark, flat copper */
+    --copper: #4a3a2c;   /* resting nets */
+    --heat: #ff9d66;     /* energised / live only */
+    --crimson: #a54840;  /* the one primary action */
+    --gold: #ecc37d;     /* detail callout only */
+    --ink: #ece6dc;
+    --ink-2: #a8a093;
+    --ink-3: #736c62;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --data: "Azeret Mono", "SF Mono", Menlo, monospace;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    --thick: 1px;
+    --thin: 0.5px;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; min-width: 0; }
+  html, body { background: var(--page); }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    min-height: 100vh; color: var(--ink);
+    display: flex; justify-content: center; align-items: flex-start;
+    padding-block: max(16px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-bottom));
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+    font: 400 13px/1.45 var(--data);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    overflow-wrap: anywhere;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+
+  /* the sheet */
+  .sheet { position: relative; width: 100%; max-width: 760px; background: var(--sheet);
+    border: var(--thick) solid var(--line); box-shadow: 0 30px 60px -30px rgba(0,0,0,.85); }
+  .sheet::before { content: ""; position: absolute; inset: 6px; border: var(--thin) solid var(--line); pointer-events: none; }
+  .inner { position: relative; padding: 22px 18px 0; }
+  @media (min-width: 560px) { .inner { padding: 30px 34px 0; } }
+
+  /* type */
+  .lab, .k, .nav, .step-ix a, .badge, .src-k, .tb-lab, .pill, .persona button, .note-k {
+    font-family: var(--data); font-weight: 500; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+  .lab { color: var(--ink-3); }
+  h1 { font-family: var(--display); font-weight: 500; font-stretch: 125%; font-size: clamp(28px, 8.5vw, 44px); line-height: 1; letter-spacing: -.012em; color: var(--ink); }
+  h2 { font-family: var(--display); font-weight: 500; font-stretch: 112%; font-size: 20px; line-height: 1.15; color: var(--ink); }
+  h3 { font-family: var(--display); font-weight: 500; font-size: 15px; line-height: 1.3; color: var(--ink); }
+  .lede { font: 400 16px/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; max-width: 60ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  .sub { font: 400 13px/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; max-width: 62ch; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-3); }
+  .nav a { color: var(--ink-2); text-decoration: none; }
+  .nav a:hover { color: var(--ink); }
+  .nav .pt { color: var(--ink-3); text-align: right; }
+
+  header.head { display: grid; gap: 14px; padding-bottom: 18px; border-bottom: var(--thick) solid var(--line); margin-top: 18px; }
+  .head .brand { display: flex; align-items: center; gap: 12px; }
+  .head .brand img { width: 40px; height: 40px; flex: none; border: var(--thin) solid var(--line); }
+  .head .brand .org { display: grid; gap: 2px; }
+
+  /* step index: one horizontal row, four cells, fits 390px */
+  .step-ix { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: var(--thin) solid var(--line); border-top: 0; }
+  .step-ix a { display: grid; gap: 4px; padding: 8px 6px 9px; text-decoration: none; color: var(--ink-2); border-right: var(--thin) solid var(--line); }
+  .step-ix a:last-child { border-right: 0; }
+  .step-ix a:hover { color: var(--ink); }
+  .step-ix .n { font-size: 14px; letter-spacing: 0; color: var(--ink-3); font-weight: 500; }
+  .step-ix .t { font-size: 9.5px; line-height: 1.25; }
+  @media (min-width: 560px) { .step-ix .t { font-size: 10px; } }
+
+  /* persona strip */
+  .persona { display: grid; gap: 8px; padding: 14px 0 16px; border-bottom: var(--thin) solid var(--line); }
+  .persona .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: var(--thin) solid var(--line); }
+  .persona button { appearance: none; background: transparent; color: var(--ink-2); border: 0; border-right: var(--thin) solid var(--line);
+    padding: 10px 6px; cursor: pointer; line-height: 1.3; transition: background .25s var(--ease), color .25s var(--ease); }
+  .persona button:last-child { border-right: 0; }
+  .persona button:hover { color: var(--ink); }
+  .persona button[aria-pressed="true"] { background: var(--crimson); color: #f7f0e6; }
+  .persona .q { color: var(--ink-3); font-size: 11px; }
+  .persona .q span { color: var(--ink-2); }
+
+  /* steps */
+  section.step { padding: 20px 0 18px; border-bottom: var(--thin) solid var(--line); scroll-margin-top: 12px; }
+  .step-h { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: baseline; margin-bottom: 12px; }
+  .step-h .idx { font-family: var(--data); font-weight: 500; font-size: 22px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .step-h .what { grid-column: 2; font: 400 12.5px/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; max-width: 62ch; }
+
+  .panel { border: var(--thin) solid var(--line); }
+  .status { display: none; padding: 10px 12px; color: var(--ink-2); border: var(--thick) dashed var(--line); margin-bottom: 12px; }
+  .status[data-show="1"] { display: grid; gap: 4px; }
+  .status .k { color: var(--ink-2); }
+  .status .e { color: var(--ink-3); font-size: 11px; }
+  .status .path { color: var(--ink); }
+  .wait { color: var(--ink-3); padding: 10px 12px; }
+
+  /* list rows */
+  .rows { display: grid; }
+  .r { display: grid; gap: 6px; padding: 12px; border-bottom: var(--thin) solid var(--line); }
+  .r:last-child { border-bottom: 0; }
+  .r .kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+  @media (min-width: 560px) { .r .kv { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .r .kv.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kv div { display: grid; gap: 2px; }
+  .k { color: var(--ink-3); }
+  .v { color: var(--ink); font-size: 12px; }
+  .v.dim { color: var(--ink-2); }
+  .amt { font-family: var(--data); font-weight: 500; font-size: 18px; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .meta { color: var(--ink-2); font-size: 11.5px; }
+  .lnk { font-size: 11px; color: var(--ink-2); word-break: break-all; }
+  .lnk a { color: var(--ink-2); text-decoration-color: var(--line); }
+  .lnk a:hover { color: var(--ink); }
+  .unk { color: var(--ink-3); }
+  .badge { display: inline-block; padding: 2px 6px; border: var(--thin) solid var(--line); color: var(--ink-2); }
+  .badge.warn { color: var(--gold); border-color: var(--gold); }
+  .badge.pass { color: var(--ink-2); }
+  .badge.live { color: var(--heat); border-color: var(--heat); }
+
+  /* findings */
+  .file { padding: 12px; border-bottom: var(--thin) solid var(--line); display: grid; gap: 8px; }
+  .file:last-child { border-bottom: 0; }
+  .file .fh { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+  .file .fh h3 { word-break: break-all; }
+  .file .count { color: var(--ink-2); font-size: 11px; }
+  .findings { display: grid; gap: 6px; border-left: var(--thin) solid var(--line); margin-left: 2px; padding-left: 10px; }
+  .finding { display: grid; gap: 2px; font-size: 11.5px; color: var(--ink-2); }
+  .finding .fl { color: var(--ink); }
+  .finding .fl .sep { color: var(--ink-3); }
+  .finding .why { color: var(--ink-2); font-family: var(--display); font-size: 12.5px; }
+
+  /* budget headline totals */
+  .totals { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: var(--thin) solid var(--line); margin-bottom: 10px; }
+  .totals .tcell { padding: 10px 12px; display: grid; gap: 4px; border-right: var(--thin) solid var(--line); border-bottom: var(--thin) solid var(--line); }
+  .totals .tcell:nth-child(2) { border-right: 0; }
+  .totals .tcell.grand { grid-column: 1 / -1; border-right: 0; border-bottom: 0; }
+  .totals .big { font: 500 clamp(17px, 4.6vw, 28px)/1.1 var(--data); font-variant-numeric: tabular-nums; color: var(--ink); letter-spacing: -.02em; white-space: nowrap; }
+  .totals .grand .big { font-size: clamp(30px, 9.5vw, 44px); }
+  .ptotals { display: grid; grid-template-columns: 1fr; border: var(--thin) solid var(--line); border-top: 0; margin: -10px 0 10px; }
+  .ptotals .tcell { padding: 7px 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-top: var(--thin) solid var(--line); }
+  .ptotals .tcell:first-child { border-top: 0; }
+  .ptotals .num { font-variant-numeric: tabular-nums; color: var(--ink); font-size: 14px; white-space: nowrap; }
+  /* budget by category: one block per line, never wider than the sheet */
+  .bcat { padding: 9px 12px 10px; border-bottom: var(--thin) solid var(--line); display: grid; gap: 6px; }
+  .bcat:last-child { border-bottom: 0; }
+  .bcat .bh { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .bcat .bh .bn { color: var(--ink); font-size: 12px; overflow-wrap: normal; word-break: normal; }
+  .bcat .bh .bt { color: var(--ink); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; flex: none; }
+  .bcat .by { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 8px; }
+  .bcat .by div { display: grid; gap: 1px; min-width: 0; }
+  .bcat .by .k { font-size: 9.5px; }
+  .bcat .by .v { font-size: 11px; color: var(--ink-2); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .bcat.sum { border-top: var(--thick) solid var(--line); }
+  .bcat.sum .bh .bn { color: var(--ink); font-family: var(--data); font-weight: 500; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+  .bcat.grand .bh .bt { font-weight: 500; font-size: 15px; }
+  .bcat .unk { color: var(--ink-3); }
+  .rate { padding: 10px 12px; color: var(--ink-2); font-size: 11.5px; border-top: var(--thin) solid var(--line); }
+  .rate b { color: var(--ink); font-weight: 500; }
+  /* SF-424 R&R whole-dollar view */
+  .sf { border-top: var(--thin) solid var(--line); }
+  .sf .sfh { padding: 10px 12px 6px; display: grid; gap: 3px; }
+  .sf .sfh .lab { color: var(--ink-2); }
+  .sf .sfh .sub { font-size: 11.5px; color: var(--ink-2); }
+  .sf .sfr { padding: 6px 12px; border-top: var(--thin) solid var(--line); display: grid; gap: 2px; }
+  .sf .sfr .bh { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .sf .sfr .bn { color: var(--ink); font-size: 11.5px; }
+  .sf .sfr .bn .k { margin-right: 6px; }
+  .sf .sfr .bt { color: var(--ink); font-size: 12px; white-space: nowrap; flex: none; font-variant-numeric: tabular-nums; }
+  .sf .sfr .periods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .sf .sfr .per { display: grid; gap: 2px; color: var(--ink-2); font-size: 10.5px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .sf .sfr .per .k { font-size: 9px; color: var(--ink-2); }
+  .sf .sfr.tot .bn, .sf .sfr.tot .bt { font-weight: 500; }
+  .sf .pin { padding: 8px 12px 10px; border-top: var(--thin) solid var(--line); color: var(--ink-3); font-size: 10px; overflow-wrap: anywhere; }
+  .sf .pin .k { margin-right: 6px; }
+  /* small mono notes from meta (scope, coverage) */
+  .mnote { display: grid; gap: 3px; padding: 8px 12px 10px; border-top: var(--thin) solid var(--line); color: var(--ink-2); font-size: 10.5px; overflow-wrap: anywhere; }
+  .mnote p { display: grid; gap: 1px; }
+  .mnote .k { color: var(--ink-3); }
+  .kv .wide { grid-column: 1 / -1; }
+  .elig { font-size: 11px; color: var(--ink-2); }
+  .elig summary { cursor: pointer; color: var(--ink-3); font-family: var(--data); font-weight: 500; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+  .elig p { margin-top: 4px; white-space: pre-line; font-family: var(--display); font-size: 12px; }
+  .award-description summary { cursor: pointer; }
+  .award-description summary h3 { display: inline; }
+  .award-description .sub { margin-top: 8px; }
+
+  .note { display: grid; gap: 3px; padding: 10px 12px; margin-bottom: 12px; border: var(--thin) solid var(--line); color: var(--ink-2); font-family: var(--display); font-size: 12.5px; }
+  .note-k { color: var(--gold); font-family: var(--data); }
+
+  .src { display: grid; gap: 2px; margin-top: 10px; color: var(--ink-3); font-size: 10.5px; }
+  .src .src-k { color: var(--ink-3); }
+  .src span { color: var(--ink-2); }
+
+  /* title block */
+  .tb { display: grid; grid-template-columns: 2fr 1.4fr 1fr; border-top: var(--thick) solid var(--line); margin: 22px -18px 0; }
+  @media (min-width: 560px) { .tb { margin: 28px -34px 0; } }
+  .tb div { padding: 8px 10px; border-right: var(--thin) solid var(--line); border-bottom: var(--thin) solid var(--line); display: grid; gap: 2px; }
+  .tb div:nth-child(3n) { border-right: 0; }
+  .tb div:nth-child(n+4) { border-bottom: 0; }
+  .tb-lab { color: var(--ink-3); font-size: 9px; letter-spacing: .08em; }
+  .tb-val { color: var(--ink-2); font-size: 12px; font-weight: 500; }
+  .foot { padding: 12px 0 16px; color: var(--ink-3); font-size: 10.5px; display: grid; gap: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<main class="sheet" aria-label="Proposa pre-award demo, drawing BS-PD-001">
+  <div class="inner">
+    <nav class="nav" aria-label="Site">
+      <a href="index.html">&larr; Hub</a>
+      <span class="pt">Proposa &middot; pre-award demo</span>
+    </nav>
+
+    <header class="head">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="" width="40" height="40">
+        <div class="org">
+          <span class="lab">Bryant Systems &middot; Proposa</span>
+          <span class="lab" style="color:var(--ink-2)">Built for OSP and department grant administrators</span>
+        </div>
+      </div>
+      <h1>Find funding. Inspect the budget.</h1>
+      <p class="lede"><strong>A pre-award walkthrough.</strong> Explore federal funding opportunities, compare past awards, inspect identifying metadata in sample files, and review a grant-engine example budget.</p>
+      <p class="sub">Choose a research persona for steps 1 and 2. Steps 3 and 4 use labelled samples. Funding records, findings and budget amounts come from the source files cited with their fetch times below.</p>
+    </header>
+
+    <nav class="step-ix" aria-label="Steps">
+      <a href="#s1"><span class="n num">1</span><span class="t">Find funding</span></a>
+      <a href="#s2"><span class="n num">2</span><span class="t">Comparable awards</span></a>
+      <a href="#s3" aria-label="3 Anonymization check"><span class="n num">3</span><span class="t">Anon. check</span></a>
+      <a href="#s4"><span class="n num">4</span><span class="t">Budget</span></a>
+    </nav>
+
+    <div class="persona" id="persona">
+      <span class="lab">Persona &middot; drives steps 1 and 2</span>
+      <div class="row" role="group" aria-label="Persona switcher">
+        <button type="button" data-persona="earth-science" aria-pressed="true">Earth science</button>
+        <button type="button" data-persona="materials" aria-pressed="false">Materials</button>
+        <button type="button" data-persona="biomedical" aria-pressed="false">Biomedical</button>
+      </div>
+      <p class="q" id="persona-q">Query: <span>&mdash;</span></p>
+    </div>
+
+    <section class="step" id="s1" aria-labelledby="h1s">
+      <div class="step-h">
+        <span class="idx">1</span>
+        <h2 id="h1s">Find funding</h2>
+        <p class="what">Open or forecasted federal opportunities returned for the persona's query. Check each source record for current deadlines and eligibility.</p>
+      </div>
+      <div class="status" id="st-opportunities" role="status"></div>
+      <div class="panel rows" id="opps"><p class="wait">Loading data/opportunities.json&hellip;</p></div>
+      <div class="mnote" id="cov-opportunities" hidden></div>
+      <p class="src" id="src-opportunities"></p>
+    </section>
+
+    <section class="step" id="s2" aria-labelledby="h2s">
+      <div class="step-h">
+        <span class="idx">2</span>
+        <h2 id="h2s">Comparable awards</h2>
+        <p class="what">Past awards returned by the persona query. These are search matches, not validated comparables; review the program, title and amount basis before sizing an ask.</p>
+      </div>
+      <div class="status" id="st-awards" role="status"></div>
+      <div class="mnote" id="query-awards" hidden></div>
+      <div class="panel rows" id="awards"><p class="wait">Loading data/awards.json&hellip;</p></div>
+      <div class="mnote" id="cov-awards" hidden></div>
+      <p class="src" id="src-awards"></p>
+    </section>
+
+    <section class="step" id="s3" aria-labelledby="h3s">
+      <div class="step-h">
+        <span class="idx">3</span>
+        <h2 id="h3s">Anonymization check</h2>
+        <p class="what">Metadata-only check of sample proposal files. The scope and rule basis from the checker appear with the findings below. Page text is not checked. A pass is not a submission clearance.</p>
+      </div>
+      <div class="status" id="st-anoncheck" role="status"></div>
+      <div class="panel" id="anon"><p class="wait">Loading data/anoncheck.json&hellip;</p></div>
+      <p class="sub" style="margin-top:8px;font-size:12px">Sample files, fictional names, in <span class="num">demo/samples/</span>.</p>
+      <p class="src" id="src-anoncheck"></p>
+    </section>
+
+    <section class="step" id="s4" aria-labelledby="h4s">
+      <div class="step-h">
+        <span class="idx">4</span>
+        <h2 id="h4s">Budget</h2>
+        <p class="what">Deterministic budget math from grant-engine: categories by period, direct, indirect (F&amp;A) on the 2 CFR 200 MTDC base, total.</p>
+      </div>
+      <div class="note">
+        <span class="note-k">Example data</span>
+        <span>EXAMPLE data: fictional university, people and rates from grant-engine’s bundled scenario. This budget is not tied to the opportunity selected above.</span>
+      </div>
+      <div class="status" id="st-budget" role="status"></div>
+      <div class="panel" id="budget"><p class="wait">Loading data/budget.json&hellip;</p></div>
+      <p class="src" id="src-budget"></p>
+    </section>
+
+    <p class="foot">
+      <span>This page loads no third-party resources: fonts and the logo ship with it, and it reads its data from data/*.json in the same folder. Links inside the rows leave the page to the source record.</span>
+      <span>Fictional names appear only in the sample proposal files (step 3) and in grant-engine's example scenario (step 4), both labelled as such.</span>
+    </p>
+
+    <footer class="tb" aria-label="Title block">
+      <div><span class="tb-lab">TITLE</span><span class="tb-val">Proposa &middot; pre-award demo</span></div>
+      <div><span class="tb-lab">DRAWING NO.</span><span class="tb-val">BS-PD-001</span></div>
+      <div><span class="tb-lab">REV</span><span class="tb-val">A</span></div>
+      <div><span class="tb-lab">ORIGINATOR</span><span class="tb-val">Bryant Systems</span></div>
+      <div><span class="tb-lab">ISSUED</span><span class="tb-val">2026-10-24</span></div>
+      <div><span class="tb-lab">SHEET</span><span class="tb-val">1 of 1</span></div>
+    </footer>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var UNK = "UNKNOWN";
+  var PERSONAS = ["earth-science", "materials", "biomedical"];
+  var FILES = ["opportunities", "awards", "anoncheck", "budget"];
+  var state = { persona: "earth-science", data: {}, err: {} };
+
+  // --- helpers: DOM built with textContent only; no HTML from data ---
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined && text !== null) n.textContent = String(text);
+    return n;
+  }
+  function has(v) { return v !== undefined && v !== null && v !== ""; }
+  function txt(v) { return has(v) ? String(v) : UNK; }
+  function kv(parent, label, value, extraCls) {
+    var d = el("div");
+    d.appendChild(el("span", "k", label));
+    var ok = has(value);
+    var s = el("span", "v" + (ok ? "" : " unk") + (extraCls ? " " + extraCls : ""), ok ? String(value) : UNK);
+    d.appendChild(s);
+    parent.appendChild(d);
+    return d;
+  }
+  function isNum(v) { return typeof v === "number" && isFinite(v); }
+  function toNum(v) {
+    if (isNum(v)) return v;
+    if (typeof v === "string" && v.trim() !== "" && isFinite(Number(v))) return Number(v);
+    return null;
+  }
+  function money(v) {
+    var n = toNum(v);
+    if (n === null) return UNK;
+    var cents = Math.abs(n - Math.round(n)) > 1e-9;
+    var opts = cents ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    var s = Math.abs(n).toLocaleString("en-US", opts);
+    return (n < 0 ? "-$" : "$") + s;
+  }
+  function range(a, b) {
+    var ha = has(a), hb = has(b);
+    if (!ha && !hb) return UNK;
+    return (ha ? money(a) : UNK) + " – " + (hb ? money(b) : UNK);
+  }
+  // Dates: ISO strings shown as YYYY-MM-DD; anything else shown as given.
+  function fmtDate(v) {
+    if (!has(v)) return UNK;
+    var s = String(v);
+    return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : s;
+  }
+  function deadlineFields(date, note) {
+    return {
+      value: has(date) ? fmtDate(date) : (has(note) ? String(note) : null),
+      note: has(date) && has(note) ? String(note) : null
+    };
+  }
+  function span(a, b) {
+    var ha = has(a), hb = has(b);
+    if (!ha && !hb) return UNK;
+    return fmtDate(a) + " – " + fmtDate(b);
+  }
+  // Whole-dollar strings (SF-424 R&R view): commas, no cents.
+  function whole(v) {
+    var n = toNum(v);
+    if (n === null) return UNK;
+    var r = Math.round(Math.abs(n));
+    return (n < 0 ? "-$" : "$") + r.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  }
+  function noteLine(parent, key, value) {
+    var p = el("p");
+    p.appendChild(el("span", "k", key));
+    p.appendChild(el("span", null, value));
+    parent.appendChild(p);
+  }
+  // meta.coverage[] notes for the current persona: shortfalls, sources that did not answer, thin result sets.
+  function coverage(name, doc, countKey, shown) {
+    var box = document.getElementById("cov-" + name);
+    if (!box) return;
+    clear(box);
+    var lines = [];
+    var meta = doc && doc.meta ? doc.meta : null;
+    if (meta && has(meta.note)) lines.push(["Source note", String(meta.note)]);
+    var cov = meta && Array.isArray(meta.coverage) ? meta.coverage : [];
+    cov.forEach(function (c) {
+      if (!c || c.persona !== state.persona) return;
+      if (shown < 5 && has(c.shortfall)) lines.push(["shortfall", String(c.shortfall)]);
+      var sna = Array.isArray(c.sources_not_answering) ? c.sources_not_answering.filter(has) : [];
+      if (sna.length) lines.push(["sources not answering", sna.join(", ")]);
+
+    });
+    if (shown < 5) lines.push(["Coverage", shown + " " + (name === "awards" ? "awards" : "opportunities") + " returned for this search; coverage is limited."]);
+    if (!lines.length) { box.hidden = true; return; }
+    box.hidden = false;
+    lines.forEach(function (l) { noteLine(box, l[0], l[1]); });
+  }
+  function isHttp(u) { return typeof u === "string" && /^https?:\/\//i.test(u); }
+  function linkLine(parent, url, label) {
+    var p = el("p", "lnk");
+    p.appendChild(el("span", "k", (label || "Link") + " "));
+    if (isHttp(url)) {
+      var a = el("a", null, url);
+      a.href = url; a.rel = "noopener noreferrer"; a.target = "_blank";
+      p.appendChild(a);
+    } else {
+      p.appendChild(el("span", "unk", has(url) ? String(url) : UNK));
+    }
+    parent.appendChild(p);
+  }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  function sourceLine(name, meta) {
+    var p = document.getElementById("src-" + name);
+    clear(p);
+    var src = meta && Array.isArray(meta.source) ? meta.source.filter(has).join(", ") : (meta && has(meta.source) ? String(meta.source) : UNK);
+    var fetched = meta && has(meta.fetched_at) ? String(meta.fetched_at) : UNK;
+    var gen = meta && has(meta.generator) ? String(meta.generator) : UNK;
+    var l1 = el("span"); l1.appendChild(el("span", "src-k", "Source: ")); l1.appendChild(document.createTextNode(src || UNK));
+    var l2 = el("span"); l2.appendChild(el("span", "src-k", "fetched ")); l2.appendChild(document.createTextNode(fetched));
+    l2.appendChild(el("span", "src-k", " · generator ")); l2.appendChild(document.createTextNode(gen));
+    p.appendChild(l1); p.appendChild(l2);
+    if (FILES.indexOf(name) !== -1) {
+      var dataLink = el("a", null, "View source data");
+      dataLink.href = "data/" + name + ".json";
+      p.appendChild(dataLink);
+    }
+  }
+  function status(name, err) {
+    var s = document.getElementById("st-" + name);
+    clear(s);
+    if (!err) { s.removeAttribute("data-show"); return; }
+    s.setAttribute("data-show", "1");
+    s.appendChild(el("span", "k", "Data unavailable"));
+    var p = el("span", "path", "data/" + name + ".json not loaded");
+    s.appendChild(p);
+    s.appendChild(el("span", "e", String(err && err.message ? err.message : err)));
+  }
+  function findPersona(doc) {
+    if (!doc || !Array.isArray(doc.personas)) return null;
+    for (var i = 0; i < doc.personas.length; i++) {
+      if (doc.personas[i] && doc.personas[i].id === state.persona) return doc.personas[i];
+    }
+    return null;
+  }
+  function emptyPanel(panel, msg) { clear(panel); panel.appendChild(el("p", "wait", msg)); }
+
+  // --- step 1: opportunities ---
+  function renderOpps() {
+    var panel = document.getElementById("opps");
+    var doc = state.data.opportunities;
+    if (!doc) { emptyPanel(panel, "No opportunities to show: data/opportunities.json not loaded."); return; }
+    var per = findPersona(doc);
+    var list = per && Array.isArray(per.results) ? per.results : [];
+    clear(panel);
+    coverage("opportunities", doc, "open_or_forecasted", list.length);
+    if (!per) { panel.appendChild(el("p", "wait", "No persona “" + state.persona + "” in data/opportunities.json.")); return; }
+    if (!list.length) { panel.appendChild(el("p", "wait", "0 results in file for this persona.")); return; }
+    list.forEach(function (o) {
+      o = o || {};
+      var r = el("article", "r");
+      r.appendChild(el("h3", null, txt(o.title)));
+      var m = el("p", "meta", [txt(o.agency), txt(o.program)].join(" · ") + (has(o.sub_agency) ? " · " + o.sub_agency : "") + (has(o.aln) ? " · ALN " + o.aln : ""));
+      r.appendChild(m);
+      var g = el("div", "kv");
+      kv(g, "Status", o.status);
+      var deadline = deadlineFields(o.close_date, o.close_date_note);
+      kv(g, "Close date", deadline.value);
+      kv(g, "Open date", o.open_date).lastChild.textContent = fmtDate(o.open_date);
+      kv(g, "Expected awards", o.expected_awards);
+      var fr = kv(g, "Award floor – ceiling", null);
+      fr.lastChild.textContent = has(o.award_floor) || has(o.award_ceiling) ? range(o.award_floor, o.award_ceiling) : "Range not published";
+      fr.lastChild.className = "v" + ((has(o.award_floor) || has(o.award_ceiling)) ? "" : " unk");
+      kv(g, "Opportunity ID", o.opportunity_id);
+      kv(g, "Number", o.number);
+      kv(g, "Match", o.match);
+      if (has(deadline.note)) kv(g, "Close date note", deadline.note, "dim").className = "wide";
+      r.appendChild(g);
+      if (has(o.eligibility)) {
+        var d = el("details", "elig");
+        d.appendChild(el("summary", null, "Eligibility (as filed)"));
+        d.appendChild(el("p", null, String(o.eligibility)));
+        r.appendChild(d);
+      }
+      linkLine(r, o.url, has(o.source) ? "Source " + o.source + " ·" : "Link");
+      if (has(o.fetched_at)) r.appendChild(el("p", "lnk", "fetched " + o.fetched_at));
+      panel.appendChild(r);
+    });
+  }
+
+  // --- step 2: awards ---
+  function awardTitleParts(title) {
+    var full = txt(title);
+    return { full: full, excerpt: full.length > 240 ? full.slice(0, 240).trimEnd() + "…" : full,
+      expandable: full.length > 240 };
+  }
+  function awardQueryLines(persona) {
+    if (!persona) return [];
+    var lines = [];
+    if (has(persona.award_query)) lines.push(["Award query", String(persona.award_query)]);
+    if (has(persona.nsf_query)) lines.push(["NSF query", String(persona.nsf_query)]);
+    if (Array.isArray(persona.activity_codes) && persona.activity_codes.length) {
+      lines.push(["Activity codes", persona.activity_codes.map(String).join(", ")]);
+    }
+    return lines;
+  }
+  function renderAwards() {
+    var panel = document.getElementById("awards");
+    var doc = state.data.awards;
+    var queryBox = document.getElementById("query-awards");
+    clear(queryBox);
+    var queryLines = awardQueryLines(findPersona(state.data.opportunities));
+    queryBox.hidden = !queryLines.length;
+    queryLines.forEach(function (line) { noteLine(queryBox, line[0], line[1]); });
+    if (queryLines.length) {
+      noteLine(queryBox, "Query source", "data/opportunities.json · fetched " + txt(state.data.opportunities.meta.fetched_at));
+    }
+    if (!doc) { emptyPanel(panel, "No awards to show: data/awards.json not loaded."); return; }
+    var per = findPersona(doc);
+    var list = per && Array.isArray(per.awards) ? per.awards : (per && Array.isArray(per.results) ? per.results : []);
+    clear(panel);
+    coverage("awards", doc, "awards", list.length);
+    if (!per) { panel.appendChild(el("p", "wait", "No persona “" + state.persona + "” in data/awards.json.")); return; }
+    if (!list.length) { panel.appendChild(el("p", "wait", "0 awards in file for this persona.")); return; }
+    list.forEach(function (a) {
+      a = a || {};
+      var r = el("article", "r");
+      var amt = el("p", "amt" + (toNum(a.amount) === null ? " unk" : ""), money(a.amount));
+      r.appendChild(amt);
+      var title = awardTitleParts(a.title);
+      if (title.expandable) {
+        r.appendChild(el("p", "meta", (a.source === "usaspending" ? "USAspending award description" : "Source award title") + " · expand excerpt for full text"));
+        var description = el("details", "award-description");
+        var summary = el("summary");
+        summary.appendChild(el("h3", null, title.excerpt));
+        description.appendChild(summary);
+        description.appendChild(el("p", "sub", title.full));
+        r.appendChild(description);
+      } else {
+        r.appendChild(el("h3", null, title.full));
+      }
+      var g = el("div", "kv");
+      kv(g, "Recipient", a.recipient);
+      kv(g, "PI", a.pi);
+      var pd = kv(g, "Start – end", null);
+      pd.lastChild.textContent = span(a.start, a.end);
+      pd.lastChild.className = "v" + ((has(a.start) || has(a.end)) ? "" : " unk");
+      kv(g, "Agency", a.agency);
+      kv(g, "Award ID", a.award_id);
+      kv(g, "Source", a.source);
+      if (has(a.amount_basis)) kv(g, "Amount basis", a.amount_basis, "dim").className = "wide";
+      r.appendChild(g);
+      linkLine(r, a.url, "Link");
+      if (has(a.fetched_at)) r.appendChild(el("p", "lnk", "fetched " + a.fetched_at));
+      panel.appendChild(r);
+    });
+  }
+
+  // --- step 3: anonymization check ---
+  function renderAnon() {
+    var panel = document.getElementById("anon");
+    var doc = state.data.anoncheck;
+    if (!doc) { emptyPanel(panel, "No files to show: data/anoncheck.json not loaded."); return; }
+    var files = Array.isArray(doc.files) ? doc.files : [];
+    clear(panel);
+    if (!files.length) { panel.appendChild(el("p", "wait", "0 files in data/anoncheck.json.")); return; }
+    files.forEach(function (f) {
+      f = f || {};
+      var box = el("div", "file");
+      var fh = el("div", "fh");
+      fh.appendChild(el("h3", null, txt(f.name)));
+      fh.appendChild(el("span", "meta", txt(f.type)));
+      var v = has(f.verdict) ? String(f.verdict) : UNK;
+      var vl = v.toLowerCase();
+      var b = el("span", "badge" + (vl === "warn" ? " warn" : vl === "pass" ? " pass" : ""), vl === "pass" ? "Metadata pass" : vl === "warn" ? "Metadata warning" : v);
+      fh.appendChild(b);
+      var fl = Array.isArray(f.findings) ? f.findings : null;
+      fh.appendChild(el("span", "count", fl ? fl.length + (fl.length === 1 ? " finding" : " findings") : "findings " + UNK));
+      box.appendChild(fh);
+      // Only bundled, known basenames can become download URLs.
+      if (["sample-clean.docx", "sample-leaky.docx", "sample-leaky.pdf"].indexOf(f.name) !== -1) {
+        var sampleLink = el("a", "lnk", "Download sample file");
+        sampleLink.href = "samples/" + encodeURIComponent(f.name);
+        sampleLink.download = f.name;
+        box.appendChild(sampleLink);
+      }
+      if (fl && fl.length) {
+        var ul = el("ul", "findings");
+        ul.style.listStyle = "none"; ul.style.padding = "0 0 0 10px";
+        fl.forEach(function (x) {
+          x = x || {};
+          var li = el("li", "finding");
+          var line = el("p", "fl");
+          [x.field, x.location, x.value_redacted, x.rule].forEach(function (part, i) {
+            if (i) line.appendChild(el("span", "sep", " · "));
+            line.appendChild(el("span", has(part) ? "" : "unk", txt(part)));
+          });
+          li.appendChild(line);
+          li.appendChild(el("p", "why", txt(x.why)));
+          ul.appendChild(li);
+        });
+        box.appendChild(ul);
+      }
+      panel.appendChild(box);
+    });
+    // What the checker does and does not look at, from the file's own meta, labelled by key.
+    var meta = doc.meta && typeof doc.meta === "object" ? doc.meta : {};
+    var keys = ["scope", "rule_basis", "redaction", "sample_notice"].filter(function (k) { return has(meta[k]); });
+    if (keys.length) {
+      var mn = el("div", "mnote");
+      keys.forEach(function (k) { noteLine(mn, k, typeof meta[k] === "object" ? JSON.stringify(meta[k]) : String(meta[k])); });
+      panel.appendChild(mn);
+    }
+  }
+
+  // --- step 4: budget ---
+  function periodLabel(p, i) {
+    if (p === null || p === undefined) return "P" + (i + 1);
+    if (typeof p === "object") return has(p.label) ? String(p.label) : has(p.name) ? String(p.name) : has(p.id) ? String(p.id) : "P" + (i + 1);
+    return String(p);
+  }
+  // One budget line: name left, total right, then a 3-up row of per-period cells. Never wider than the sheet.
+  function budgetBlock(parent, name, total, perVals, periods, np, cls) {
+    var b = el("div", "bcat" + (cls ? " " + cls : ""));
+    var bh = el("div", "bh");
+    bh.appendChild(el("span", "bn", name));
+    var cumulative = el("span", "bt" + (toNum(total) === null ? " unk" : ""), money(total));
+    cumulative.setAttribute("aria-label", "Cumulative " + money(total));
+    bh.appendChild(cumulative);
+    b.appendChild(bh);
+    var by = el("div", "by");
+    for (var i = 0; i < np; i++) {
+      var c = el("div");
+      c.appendChild(el("span", "k", periodLabel(periods[i], i)));
+      var v = perVals ? perVals[i] : null;
+      c.appendChild(el("span", "v" + (toNum(v) === null ? " unk" : ""), money(v)));
+      by.appendChild(c);
+    }
+    b.appendChild(by);
+    parent.appendChild(b);
+    return b;
+  }
+  function perPeriod(periods, key) {
+    return periods.map(function (p) { return p && typeof p === "object" ? p[key] : null; });
+  }
+  function renderBudget() {
+    var panel = document.getElementById("budget");
+    var doc = state.data.budget;
+    if (!doc) { emptyPanel(panel, "No budget to show: data/budget.json not loaded."); return; }
+    clear(panel);
+    var periods = Array.isArray(doc.periods) ? doc.periods : [];
+    var cats = Array.isArray(doc.categories) ? doc.categories : [];
+    var np = periods.length;
+    if (!np) cats.forEach(function (c) { if (c && Array.isArray(c.years)) np = Math.max(np, c.years.length); });
+
+    var title = has(doc.title) ? String(doc.title) : (doc.meta && has(doc.meta.scenario) ? String(doc.meta.scenario) : null);
+    var scen = doc.meta && has(doc.meta.scenario) && doc.meta.scenario !== title ? String(doc.meta.scenario) : null;
+    if (title || scen) {
+      var h = el("div", "rate");
+      if (title) { h.appendChild(el("span", "k", "Scenario ")); h.appendChild(el("b", null, title)); }
+      if (scen) { h.appendChild(el("span", "k", (title ? " · " : "") + "meta.scenario ")); h.appendChild(el("b", null, scen)); }
+      h.style.borderTop = "0"; h.style.borderBottom = "0.5px solid var(--line)";
+      panel.appendChild(h);
+    }
+
+    // Headline totals first, so the three numbers that matter are visible without scrolling the table.
+    var tot = el("div", "totals");
+    [["Direct", doc.direct], ["Indirect (F&A)", doc.indirect], ["Total", doc.total]].forEach(function (pair, ix) {
+      var cell = el("div", "tcell" + (ix === 2 ? " grand" : ""));
+      cell.appendChild(el("span", "lab", pair[0]));
+      cell.appendChild(el("span", "big num" + (toNum(pair[1]) === null ? " unk" : ""), money(pair[1])));
+      tot.appendChild(cell);
+    });
+    panel.appendChild(tot);
+    if (periods.length && typeof periods[0] === "object" && periods[0] && has(periods[0].total)) {
+      var pt = el("div", "ptotals");
+      periods.forEach(function (p, i) {
+        var c = el("div", "tcell");
+        c.appendChild(el("span", "lab", periodLabel(p, i) + (has(p.start) ? " · " + String(p.start).slice(0, 10) : "")));
+        c.appendChild(el("span", "num", money(p.total)));
+        pt.appendChild(c);
+      });
+      panel.appendChild(pt);
+    }
+
+    var categories = el("div", "budget-categories");
+    categories.appendChild(el("p", "rate", "Budget by category · US dollars, with cents. Each line shows its cumulative total and the amounts for each period."));
+    if (!cats.length) categories.appendChild(el("p", "wait", "No categories in file"));
+    cats.forEach(function (c) {
+      c = c || {};
+      budgetBlock(categories, txt(c.name), c.total, Array.isArray(c.years) ? c.years : [], periods, np);
+    });
+    budgetBlock(categories, "Direct", doc.direct, perPeriod(periods, "direct"), periods, np, "sum");
+    budgetBlock(categories, "Indirect (F&A)", doc.indirect, perPeriod(periods, "fa"), periods, np);
+    budgetBlock(categories, "Total", doc.total, perPeriod(periods, "total"), periods, np, "grand");
+    panel.appendChild(categories);
+
+    var rb = el("p", "rate");
+    rb.appendChild(el("span", "k", "Rate basis "));
+    rb.appendChild(el("b", has(doc.rate_basis) ? "" : "unk", typeof doc.rate_basis === "object" && doc.rate_basis !== null ? JSON.stringify(doc.rate_basis) : txt(doc.rate_basis)));
+    panel.appendChild(rb);
+    if (has(doc.notes)) {
+      var nt = el("p", "rate");
+      nt.appendChild(el("span", "k", "Notes "));
+      nt.appendChild(document.createTextNode(Array.isArray(doc.notes) ? doc.notes.map(String).join(" ") : (typeof doc.notes === "object" ? JSON.stringify(doc.notes) : String(doc.notes))));
+      panel.appendChild(nt);
+    }
+    var sfdoc = doc.sf424_rr;
+    if (sfdoc && Array.isArray(sfdoc.sections)) {
+      var sf = el("section", "sf");
+      sf.setAttribute("aria-label", "SF-424 R&R whole-dollar budget");
+      var sfh = el("div", "sfh");
+      sfh.appendChild(el("h3", null, "SF-424 R&R · whole dollars"));
+      sfh.appendChild(el("p", "sub", "Cumulative total at right; period amounts below. These engine-produced whole-dollar amounts are a separate form view from the cents-based budget above."));
+      sf.appendChild(sfh);
+      sfdoc.sections.forEach(function (section) {
+        var row = el("div", "sfr" + (/^[GHIK]$/.test(section.section) ? " tot" : ""));
+        row.setAttribute("data-section", section.section);
+        var heading = el("div", "bh");
+        var name = el("span", "bn");
+        name.appendChild(el("span", "k", txt(section.section)));
+        name.appendChild(document.createTextNode(txt(section.name)));
+        heading.appendChild(name);
+        var sum = el("span", "bt", whole(section.cumulative));
+        sum.setAttribute("aria-label", "Cumulative " + whole(section.cumulative));
+        heading.appendChild(sum);
+        row.appendChild(heading);
+        var periodCells = el("div", "periods");
+        var values = Array.isArray(section.periods) ? section.periods : [];
+        for (var i = 0; i < Math.max(np, values.length); i++) {
+          var cell = el("div", "per");
+          cell.appendChild(el("span", "k", periodLabel(periods[i], i)));
+          cell.appendChild(el("span", "num", whole(values[i])));
+          periodCells.appendChild(cell);
+        }
+        row.appendChild(periodCells);
+        sf.appendChild(row);
+      });
+      var pin = sfdoc.form_pin;
+      if (pin && typeof pin === "object") {
+        var pinNote = el("div", "pin");
+        noteLine(pinNote, "Form reference", [pin.form, pin.version, pin.cover_form].filter(has).join(" · "));
+        noteLine(pinNote, "Reference status", txt(pin.status));
+        (Array.isArray(pin.sources) ? pin.sources : []).forEach(function (url) { linkLine(pinNote, url, "Form source"); });
+        sf.appendChild(pinNote);
+      }
+      panel.appendChild(sf);
+    }
+  }
+
+  // --- persona switcher ---
+  function setPersona(id) {
+    state.persona = id;
+    var btns = document.querySelectorAll("#persona button");
+    Array.prototype.forEach.call(btns, function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-persona") === id ? "true" : "false"); });
+    var q = document.getElementById("persona-q");
+    var per = findPersona(state.data.opportunities) || findPersona(state.data.awards);
+    clear(q);
+    q.appendChild(document.createTextNode("Query: "));
+    q.appendChild(el("span", null, per && has(per.query) ? String(per.query) : UNK));
+    if (state.data.opportunities || state.err.opportunities) renderOpps();
+    if (state.data.awards || state.err.awards) renderAwards();
+  }
+  function labelButtons() {
+    var btns = document.querySelectorAll("#persona button");
+    Array.prototype.forEach.call(btns, function (b) {
+      var id = b.getAttribute("data-persona");
+      var per = null;
+      ["opportunities", "awards"].forEach(function (f) {
+        var d = state.data[f];
+        if (!per && d && Array.isArray(d.personas)) d.personas.forEach(function (p) { if (p && p.id === id && has(p.label)) per = p; });
+      });
+      if (per) b.textContent = String(per.label);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#persona button"), function (b) {
+    b.addEventListener("click", function () { setPersona(b.getAttribute("data-persona")); });
+  });
+
+  // --- load: all four independently; a failure in one never blocks the rest ---
+  function validate(name, j) {
+    if (!j || typeof j !== "object" || Array.isArray(j)) throw new Error("file is not a JSON object");
+    var meta = j.meta;
+    if (!meta || !Array.isArray(meta.source) || !meta.source.length ||
+        !meta.source.every(function (s) { return typeof s === "string" && s.trim(); }) ||
+        typeof meta.fetched_at !== "string" || !Number.isFinite(Date.parse(meta.fetched_at)) ||
+        typeof meta.generator !== "string" || !meta.generator.trim()) {
+      throw new Error("source, fetch time or generator is missing or invalid");
+    }
+    var arrays = name === "budget" ? [j.periods, j.categories, j.sf424_rr && j.sf424_rr.sections]
+      : name === "anoncheck" ? [j.files] : [j.personas];
+    if (!arrays.every(Array.isArray)) throw new Error("required records are missing or invalid");
+    return j;
+  }
+  function load(name) {
+    var controller = typeof AbortController === "function" ? new AbortController() : null;
+    var timer;
+    var deadline = new Promise(function (_, reject) {
+      timer = setTimeout(function () {
+        reject(new Error("data request timed out; reload to try again"));
+        if (controller) controller.abort();
+      }, 10000);
+    });
+    var options = { cache: "no-store" };
+    if (controller) options.signal = controller.signal;
+    var request = Promise.resolve().then(function () {
+      return fetch("data/" + name + ".json", options);
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status + " " + (r.statusText || ""));
+      return r.json();
+    }).then(function (j) { return validate(name, j); });
+    return Promise.race([request, deadline]).then(function (j) {
+      clearTimeout(timer); return j;
+    }, function (err) {
+      clearTimeout(timer); throw err;
+    });
+  }
+  function renderLoaded(name) {
+    try {
+      if (name === "anoncheck") renderAnon();
+      else if (name === "budget") renderBudget();
+      else { labelButtons(); setPersona(state.persona); }
+    } catch (e) {
+      state.err[name] = e;
+      status(name, e);
+      var panel = { anoncheck: "anon", budget: "budget", opportunities: "opps", awards: "awards" }[name];
+      emptyPanel(document.getElementById(panel), "Unable to display data: " + e.message);
+    }
+  }
+  FILES.forEach(function (name) {
+    load(name).then(function (doc) {
+      state.data[name] = doc;
+      status(name, null);
+      sourceLine(name, doc.meta);
+      renderLoaded(name);
+    }, function (err) {
+      state.err[name] = err;
+      status(name, err);
+      sourceLine(name, null);
+      renderLoaded(name);
+    });
+  });
+})();
+</script>
+</body>
+</html>

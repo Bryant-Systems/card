@@ -1,0 +1,284 @@
+{
+ "meta": {
+  "source": [
+   "~/grant-engine demo/scenarios.py nsf_standard() + demo/budget.py summary()/sf424(), run read-only from a detached git worktree at main f3ce852",
+   "grant_engine.exports.run / sf424_rr (cost engine: 2 CFR 200.1 MTDC, SF-424 R&R whole-dollar view)"
+  ],
+  "fetched_at": "2026-10-24T11:03:52-04:00",
+  "generator": "U/6f6dfed",
+  "grant_engine_commit": "f3ce852",
+  "example_data": "EXAMPLE data only: fictional university, people, rates and solicitation (grant-engine README). Numbers exactly as grant-engine produced them."
+ },
+ "title": "EXAMPLE Trustworthy Sensor Networks for Rural Water Quality",
+ "template_id": "EX-DEMO-NSF",
+ "label": "EXAMPLE - NSF standard research grant (fictional)",
+ "organization": "EXAMPLE State University (fictional)",
+ "sponsor": "National Science Foundation (EXAMPLE)",
+ "solicitation_id": "EX-NSF-27-501",
+ "periods": [
+  {
+   "id": "Y1",
+   "start": "2027-09-01",
+   "end": "2028-08-31",
+   "salaries": "123346.26",
+   "fringe": "28255.57",
+   "direct": "236913.83",
+   "fa_base": "159913.83",
+   "fa": "87952.61",
+   "total": "324866.44"
+  },
+  {
+   "id": "Y2",
+   "start": "2028-09-01",
+   "end": "2029-08-31",
+   "salaries": "127046.64",
+   "fringe": "29103.23",
+   "direct": "207315.87",
+   "fa_base": "165715.87",
+   "fa": "91143.73",
+   "total": "298459.60"
+  },
+  {
+   "id": "Y3",
+   "start": "2029-09-01",
+   "end": "2030-08-31",
+   "salaries": "130858.03",
+   "fringe": "29976.34",
+   "direct": "199400.37",
+   "fa_base": "170400.37",
+   "fa": "93720.20",
+   "total": "293120.57"
+  }
+ ],
+ "categories": [
+  {
+   "name": "Salaries and wages",
+   "years": [
+    "123346.26",
+    "127046.64",
+    "130858.03"
+   ],
+   "total": "381250.93"
+  },
+  {
+   "name": "Fringe benefits",
+   "years": [
+    "28255.57",
+    "29103.23",
+    "29976.34"
+   ],
+   "total": "87335.14"
+  },
+  {
+   "name": "Equipment",
+   "years": [
+    "48000.00",
+    "0.00",
+    "0.00"
+   ],
+   "total": "48000.00"
+  },
+  {
+   "name": "Materials and supplies",
+   "years": [
+    "3500.00",
+    "3500.00",
+    "3500.00"
+   ],
+   "total": "10500.00"
+  },
+  {
+   "name": "Tuition remission",
+   "years": [
+    "29000.00",
+    "29000.00",
+    "29000.00"
+   ],
+   "total": "87000.00"
+  },
+  {
+   "name": "Travel",
+   "years": [
+    "4812.00",
+    "3566.00",
+    "3566.00"
+   ],
+   "total": "11944.00"
+  },
+  {
+   "name": "Participant support",
+   "years": [
+    "0.00",
+    "12600.00",
+    "0.00"
+   ],
+   "total": "12600.00"
+  },
+  {
+   "name": "Services / publication / compute",
+   "years": [
+    "0.00",
+    "2500.00",
+    "2500.00"
+   ],
+   "total": "5000.00"
+  }
+ ],
+ "direct": "643630.07",
+ "indirect": "272816.54",
+ "total": "916446.61",
+ "rate_basis": "F&A 55% on MTDC (EXAMPLE-UNIV/FY28-negotiated); salary escalation 3%/yr; subaward MTDC cutoff $50,000; rule 2CFR200-2024",
+ "sf424_rr": {
+  "sections": [
+   {
+    "section": "A",
+    "name": "Senior/Key Person",
+    "periods": [
+     "27307",
+     "28126",
+     "28970"
+    ],
+    "cumulative": "84403"
+   },
+   {
+    "section": "B",
+    "name": "Other Personnel",
+    "periods": [
+     "124295",
+     "128024",
+     "131865"
+    ],
+    "cumulative": "384184"
+   },
+   {
+    "section": "C",
+    "name": "Equipment",
+    "periods": [
+     "48000",
+     "0",
+     "0"
+    ],
+    "cumulative": "48000"
+   },
+   {
+    "section": "D",
+    "name": "Travel",
+    "periods": [
+     "4812",
+     "3566",
+     "3566"
+    ],
+    "cumulative": "11944"
+   },
+   {
+    "section": "D.1",
+    "name": "Domestic Travel",
+    "periods": [
+     "4812",
+     "3566",
+     "3566"
+    ],
+    "cumulative": "11944"
+   },
+   {
+    "section": "D.2",
+    "name": "Foreign Travel",
+    "periods": [
+     "0",
+     "0",
+     "0"
+    ],
+    "cumulative": "0"
+   },
+   {
+    "section": "E",
+    "name": "Participant/Trainee Support Costs",
+    "periods": [
+     "0",
+     "12600",
+     "0"
+    ],
+    "cumulative": "12600"
+   },
+   {
+    "section": "F",
+    "name": "Other Direct Costs",
+    "periods": [
+     "32500",
+     "35000",
+     "35000"
+    ],
+    "cumulative": "102500"
+   },
+   {
+    "section": "G",
+    "name": "Direct Costs (A thru F)",
+    "periods": [
+     "236914",
+     "207316",
+     "199401"
+    ],
+    "cumulative": "643631"
+   },
+   {
+    "section": "H",
+    "name": "Indirect Costs",
+    "periods": [
+     "87952",
+     "91144",
+     "93720"
+    ],
+    "cumulative": "272816"
+   },
+   {
+    "section": "I",
+    "name": "Total Direct and Indirect Costs (G + H)",
+    "periods": [
+     "324866",
+     "298460",
+     "293121"
+    ],
+    "cumulative": "916447"
+   },
+   {
+    "section": "J",
+    "name": "Fee",
+    "periods": [
+     "0",
+     "0",
+     "0"
+    ],
+    "cumulative": "0"
+   },
+   {
+    "section": "K",
+    "name": "Total Costs and Fee (I + J)",
+    "periods": [
+     "324866",
+     "298460",
+     "293121"
+    ],
+    "cumulative": "916447"
+   }
+  ],
+  "form_pin": {
+   "family": "R&R",
+   "form": "RR_Budget",
+   "version": "3.0",
+   "cover_form": "RR_SF424 5.0",
+   "omb": "4040-0001",
+   "expires": "2029-01-31",
+   "status": "checked-against-grants.gov-reference-pdf-2026-10-16",
+   "sources": [
+    "https://apply07.grants.gov/apply/forms/readonly/RR_Budget_3_0-V3.0.pdf",
+    "https://apply07.grants.gov/apply/forms/readonly/RR_SF424_5_0-V5.0.pdf",
+    "https://grants.gov/forms/forms-repository/r-r-family"
+   ],
+   "sha256": {
+    "RR_Budget_3_0-V3.0.pdf": "eadeb143226211b1d5ca5ceaa59dcd87f8e8bc192dc272dace40ebfc81be953d",
+    "RR_SF424_5_0-V5.0.pdf": "592a1faf1cfdac3e350a22c6fbae3b8c6f229b6c7de29ec18273b60c9235dd6b"
+   },
+   "recheck": "before 2029-01-31 expiry or on any Grants.gov R&R family change"
+  }
+ }
+}

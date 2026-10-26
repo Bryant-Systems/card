@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "source": [
+      "~/sprint-20261024/CAMPAIGN.md",
+      "~/sprint-20261024/lanes/run-lane.sh",
+      "git log of each lane tree"
+    ],
+    "fetched_at": "2026-10-24T11:02:07-04:00",
+    "generator": "conductor/CAMPAIGN.md 10:40 process change"
+  },
+  "host": {
+    "name": "Midas-Core",
+    "hardware": "NVIDIA DGX Spark (GB10)",
+    "role": "runs every agent, model and data pipeline below"
+  },
+  "conductor": {
+    "agent": "Claude Code",
+    "model": "Claude Opus 5.5",
+    "role": "plans, routes, reviews, merges and publishes"
+  },
+  "lanes": [
+    {
+      "lane": "C",
+      "product": "Proposa",
+      "work": "federal funding feed (Grants.gov, NIH RePORTER, NSF Awards, USAspending, Exa)",
+      "agent": "Claude Code",
+      "model": "Claude Fable 5.1",
+      "fallbacks": [
+        "Cursor",
+        "Codex",
+        "Claude API"
+      ],
+      "commit": "521f7b3"
+    },
+    {
+      "lane": "D",
+      "product": "Proposa",
+      "work": "dual-anonymous metadata checker",
+      "agent": "Codex (failover from Cursor)",
+      "model": "gpt-6-astra",
+      "fallbacks": [
+        "Codex",
+        "Claude Code"
+      ],
+      "commit": "2c54811"
+    },
+    {
+      "lane": "U",
+      "product": "Investor demo",
+      "work": "Proposa and ARCH-IE demo pages",
+      "agent": "Claude Code",
+      "model": "Claude Fable 5.1",
+      "fallbacks": [
+        "Codex",
+        "Claude API"
+      ],
+      "commit": "6f6dfed"
+    },
+    {
+      "lane": "A",
+      "product": "ARCH-IE 4.0",
+      "work": "release gates and acceptance",
+      "agent": "Codex",
+      "model": "gpt-6-astra",
+      "fallbacks": [
+        "Claude Code",
+        "Codex API"
+      ],
+      "commit": "f223d4cb"
+    },
+    {
+      "lane": "R",
+      "product": "All",
+      "work": "cross-vendor review of every commit and data file",
+      "agent": "Cursor agent",
+      "model": "Cursor default",
+      "fallbacks": [
+        "Codex",
+        "Claude Code"
+      ],
+      "commit": null
+    }
+  ],
+  "review": [
+    {
+      "agent": "Grok Bot GB-01",
+      "model": "Grok",
+      "role": "independent red-team and rollups (investor, PI and pre-award personas)"
+    }
+  ],
+  "local_models": [
+    "Llama 3.3 70B",
+    "Qwen 2.5 72B",
+    "Qwen2.5-Coder 32B",
+    "Qwen2.5-VL 7B",
+    "bge-m3",
+    "embeddinggemma"
+  ]
+}

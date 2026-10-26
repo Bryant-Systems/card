@@ -1,0 +1,519 @@
+{
+  "meta": {
+    "source": [
+      "evidence/v4-integration/combined-submitted-20261022/report.json",
+      "evidence/v4-integration/combined-submitted-20261022/provenance.json",
+      "evidence/v4-integration/sprint-20261024/baseline/report.json",
+      "evidence/v4-integration/sprint-20261024/candidate/report.json",
+      "evidence/v4-integration/sprint-20261024/recovery.json",
+      "evidence/v4-integration/sprint-20261024/manifest.json",
+      "docs/V4_COMBINED_BASELINE_REVIEW.md"
+    ],
+    "fetched_at": "2026-10-24T15:33:51.891457+00:00",
+    "generator": "U/8f2bc55",
+    "generator_basis": "Demo commit containing tools/make_archie_evidence.py",
+    "source_repository": "ARCH-IE-Forge-v4-integration",
+    "scope": "Copies of recorded test evidence, not a new test run or human product acceptance. Report inspection status is preserved; separate review records are included.",
+    "hash_basis": "source_sha256 hashes the UTF-8 bytes of source_text; report is its parsed JSON where applicable."
+  },
+  "records": [
+    {
+      "id": "original",
+      "source_path": "evidence/v4-integration/combined-submitted-20261022/report.json",
+      "source_sha256": "be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc",
+      "media_type": "application/json",
+      "source_text": "{\n  \"scope\": \"Real isolated HTTP, deterministic executor, and Chromium; no live service or provider\",\n  \"checks\": [\n    {\n      \"name\": \"Project creation retry returns the same record\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"UI assigned a real local task\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Existing executor wrote verified artifact and receipt\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Portfolio view position survives workspace round trip\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"UI distinguishes execution verification from human review\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Actual isolated server restart preserves evidence\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Recorded conversation survives actual server restart\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Project selection survives reload/restart\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Client completion claim rejected\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Invalid credential denied\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Narrow viewport has no page overflow\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Reduced motion removes folding panes\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Corrupt artifact cannot retain verified success\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Accepted context marks prior run stale\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"No browser script errors\",\n      \"passed\": true\n    }\n  ],\n  \"screenshots\": [\n    \"01-denied.png\",\n    \"02-proposa-grid.png\",\n    \"03-execution-verified.png\",\n    \"04-registered-worker.png\",\n    \"05-narrow-grid.png\",\n    \"06-narrow-reduced-motion.png\"\n  ],\n  \"rendered_inspection\": \"PENDING: inspect the saved captures separately\",\n  \"browser_errors\": [],\n  \"status\": \"CHECKS_PASSED_INSPECTION_PENDING\"\n}\n",
+      "report": {
+        "scope": "Real isolated HTTP, deterministic executor, and Chromium; no live service or provider",
+        "checks": [
+          {
+            "name": "Project creation retry returns the same record",
+            "passed": true
+          },
+          {
+            "name": "UI assigned a real local task",
+            "passed": true
+          },
+          {
+            "name": "Existing executor wrote verified artifact and receipt",
+            "passed": true
+          },
+          {
+            "name": "Portfolio view position survives workspace round trip",
+            "passed": true
+          },
+          {
+            "name": "UI distinguishes execution verification from human review",
+            "passed": true
+          },
+          {
+            "name": "Actual isolated server restart preserves evidence",
+            "passed": true
+          },
+          {
+            "name": "Recorded conversation survives actual server restart",
+            "passed": true
+          },
+          {
+            "name": "Project selection survives reload/restart",
+            "passed": true
+          },
+          {
+            "name": "Client completion claim rejected",
+            "passed": true
+          },
+          {
+            "name": "Invalid credential denied",
+            "passed": true
+          },
+          {
+            "name": "Narrow viewport has no page overflow",
+            "passed": true
+          },
+          {
+            "name": "Reduced motion removes folding panes",
+            "passed": true
+          },
+          {
+            "name": "Corrupt artifact cannot retain verified success",
+            "passed": true
+          },
+          {
+            "name": "Accepted context marks prior run stale",
+            "passed": true
+          },
+          {
+            "name": "No browser script errors",
+            "passed": true
+          }
+        ],
+        "screenshots": [
+          "01-denied.png",
+          "02-proposa-grid.png",
+          "03-execution-verified.png",
+          "04-registered-worker.png",
+          "05-narrow-grid.png",
+          "06-narrow-reduced-motion.png"
+        ],
+        "rendered_inspection": "PENDING: inspect the saved captures separately",
+        "browser_errors": [],
+        "status": "CHECKS_PASSED_INSPECTION_PENDING"
+      }
+    },
+    {
+      "id": "original-provenance",
+      "source_path": "evidence/v4-integration/combined-submitted-20261022/provenance.json",
+      "source_sha256": "ed83d7c24015d0f5686cc4f6f2ad97f1acb813580b94fa55c331b496a19a658b",
+      "media_type": "application/json",
+      "source_text": "{\n  \"submitted_by\": \"Claude session 1\",\n  \"baseline_from_submission\": \"6b3da9f7\",\n  \"source_directory\": \"/home/midas-core/archie-v4-planning/v4-combined-acceptance-20261022\",\n  \"copied_byte_identically\": [\n    {\n      \"file\": \"01-denied.png\",\n      \"sha256\": \"e2cc60effd00807ffaf24c68789b7337b84e3d869b02254b5a5357e540a58200\"\n    },\n    {\n      \"file\": \"02-proposa-grid.png\",\n      \"sha256\": \"5c40f4922aad4907b9daf8f6b552b24eea7df24adb8b5e5f8a817d9b2944c9ee\"\n    },\n    {\n      \"file\": \"03-execution-verified.png\",\n      \"sha256\": \"c2df67a768ffa71ff77da28340fe27f60c1442134935c675add15dcbc836fec2\"\n    },\n    {\n      \"file\": \"04-registered-worker.png\",\n      \"sha256\": \"027cbc7c3b105d8c15c9040669da952d30745cf8f017b60f85016646fc15949e\"\n    },\n    {\n      \"file\": \"05-narrow-grid.png\",\n      \"sha256\": \"6e230da703c84ad7eff648b2b879ecb5eab406ea92bf8410ea3fd7e9290c92a4\"\n    },\n    {\n      \"file\": \"06-narrow-reduced-motion.png\",\n      \"sha256\": \"67b578d03a3811ba800ee136e77c9b3c3d62d40fe7c87b1ef64398feb50b6341\"\n    },\n    {\n      \"file\": \"report.json\",\n      \"sha256\": \"be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc\"\n    }\n  ],\n  \"independent_codex_execution\": false,\n  \"codex_rendered_review\": \"All six captures opened and inspected; see docs/V4_COMBINED_BASELINE_REVIEW.md\"\n}\n",
+      "report": {
+        "submitted_by": "Claude session 1",
+        "baseline_from_submission": "6b3da9f7",
+        "source_directory": "/home/midas-core/archie-v4-planning/v4-combined-acceptance-20261022",
+        "copied_byte_identically": [
+          {
+            "file": "01-denied.png",
+            "sha256": "e2cc60effd00807ffaf24c68789b7337b84e3d869b02254b5a5357e540a58200"
+          },
+          {
+            "file": "02-proposa-grid.png",
+            "sha256": "5c40f4922aad4907b9daf8f6b552b24eea7df24adb8b5e5f8a817d9b2944c9ee"
+          },
+          {
+            "file": "03-execution-verified.png",
+            "sha256": "c2df67a768ffa71ff77da28340fe27f60c1442134935c675add15dcbc836fec2"
+          },
+          {
+            "file": "04-registered-worker.png",
+            "sha256": "027cbc7c3b105d8c15c9040669da952d30745cf8f017b60f85016646fc15949e"
+          },
+          {
+            "file": "05-narrow-grid.png",
+            "sha256": "6e230da703c84ad7eff648b2b879ecb5eab406ea92bf8410ea3fd7e9290c92a4"
+          },
+          {
+            "file": "06-narrow-reduced-motion.png",
+            "sha256": "67b578d03a3811ba800ee136e77c9b3c3d62d40fe7c87b1ef64398feb50b6341"
+          },
+          {
+            "file": "report.json",
+            "sha256": "be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc"
+          }
+        ],
+        "independent_codex_execution": false,
+        "codex_rendered_review": "All six captures opened and inspected; see docs/V4_COMBINED_BASELINE_REVIEW.md"
+      }
+    },
+    {
+      "id": "baseline-rerun",
+      "source_path": "evidence/v4-integration/sprint-20261024/baseline/report.json",
+      "source_sha256": "be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc",
+      "media_type": "application/json",
+      "source_text": "{\n  \"scope\": \"Real isolated HTTP, deterministic executor, and Chromium; no live service or provider\",\n  \"checks\": [\n    {\n      \"name\": \"Project creation retry returns the same record\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"UI assigned a real local task\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Existing executor wrote verified artifact and receipt\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Portfolio view position survives workspace round trip\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"UI distinguishes execution verification from human review\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Actual isolated server restart preserves evidence\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Recorded conversation survives actual server restart\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Project selection survives reload/restart\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Client completion claim rejected\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Invalid credential denied\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Narrow viewport has no page overflow\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Reduced motion removes folding panes\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Corrupt artifact cannot retain verified success\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Accepted context marks prior run stale\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"No browser script errors\",\n      \"passed\": true\n    }\n  ],\n  \"screenshots\": [\n    \"01-denied.png\",\n    \"02-proposa-grid.png\",\n    \"03-execution-verified.png\",\n    \"04-registered-worker.png\",\n    \"05-narrow-grid.png\",\n    \"06-narrow-reduced-motion.png\"\n  ],\n  \"rendered_inspection\": \"PENDING: inspect the saved captures separately\",\n  \"browser_errors\": [],\n  \"status\": \"CHECKS_PASSED_INSPECTION_PENDING\"\n}\n",
+      "report": {
+        "scope": "Real isolated HTTP, deterministic executor, and Chromium; no live service or provider",
+        "checks": [
+          {
+            "name": "Project creation retry returns the same record",
+            "passed": true
+          },
+          {
+            "name": "UI assigned a real local task",
+            "passed": true
+          },
+          {
+            "name": "Existing executor wrote verified artifact and receipt",
+            "passed": true
+          },
+          {
+            "name": "Portfolio view position survives workspace round trip",
+            "passed": true
+          },
+          {
+            "name": "UI distinguishes execution verification from human review",
+            "passed": true
+          },
+          {
+            "name": "Actual isolated server restart preserves evidence",
+            "passed": true
+          },
+          {
+            "name": "Recorded conversation survives actual server restart",
+            "passed": true
+          },
+          {
+            "name": "Project selection survives reload/restart",
+            "passed": true
+          },
+          {
+            "name": "Client completion claim rejected",
+            "passed": true
+          },
+          {
+            "name": "Invalid credential denied",
+            "passed": true
+          },
+          {
+            "name": "Narrow viewport has no page overflow",
+            "passed": true
+          },
+          {
+            "name": "Reduced motion removes folding panes",
+            "passed": true
+          },
+          {
+            "name": "Corrupt artifact cannot retain verified success",
+            "passed": true
+          },
+          {
+            "name": "Accepted context marks prior run stale",
+            "passed": true
+          },
+          {
+            "name": "No browser script errors",
+            "passed": true
+          }
+        ],
+        "screenshots": [
+          "01-denied.png",
+          "02-proposa-grid.png",
+          "03-execution-verified.png",
+          "04-registered-worker.png",
+          "05-narrow-grid.png",
+          "06-narrow-reduced-motion.png"
+        ],
+        "rendered_inspection": "PENDING: inspect the saved captures separately",
+        "browser_errors": [],
+        "status": "CHECKS_PASSED_INSPECTION_PENDING"
+      }
+    },
+    {
+      "id": "candidate-rerun",
+      "source_path": "evidence/v4-integration/sprint-20261024/candidate/report.json",
+      "source_sha256": "be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc",
+      "media_type": "application/json",
+      "source_text": "{\n  \"scope\": \"Real isolated HTTP, deterministic executor, and Chromium; no live service or provider\",\n  \"checks\": [\n    {\n      \"name\": \"Project creation retry returns the same record\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"UI assigned a real local task\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Existing executor wrote verified artifact and receipt\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Portfolio view position survives workspace round trip\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"UI distinguishes execution verification from human review\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Actual isolated server restart preserves evidence\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Recorded conversation survives actual server restart\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Project selection survives reload/restart\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Client completion claim rejected\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Invalid credential denied\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Narrow viewport has no page overflow\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Reduced motion removes folding panes\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Corrupt artifact cannot retain verified success\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"Accepted context marks prior run stale\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"No browser script errors\",\n      \"passed\": true\n    }\n  ],\n  \"screenshots\": [\n    \"01-denied.png\",\n    \"02-proposa-grid.png\",\n    \"03-execution-verified.png\",\n    \"04-registered-worker.png\",\n    \"05-narrow-grid.png\",\n    \"06-narrow-reduced-motion.png\"\n  ],\n  \"rendered_inspection\": \"PENDING: inspect the saved captures separately\",\n  \"browser_errors\": [],\n  \"status\": \"CHECKS_PASSED_INSPECTION_PENDING\"\n}\n",
+      "report": {
+        "scope": "Real isolated HTTP, deterministic executor, and Chromium; no live service or provider",
+        "checks": [
+          {
+            "name": "Project creation retry returns the same record",
+            "passed": true
+          },
+          {
+            "name": "UI assigned a real local task",
+            "passed": true
+          },
+          {
+            "name": "Existing executor wrote verified artifact and receipt",
+            "passed": true
+          },
+          {
+            "name": "Portfolio view position survives workspace round trip",
+            "passed": true
+          },
+          {
+            "name": "UI distinguishes execution verification from human review",
+            "passed": true
+          },
+          {
+            "name": "Actual isolated server restart preserves evidence",
+            "passed": true
+          },
+          {
+            "name": "Recorded conversation survives actual server restart",
+            "passed": true
+          },
+          {
+            "name": "Project selection survives reload/restart",
+            "passed": true
+          },
+          {
+            "name": "Client completion claim rejected",
+            "passed": true
+          },
+          {
+            "name": "Invalid credential denied",
+            "passed": true
+          },
+          {
+            "name": "Narrow viewport has no page overflow",
+            "passed": true
+          },
+          {
+            "name": "Reduced motion removes folding panes",
+            "passed": true
+          },
+          {
+            "name": "Corrupt artifact cannot retain verified success",
+            "passed": true
+          },
+          {
+            "name": "Accepted context marks prior run stale",
+            "passed": true
+          },
+          {
+            "name": "No browser script errors",
+            "passed": true
+          }
+        ],
+        "screenshots": [
+          "01-denied.png",
+          "02-proposa-grid.png",
+          "03-execution-verified.png",
+          "04-registered-worker.png",
+          "05-narrow-grid.png",
+          "06-narrow-reduced-motion.png"
+        ],
+        "rendered_inspection": "PENDING: inspect the saved captures separately",
+        "browser_errors": [],
+        "status": "CHECKS_PASSED_INSPECTION_PENDING"
+      }
+    },
+    {
+      "id": "recovery",
+      "source_path": "evidence/v4-integration/sprint-20261024/recovery.json",
+      "source_sha256": "ab7386dfe4293f31b03bd83f88765dd9a86b9e3443bb801d23291d16cda55efa",
+      "media_type": "application/json",
+      "source_text": "{\n  \"scope\": \"Synthetic DOM/transport behavioral checks; not browser or execution evidence\",\n  \"frontend_root\": \"/tmp/forge-lane-a-20261024-sRnNAh/candidate\",\n  \"checks\": [\n    {\n      \"name\": \"Remembered session beyond first page remains available\",\n      \"passed\": false,\n      \"observed\": {\n        \"requests\": [\n          0\n        ],\n        \"remembered\": null,\n        \"page_two_visible\": false\n      }\n    },\n    {\n      \"name\": \"Transcript includes a recorded message beyond first page\",\n      \"passed\": false,\n      \"observed\": {\n        \"requests\": [\n          0\n        ],\n        \"latest_visible\": false\n      }\n    },\n    {\n      \"name\": \"Identical creation retry ignores subsequent edits and retains key\",\n      \"passed\": false,\n      \"observed\": {\n        \"requests\": [\n          \"Original request\",\n          \"Edited after uncertain response\"\n        ],\n        \"same_key\": false\n      }\n    },\n    {\n      \"name\": \"Late session A response cannot replace selected B transcript\",\n      \"passed\": false,\n      \"observed\": {\n        \"selected\": \"session-b\",\n        \"before\": \"user \u00b7  \u00b7 recorded by fixture (reported, not verified)session-B-content\",\n        \"after\": \"user \u00b7  \u00b7 recorded by fixture (reported, not verified)session-A-content\"\n      }\n    }\n  ],\n  \"passed\": false\n}\n",
+      "report": {
+        "scope": "Synthetic DOM/transport behavioral checks; not browser or execution evidence",
+        "frontend_root": "/tmp/forge-lane-a-20261024-sRnNAh/candidate",
+        "checks": [
+          {
+            "name": "Remembered session beyond first page remains available",
+            "passed": false,
+            "observed": {
+              "requests": [
+                0
+              ],
+              "remembered": null,
+              "page_two_visible": false
+            }
+          },
+          {
+            "name": "Transcript includes a recorded message beyond first page",
+            "passed": false,
+            "observed": {
+              "requests": [
+                0
+              ],
+              "latest_visible": false
+            }
+          },
+          {
+            "name": "Identical creation retry ignores subsequent edits and retains key",
+            "passed": false,
+            "observed": {
+              "requests": [
+                "Original request",
+                "Edited after uncertain response"
+              ],
+              "same_key": false
+            }
+          },
+          {
+            "name": "Late session A response cannot replace selected B transcript",
+            "passed": false,
+            "observed": {
+              "selected": "session-b",
+              "before": "user \u00b7  \u00b7 recorded by fixture (reported, not verified)session-B-content",
+              "after": "user \u00b7  \u00b7 recorded by fixture (reported, not verified)session-A-content"
+            }
+          }
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "rerun-manifest",
+      "source_path": "evidence/v4-integration/sprint-20261024/manifest.json",
+      "source_sha256": "e488006bd0cb3ab4baa265444c6724f4d97a8709eca3f347907ac9c5b574273b",
+      "media_type": "application/json",
+      "source_text": "{\n  \"schema\": \"forge.sprint.gate-review.v1\",\n  \"recorded_at\": \"2026-10-24T13:10:49.093329+00:00\",\n  \"reviewer\": \"Codex Lane A (automated agent; not human product acceptance)\",\n  \"integration_parent\": \"27c5e18798661237c0864b07f74be9de60a59cca\",\n  \"tested_baseline\": {\n    \"commit\": \"aa676d789637d242413a4ff34eb2cf8231c56fba\",\n    \"tree\": \"882e0197e61d843eba4dd4cb84736a245d1f8a46\"\n  },\n  \"candidate\": {\n    \"base\": \"27c5e18798661237c0864b07f74be9de60a59cca\",\n    \"applied_commit\": \"427420ebee3b00a1e25d3fdf1dc7265cb2ba1030\",\n    \"method\": \"git cherry-pick --no-commit in disposable clone\",\n    \"index_tree\": \"f07e1c7e711bfac7e36e2193d4481cacd6399e07\",\n    \"adopted\": false\n  },\n  \"production_and_scripts_unchanged_from_parent\": true,\n  \"runs\": [\n    {\n      \"source\": \"baseline\",\n      \"command\": \"python -B -m scripts.v4_combined_acceptance\",\n      \"exit_code\": 0,\n      \"report\": \"baseline/report.json\"\n    },\n    {\n      \"source\": \"candidate\",\n      \"command\": \"python -B -m scripts.v4_combined_acceptance\",\n      \"exit_code\": 0,\n      \"report\": \"candidate/report.json\"\n    },\n    {\n      \"source\": \"candidate\",\n      \"command\": \"node scripts/check_v4_recovery.mjs . recovery.json\",\n      \"exit_code\": 1,\n      \"report\": \"recovery.json\"\n    },\n    {\n      \"source\": \"baseline\",\n      \"command\": \"node scripts/check_v4_client.mjs\",\n      \"exit_code\": 0,\n      \"report\": \"baseline/client-contract.json\"\n    },\n    {\n      \"source\": \"candidate\",\n      \"command\": \"node scripts/check_v4_client.mjs\",\n      \"exit_code\": 0,\n      \"report\": \"candidate/client-contract.json\"\n    },\n    {\n      \"source\": \"baseline\",\n      \"command\": \"python -B -m pytest -q\",\n      \"exit_code\": 0,\n      \"output\": \"pytest-final.txt\"\n    },\n    {\n      \"source\": \"baseline\",\n      \"command\": \"ruff check forge scripts tests\",\n      \"exit_code\": 0,\n      \"output\": \"ruff-check.txt\"\n    },\n    {\n      \"source\": \"baseline\",\n      \"command\": \"ruff format --check forge scripts tests\",\n      \"exit_code\": 0,\n      \"output\": \"ruff-format.txt\"\n    }\n  ],\n  \"initial_full_suite\": {\n    \"source\": \"27c5e18798661237c0864b07f74be9de60a59cca\",\n    \"exit_code\": 1,\n    \"passed\": 144,\n    \"failed\": 1,\n    \"failure\": \"tests/test_forge.py::test_resume_only_observes_known_job_and_never_resubmits: KeyError 'assignment'\",\n    \"evidence_limit\": \"Summary of directly observed test output; initial raw stdout was not retained as a file.\"\n  },\n  \"python_environment\": \"/home/midas-core/ARCH-IE-Forge-Launch-Kit/.venv/bin/python (used read-only)\",\n  \"rendered_inspection\": {\n    \"baseline\": \"All six saved PNGs opened and inspected\",\n    \"candidate\": \"All six saved PNGs opened and inspected\",\n    \"decision\": \"docs/V4_PHASE1_GATE_DECISION_20261024.md\"\n  },\n  \"source_sha256\": {\n    \"baseline\": {\n      \"scripts/v4_combined_acceptance.py\": \"d9a454cb9851acff68bf8148b0fa5b0f0190f992f91db45bea75aac800dd8110\",\n      \"scripts/check_v4_client.mjs\": \"6e3aa24f63dfc86ec4c413f75979668a0738ebcfa2baab55bce16751c112a3ce\",\n      \"scripts/check_v4_recovery.mjs\": \"e58bdd58fefa2aa213a0eb7fddbdd9e2fe4d496bfb06781b470e5c30c0f81fb0\",\n      \"tests/test_forge.py\": \"dcebe17b4f8b8a575273298b6d3fa989f7f70584a7753c7ca2263bfd71674605\",\n      \"forge/static/v4/js/api.js\": \"89238bd4bafcd135a538e5a864f3436e887f73b8dcd646c6c87573ce7541f420\",\n      \"forge/static/v4/js/botnet.js\": \"b05e792f214ad4f569df0ad3e7619e189f40cfc64566cf34ede8b82aed413098\",\n      \"forge/static/v4/js/devgrid.js\": \"44a769a58bef9f603d97b9eaeea175be12c277643865309a401ff31a3bca72d3\",\n      \"forge/static/v4/js/fixtures.js\": \"2edc495f6d1f6b84c2083e5345d952a001822e71cecc7217934b1d5e8e4c363d\",\n      \"forge/static/v4/js/main.js\": \"a4cf746542150244540b1adc6cef9c8cef8dd86f8b5972baafbf689375f58c70\",\n      \"forge/static/v4/js/opsdesk.js\": \"7d8c4e8e037be02432c035a9f300bc53c3fb778cfabe228cafa6b3103dc17073\",\n      \"forge/static/v4/js/state.js\": \"f2ec2bc49182c46f5e223317ff288fc2393c3547e4268838fb4a6e2de55ad544\",\n      \"forge/static/v4/js/terminal.js\": \"e05185428c666b5dc2dee39dddf7793715092c4471419c13908499d258c8e7d2\",\n      \"forge/static/v4/js/ui.js\": \"6b8966766b5a053f61d9d326ffa6c78fbbb12b902b5d923739fdcb51779e6504\"\n    },\n    \"candidate\": {\n      \"scripts/v4_combined_acceptance.py\": \"d9a454cb9851acff68bf8148b0fa5b0f0190f992f91db45bea75aac800dd8110\",\n      \"scripts/check_v4_client.mjs\": \"6e3aa24f63dfc86ec4c413f75979668a0738ebcfa2baab55bce16751c112a3ce\",\n      \"scripts/check_v4_recovery.mjs\": \"e58bdd58fefa2aa213a0eb7fddbdd9e2fe4d496bfb06781b470e5c30c0f81fb0\",\n      \"tests/test_forge.py\": \"b66fd53647ee69675403c9ca2d5a2cdd6ef75e7a4660166a8b46c100e7cf6ec6\",\n      \"forge/static/v4/js/api.js\": \"3841cfe9d29cef2310eb5619073865f548417d791b2ffc717cd6de626508005e\",\n      \"forge/static/v4/js/botnet.js\": \"b05e792f214ad4f569df0ad3e7619e189f40cfc64566cf34ede8b82aed413098\",\n      \"forge/static/v4/js/devgrid.js\": \"ae1acd348ce5a178ed560877a13640fee01791a875d552df729b5976d2386d57\",\n      \"forge/static/v4/js/fixtures.js\": \"2edc495f6d1f6b84c2083e5345d952a001822e71cecc7217934b1d5e8e4c363d\",\n      \"forge/static/v4/js/main.js\": \"dedcb91e30070e2d53634309b7a6862022e4cc2e50102aa71a8a54f2647dcd08\",\n      \"forge/static/v4/js/opsdesk.js\": \"d9359e8f6c5961d1922dc5556bd410ef2867a0e1f44a68f6778d63c8eec547a1\",\n      \"forge/static/v4/js/state.js\": \"60bed91550618e17a95d03ba808622dd44c34c64d5da335705d238326396a155\",\n      \"forge/static/v4/js/terminal.js\": \"8aea6ffe473e1221a26afc3183382bc673de5d7fd747159e9a9c6ce484ae429c\",\n      \"forge/static/v4/js/ui.js\": \"6b8966766b5a053f61d9d326ffa6c78fbbb12b902b5d923739fdcb51779e6504\"\n    }\n  },\n  \"evidence_sha256\": {\n    \"baseline/01-denied.png\": \"e2cc60effd00807ffaf24c68789b7337b84e3d869b02254b5a5357e540a58200\",\n    \"baseline/02-proposa-grid.png\": \"d07e9ae12689c9da06d8214f0833fdd43037688c2b319a9f10fcaf388073ac80\",\n    \"baseline/03-execution-verified.png\": \"662dd87b668904c02762255409430f8b7b763a14966840f2f3c9a97e87cdf8a2\",\n    \"baseline/04-registered-worker.png\": \"6678384839036440e6b8ee9a7ddc49cee6e0da2692ab82d2a12021195959f607\",\n    \"baseline/05-narrow-grid.png\": \"dc30ec0aecd8e23b88994e0ec3cd72a8793563c5016d102bd62637a189ef79d8\",\n    \"baseline/06-narrow-reduced-motion.png\": \"8b0b42f80e150ed9a344baec9f76b715f7cbf6ac13cb4a82097e9a26528ffda3\",\n    \"baseline/client-contract.json\": \"58a33234db8712d211cfcb1bc0dc39a9eb3d80352ccdc6c99d8c5e91b8dd1a90\",\n    \"baseline/report.json\": \"be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc\",\n    \"candidate/01-denied.png\": \"9f88cb3bdf361053e01d623e9a773d5c2b03e488563c2bd265f09c31b871cbc1\",\n    \"candidate/02-proposa-grid.png\": \"82effda507fb418e658b8c101503ce2ef82e0abd6c7089e194c777e674f754cd\",\n    \"candidate/03-execution-verified.png\": \"49594c24d67da4faab00ea6159bfcb1e0b6c06587fe3dde5cd813191e5ef2ea8\",\n    \"candidate/04-registered-worker.png\": \"1c83a306970306b0da497e08b405fb1da9f744946e793b34301a0a8b5d59f332\",\n    \"candidate/05-narrow-grid.png\": \"aee5ecbd2fa3e55d4e44464c1bcb44aefae58837a7ddfbb63bce5441fc76fa0d\",\n    \"candidate/06-narrow-reduced-motion.png\": \"13e4933453f20e40b2e6a509c95ca10dd30be6a90623c00a7422673be50f9056\",\n    \"candidate/client-contract.json\": \"58a33234db8712d211cfcb1bc0dc39a9eb3d80352ccdc6c99d8c5e91b8dd1a90\",\n    \"candidate/report.json\": \"be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc\",\n    \"pytest-final.txt\": \"c8355cff498f41e1879e12cdabd678547ab3b78aa8da1d9dd1beca0b400d7dd4\",\n    \"recovery.json\": \"ab7386dfe4293f31b03bd83f88765dd9a86b9e3443bb801d23291d16cda55efa\",\n    \"ruff-check.txt\": \"82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18\",\n    \"ruff-format.txt\": \"4cfce4314a68bfd72805ca6ee4c4477596a8626548f54945751eb6fcfa34f996\"\n  }\n}\n",
+      "report": {
+        "schema": "forge.sprint.gate-review.v1",
+        "recorded_at": "2026-10-24T13:10:49.093329+00:00",
+        "reviewer": "Codex Lane A (automated agent; not human product acceptance)",
+        "integration_parent": "27c5e18798661237c0864b07f74be9de60a59cca",
+        "tested_baseline": {
+          "commit": "aa676d789637d242413a4ff34eb2cf8231c56fba",
+          "tree": "882e0197e61d843eba4dd4cb84736a245d1f8a46"
+        },
+        "candidate": {
+          "base": "27c5e18798661237c0864b07f74be9de60a59cca",
+          "applied_commit": "427420ebee3b00a1e25d3fdf1dc7265cb2ba1030",
+          "method": "git cherry-pick --no-commit in disposable clone",
+          "index_tree": "f07e1c7e711bfac7e36e2193d4481cacd6399e07",
+          "adopted": false
+        },
+        "production_and_scripts_unchanged_from_parent": true,
+        "runs": [
+          {
+            "source": "baseline",
+            "command": "python -B -m scripts.v4_combined_acceptance",
+            "exit_code": 0,
+            "report": "baseline/report.json"
+          },
+          {
+            "source": "candidate",
+            "command": "python -B -m scripts.v4_combined_acceptance",
+            "exit_code": 0,
+            "report": "candidate/report.json"
+          },
+          {
+            "source": "candidate",
+            "command": "node scripts/check_v4_recovery.mjs . recovery.json",
+            "exit_code": 1,
+            "report": "recovery.json"
+          },
+          {
+            "source": "baseline",
+            "command": "node scripts/check_v4_client.mjs",
+            "exit_code": 0,
+            "report": "baseline/client-contract.json"
+          },
+          {
+            "source": "candidate",
+            "command": "node scripts/check_v4_client.mjs",
+            "exit_code": 0,
+            "report": "candidate/client-contract.json"
+          },
+          {
+            "source": "baseline",
+            "command": "python -B -m pytest -q",
+            "exit_code": 0,
+            "output": "pytest-final.txt"
+          },
+          {
+            "source": "baseline",
+            "command": "ruff check forge scripts tests",
+            "exit_code": 0,
+            "output": "ruff-check.txt"
+          },
+          {
+            "source": "baseline",
+            "command": "ruff format --check forge scripts tests",
+            "exit_code": 0,
+            "output": "ruff-format.txt"
+          }
+        ],
+        "initial_full_suite": {
+          "source": "27c5e18798661237c0864b07f74be9de60a59cca",
+          "exit_code": 1,
+          "passed": 144,
+          "failed": 1,
+          "failure": "tests/test_forge.py::test_resume_only_observes_known_job_and_never_resubmits: KeyError 'assignment'",
+          "evidence_limit": "Summary of directly observed test output; initial raw stdout was not retained as a file."
+        },
+        "python_environment": "/home/midas-core/ARCH-IE-Forge-Launch-Kit/.venv/bin/python (used read-only)",
+        "rendered_inspection": {
+          "baseline": "All six saved PNGs opened and inspected",
+          "candidate": "All six saved PNGs opened and inspected",
+          "decision": "docs/V4_PHASE1_GATE_DECISION_20261024.md"
+        },
+        "source_sha256": {
+          "baseline": {
+            "scripts/v4_combined_acceptance.py": "d9a454cb9851acff68bf8148b0fa5b0f0190f992f91db45bea75aac800dd8110",
+            "scripts/check_v4_client.mjs": "6e3aa24f63dfc86ec4c413f75979668a0738ebcfa2baab55bce16751c112a3ce",
+            "scripts/check_v4_recovery.mjs": "e58bdd58fefa2aa213a0eb7fddbdd9e2fe4d496bfb06781b470e5c30c0f81fb0",
+            "tests/test_forge.py": "dcebe17b4f8b8a575273298b6d3fa989f7f70584a7753c7ca2263bfd71674605",
+            "forge/static/v4/js/api.js": "89238bd4bafcd135a538e5a864f3436e887f73b8dcd646c6c87573ce7541f420",
+            "forge/static/v4/js/botnet.js": "b05e792f214ad4f569df0ad3e7619e189f40cfc64566cf34ede8b82aed413098",
+            "forge/static/v4/js/devgrid.js": "44a769a58bef9f603d97b9eaeea175be12c277643865309a401ff31a3bca72d3",
+            "forge/static/v4/js/fixtures.js": "2edc495f6d1f6b84c2083e5345d952a001822e71cecc7217934b1d5e8e4c363d",
+            "forge/static/v4/js/main.js": "a4cf746542150244540b1adc6cef9c8cef8dd86f8b5972baafbf689375f58c70",
+            "forge/static/v4/js/opsdesk.js": "7d8c4e8e037be02432c035a9f300bc53c3fb778cfabe228cafa6b3103dc17073",
+            "forge/static/v4/js/state.js": "f2ec2bc49182c46f5e223317ff288fc2393c3547e4268838fb4a6e2de55ad544",
+            "forge/static/v4/js/terminal.js": "e05185428c666b5dc2dee39dddf7793715092c4471419c13908499d258c8e7d2",
+            "forge/static/v4/js/ui.js": "6b8966766b5a053f61d9d326ffa6c78fbbb12b902b5d923739fdcb51779e6504"
+          },
+          "candidate": {
+            "scripts/v4_combined_acceptance.py": "d9a454cb9851acff68bf8148b0fa5b0f0190f992f91db45bea75aac800dd8110",
+            "scripts/check_v4_client.mjs": "6e3aa24f63dfc86ec4c413f75979668a0738ebcfa2baab55bce16751c112a3ce",
+            "scripts/check_v4_recovery.mjs": "e58bdd58fefa2aa213a0eb7fddbdd9e2fe4d496bfb06781b470e5c30c0f81fb0",
+            "tests/test_forge.py": "b66fd53647ee69675403c9ca2d5a2cdd6ef75e7a4660166a8b46c100e7cf6ec6",
+            "forge/static/v4/js/api.js": "3841cfe9d29cef2310eb5619073865f548417d791b2ffc717cd6de626508005e",
+            "forge/static/v4/js/botnet.js": "b05e792f214ad4f569df0ad3e7619e189f40cfc64566cf34ede8b82aed413098",
+            "forge/static/v4/js/devgrid.js": "ae1acd348ce5a178ed560877a13640fee01791a875d552df729b5976d2386d57",
+            "forge/static/v4/js/fixtures.js": "2edc495f6d1f6b84c2083e5345d952a001822e71cecc7217934b1d5e8e4c363d",
+            "forge/static/v4/js/main.js": "dedcb91e30070e2d53634309b7a6862022e4cc2e50102aa71a8a54f2647dcd08",
+            "forge/static/v4/js/opsdesk.js": "d9359e8f6c5961d1922dc5556bd410ef2867a0e1f44a68f6778d63c8eec547a1",
+            "forge/static/v4/js/state.js": "60bed91550618e17a95d03ba808622dd44c34c64d5da335705d238326396a155",
+            "forge/static/v4/js/terminal.js": "8aea6ffe473e1221a26afc3183382bc673de5d7fd747159e9a9c6ce484ae429c",
+            "forge/static/v4/js/ui.js": "6b8966766b5a053f61d9d326ffa6c78fbbb12b902b5d923739fdcb51779e6504"
+          }
+        },
+        "evidence_sha256": {
+          "baseline/01-denied.png": "e2cc60effd00807ffaf24c68789b7337b84e3d869b02254b5a5357e540a58200",
+          "baseline/02-proposa-grid.png": "d07e9ae12689c9da06d8214f0833fdd43037688c2b319a9f10fcaf388073ac80",
+          "baseline/03-execution-verified.png": "662dd87b668904c02762255409430f8b7b763a14966840f2f3c9a97e87cdf8a2",
+          "baseline/04-registered-worker.png": "6678384839036440e6b8ee9a7ddc49cee6e0da2692ab82d2a12021195959f607",
+          "baseline/05-narrow-grid.png": "dc30ec0aecd8e23b88994e0ec3cd72a8793563c5016d102bd62637a189ef79d8",
+          "baseline/06-narrow-reduced-motion.png": "8b0b42f80e150ed9a344baec9f76b715f7cbf6ac13cb4a82097e9a26528ffda3",
+          "baseline/client-contract.json": "58a33234db8712d211cfcb1bc0dc39a9eb3d80352ccdc6c99d8c5e91b8dd1a90",
+          "baseline/report.json": "be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc",
+          "candidate/01-denied.png": "9f88cb3bdf361053e01d623e9a773d5c2b03e488563c2bd265f09c31b871cbc1",
+          "candidate/02-proposa-grid.png": "82effda507fb418e658b8c101503ce2ef82e0abd6c7089e194c777e674f754cd",
+          "candidate/03-execution-verified.png": "49594c24d67da4faab00ea6159bfcb1e0b6c06587fe3dde5cd813191e5ef2ea8",
+          "candidate/04-registered-worker.png": "1c83a306970306b0da497e08b405fb1da9f744946e793b34301a0a8b5d59f332",
+          "candidate/05-narrow-grid.png": "aee5ecbd2fa3e55d4e44464c1bcb44aefae58837a7ddfbb63bce5441fc76fa0d",
+          "candidate/06-narrow-reduced-motion.png": "13e4933453f20e40b2e6a509c95ca10dd30be6a90623c00a7422673be50f9056",
+          "candidate/client-contract.json": "58a33234db8712d211cfcb1bc0dc39a9eb3d80352ccdc6c99d8c5e91b8dd1a90",
+          "candidate/report.json": "be6ebafc26d75fe10e7882ca7d9f5e3371ea2ebee6313f368f2f83e9ebcba9fc",
+          "pytest-final.txt": "c8355cff498f41e1879e12cdabd678547ab3b78aa8da1d9dd1beca0b400d7dd4",
+          "recovery.json": "ab7386dfe4293f31b03bd83f88765dd9a86b9e3443bb801d23291d16cda55efa",
+          "ruff-check.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+          "ruff-format.txt": "4cfce4314a68bfd72805ca6ee4c4477596a8626548f54945751eb6fcfa34f996"
+        }
+      }
+    },
+    {
+      "id": "capture-review",
+      "source_path": "docs/V4_COMBINED_BASELINE_REVIEW.md",
+      "source_sha256": "377006997fdbc2f7bae959ebd43c25d10b8267e6f4bfdb5625d6ea7bb29701bb",
+      "media_type": "text/markdown",
+      "source_text": "# Combined baseline review\n\nReviewed submitted evidence for integration `6b3da9f7`, including frontend\ncorrection 2 (`0dcb783d`). Claude session 1 reports running the unchanged Codex\nharness in a disposable checkout with isolated data and loopback access. Codex\ncopied all seven evidence files byte-identically and inspected all six PNGs.\nOriginal report status remains unchanged; this document records the separate\nreview. Evidence and source hashes are in\n`evidence/v4-integration/combined-submitted-20261022/`.\n\n## Decision\n\nThe 15-check combined foundation harness gate is satisfied for this submitted\nbaseline, with Codex rendered inspection. This is accepted submitted execution\nevidence, not a claim that Codex independently ran a browser in its restricted\nsandbox. It is not full product/release acceptance or approval of the unmerged\nProposa adoption `427420eb`.\n\n## Rendered inspection\n\n- `01-denied`: explicit 401 and denied project list; no fabricated connection.\n- `02-proposa-grid`: selected persisted Proposa record, actual project source,\n  revision, and workspace navigation; test goal states isolated fixture.\n- `03-execution-verified`: three succeeded tasks and one receipt; execution\n  verified and human review pending appear separately, with frozen input and\n  artifact/receipt references. Assignment controls fit.\n- `04-registered-worker`: the deterministic worker is local and the chief is\n  unconfigured; no implied provider connection.\n- `05-narrow-grid`: all four destinations remain visible; inspector and actions\n  fit. Map labels are small at this zoom, so the selected-record inspector remains\n  important. The selected design's list projection is still future frontend work.\n- `06-narrow-reduced-motion`: visible navigation, project and recorded session;\n  no folding panes obscure content. Motion removal itself is a harness assertion,\n  not something a still screenshot alone proves.\n\nThe report records 15 passing assertions, including real assignment/verification,\nportfolio-position restoration, actual child-server restart persistence,\n401/422 rejection, corruption rejection, accepted-context staleness, narrow\noverflow and reduced-motion checks, and no browser errors.\n\n## Remaining work\n\nSession 1 must first correct the four findings in `V4_PROPOSA_REVIEW.md`, with\nthe offline recovery regressions and submitted browser fault/reconciliation\nevidence. Only then integrate `427420eb` plus its corrections and rerun combined\nacceptance against the new exact HEAD. Session 2 still owns the contrast and\npermission-record handoff corrections; no design implementation is accepted yet.\nNo shared-contract change, deployment, live-service restart or paid API use.\n"
+    }
+  ]
+}

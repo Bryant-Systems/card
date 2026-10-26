@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "source": [
+      "evidence/v4-integration/combined-submitted-20261022/report.json",
+      "evidence/v4-integration/combined-submitted-20261022/provenance.json",
+      "docs/V4_COMBINED_BASELINE_REVIEW.md",
+      "evidence/v4-integration/sprint-20261024/manifest.json",
+      "evidence/v4-integration/sprint-20261024/recovery.json",
+      "docs/V4_PHASE1_GATE_DECISION_20261024.md",
+      "docs/V4_PROPOSA_WITHHOLD_PLAIN_LANGUAGE_20261024.md",
+      "docs/V4_PROPOSA_REVIEW.md",
+      "docs/V4_FOUNDATION_CONTRACT.md",
+      "README.md"
+    ],
+    "fetched_at": "2026-10-24T11:04:58-04:00",
+    "generator": "A/38dfdb6d",
+    "repo": "~/ARCH-IE-Forge-v4-integration",
+    "branch": "sprint/lane-a-gates",
+    "path_note": "Every path in this file is relative to the repo root above unless it starts with ~/. The 2026-10-22 report and captures were copied byte-identically from ~/archie-v4-planning/v4-combined-acceptance-20261022/ into evidence/v4-integration/combined-submitted-20261022/ (sha256 list in provenance.json)."
+  },
+  "what_it_is": "ARCH-IE 4.0 is the backend and browser workspace that runs Bryant Systems' software agents. It dispatches tasks to registered workers, records each result as an artifact with a receipt, verifies that result by hash before showing it as succeeded, enforces permission decisions on the server, and keeps projects, sessions and evidence intact across a server restart. Its screen-to-server contract is frozen at revision forge.workspace.v1+v4-foundation.4. Proposa, the grant-proposal product, is the first product packet built on that contract.",
+  "what_it_is_source": [
+    "README.md",
+    "docs/V4_FOUNDATION_CONTRACT.md",
+    "docs/V4_PROPOSA_PACKET.md"
+  ],
+  "acceptance": {
+    "date": "2026-10-22",
+    "checks_passed": 15,
+    "checks_total": 15,
+    "report_path": "evidence/v4-integration/combined-submitted-20261022/report.json",
+    "report_status": "CHECKS_PASSED_INSPECTION_PENDING",
+    "browser_errors": 0,
+    "tested_commit": "6b3da9f7",
+    "harness": "scripts/v4_combined_acceptance.py",
+    "scope": "Real isolated HTTP, deterministic executor, and Chromium; no live service or provider",
+    "executed_by": "Claude session 1, from a disposable detached checkout of 6b3da9f7 (evidence/v4-integration/combined-submitted-20261022/SUBMISSION.md)",
+    "inspected_by": "Codex: all six captures opened and inspected (docs/V4_COMBINED_BASELINE_REVIEW.md)",
+    "checks": [
+      "Project creation retry returns the same record",
+      "UI assigned a real local task",
+      "Existing executor wrote verified artifact and receipt",
+      "Portfolio view position survives workspace round trip",
+      "UI distinguishes execution verification from human review",
+      "Actual isolated server restart preserves evidence",
+      "Recorded conversation survives actual server restart",
+      "Project selection survives reload/restart",
+      "Client completion claim rejected",
+      "Invalid credential denied",
+      "Narrow viewport has no page overflow",
+      "Reduced motion removes folding panes",
+      "Corrupt artifact cannot retain verified success",
+      "Accepted context marks prior run stale",
+      "No browser script errors"
+    ],
+    "captures": [
+      {
+        "path": "evidence/v4-integration/combined-submitted-20261022/01-denied.png",
+        "caption": "Invalid credential: explicit 401 and denied project list; no fabricated connection",
+        "sha256": "e2cc60effd00807ffaf24c68789b7337b84e3d869b02254b5a5357e540a58200"
+      },
+      {
+        "path": "evidence/v4-integration/combined-submitted-20261022/02-proposa-grid.png",
+        "caption": "Selected persisted Proposa record with project source, revision and workspace navigation",
+        "sha256": "5c40f4922aad4907b9daf8f6b552b24eea7df24adb8b5e5f8a817d9b2944c9ee"
+      },
+      {
+        "path": "evidence/v4-integration/combined-submitted-20261022/03-execution-verified.png",
+        "caption": "Execution verified shown separately from human review pending, with artifact and receipt references",
+        "sha256": "c2df67a768ffa71ff77da28340fe27f60c1442134935c675add15dcbc836fec2"
+      },
+      {
+        "path": "evidence/v4-integration/combined-submitted-20261022/04-registered-worker.png",
+        "caption": "Deterministic local worker registered; chief shown as unconfigured, no implied provider connection",
+        "sha256": "027cbc7c3b105d8c15c9040669da952d30745cf8f017b60f85016646fc15949e"
+      },
+      {
+        "path": "evidence/v4-integration/combined-submitted-20261022/05-narrow-grid.png",
+        "caption": "390px viewport: all four destinations visible, inspector and actions fit, no page overflow",
+        "sha256": "6e230da703c84ad7eff648b2b879ecb5eab406ea92bf8410ea3fd7e9290c92a4"
+      },
+      {
+        "path": "evidence/v4-integration/combined-submitted-20261022/06-narrow-reduced-motion.png",
+        "caption": "390px with reduced motion: navigation, project and recorded session visible; no folding panes",
+        "sha256": "67b578d03a3811ba800ee136e77c9b3c3d62d40fe7c87b1ef64398feb50b6341"
+      }
+    ],
+    "reruns": [
+      {
+        "date": "2026-10-24",
+        "tested_commit": "aa676d78",
+        "checks_passed": 15,
+        "checks_total": 15,
+        "browser_errors": 0,
+        "executed_by": "Codex Lane A, independently, from a disposable checkout",
+        "report_path": "evidence/v4-integration/sprint-20261024/baseline/report.json"
+      },
+      {
+        "date": "2026-10-24",
+        "tested_commit": "27c5e187 plus unadopted cherry-pick of 427420eb (index tree f07e1c7e)",
+        "checks_passed": 15,
+        "checks_total": 15,
+        "browser_errors": 0,
+        "executed_by": "Codex Lane A, independently, from a disposable clone; candidate never merged",
+        "report_path": "evidence/v4-integration/sprint-20261024/candidate/report.json"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "name": "Combined HTTP / browser / process-restart acceptance harness (15 checks)",
+      "status": "passed 15/15 on 6b3da9f7 (2026-10-22) and again on aa676d78 (2026-10-24); captures inspected",
+      "owner": "Lane A (Codex)",
+      "evidence_path": "evidence/v4-integration/sprint-20261024/baseline/report.json"
+    },
+    {
+      "name": "Full backend test suite and lint on aa676d78",
+      "status": "passed: pytest 145 passed, ruff check and format clean",
+      "owner": "Lane A (Codex)",
+      "evidence_path": "evidence/v4-integration/sprint-20261024/pytest-final.txt"
+    },
+    {
+      "name": "Client contract checks (7) on baseline and candidate",
+      "status": "passed 7/7 on both",
+      "owner": "Lane A (Codex)",
+      "evidence_path": "evidence/v4-integration/sprint-20261024/candidate/client-contract.json"
+    },
+    {
+      "name": "Focused recovery checks on the Proposa candidate 427420eb",
+      "status": "failed 0/4: session pagination, transcript pagination, identical-retry payload and key, late session response overwriting selected session",
+      "owner": "Claude session 1 (frontend) owes corrections; Lane A re-tests",
+      "evidence_path": "evidence/v4-integration/sprint-20261024/recovery.json"
+    },
+    {
+      "name": "Proposa adoption 427420eb into integration",
+      "status": "withheld until the four recovery defects are corrected with focused and browser evidence",
+      "owner": "Lane A (Codex) decision; corrections by Claude session 1",
+      "evidence_path": "docs/V4_PHASE1_GATE_DECISION_20261024.md"
+    },
+    {
+      "name": "Design handoff corrections (contrast 3.047:1 on unconfigured text; unsupported permission-record dependency)",
+      "status": "outstanding; not re-reviewed on 2026-10-24",
+      "owner": "Claude session 2 (design), then Codex review",
+      "evidence_path": "docs/V4_PROPOSA_REVIEW.md"
+    },
+    {
+      "name": "Release acceptance declaration",
+      "status": "withheld; requires corrected package merged and the 15-check harness rerun on that exact commit",
+      "owner": "Lane A (Codex)",
+      "evidence_path": "docs/V4_PHASE1_GATE_DECISION_20261024.md"
+    },
+    {
+      "name": "Human product acceptance and operational readiness",
+      "status": "pending; not claimed by any automated run",
+      "owner": "Owner / operator",
+      "evidence_path": "docs/V4_PHASE1_GATE_DECISION_20261024.md"
+    }
+  ],
+  "decision_today": {
+    "summary": "The ARCH-IE 4.0 foundation passed its full 15-check acceptance run on 2026-10-22 and again, independently, on 2026-10-24. The new Proposa screens (commit 427420eb) also pass that run, but four targeted checks the run does not cover all fail on them: only the first 100 sessions or messages are ever loaded, a button labelled as an identical retry can send edited data under a new request identity, and a slow reply can draw one session's transcript under another session's name. Each would cost a research office lost access, a duplicate record, or a transcript under the wrong session. The package therefore stays unmerged until the frontend owner corrects the defects, the focused checks and browser evidence pass, and the full acceptance run is repeated on the corrected commit. Nothing was deployed and no production code changed in this review.",
+    "path": "docs/V4_PROPOSA_WITHHOLD_PLAIN_LANGUAGE_20261024.md",
+    "decision_commit": "f223d4cb",
+    "technical_record_path": "docs/V4_PHASE1_GATE_DECISION_20261024.md"
+  }
+}

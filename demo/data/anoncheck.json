@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "source": [
+      "tools/build_anoncheck_demo.py",
+      "grant_engine/anoncheck.py",
+      "archie-forge-grok-bot-packet/outbox/03/sprint-20261024/fixtures.json",
+      "samples/sample-clean.docx",
+      "samples/sample-leaky.docx",
+      "samples/sample-leaky.pdf"
+    ],
+    "fetched_at": "2026-10-24T15:44:51.407702+00:00",
+    "generator": "D/0ef2dd2",
+    "sample": true,
+    "sample_notice": "SAMPLE documents contain invented identities only; any resemblance is coincidental.",
+    "scope": "Metadata only. PDF Info and catalog/Info XMP; PDF outline titles and annotation /T authors and link URIs; DOCX core.xml, app.xml, custom.xml, comment and tracked-change authors and initials, and absolute paths or emails in properties, relationship targets, and field codes. Bookmark titles are flagged for a file name, an email, an absolute path, or a trailing CV marker, including nested bookmarks. An http or https link is flagged when a path segment starts with ~user. Not checked: page text, headers, footers, logos, fonts, ordinary section headings, a bookmark that only names a person, or a percent-encoded %7E in place of that tilde. A pass is not a submission clearance.",
+    "rule_basis": "NASA SMD DAPR lists document properties and PDF bookmarks that reveal the PI as a common pitfall, and FAQ A11 says to redact metadata that could identify the team or institution (kb/raw/nasa_dapr.html). Non-empty author fields, including a PDF annotation /T, are flagged. Bookmark titles are flagged when they contain a file name, an email, an absolute path, or a trailing curriculum-vitae marker; ordinary section titles and a bare personal name are not. An http or https link whose path contains a ~user segment is flagged as a path. That match is a heuristic, not a name roster, and a %7E encoding is not matched. Creating-application names, nonstandard Info keys, emails, paths, file-name bookmarks, and CV-marker bookmarks are heuristics, not quoted program rules.",
+    "redaction": "First character and total character count only; no raw finding values.",
+    "sha256": {
+      "sample-clean.docx": "531a7a8befaa1b1ff5f70b9c257054e90f154211c116da06083abd73e35dd10a",
+      "sample-leaky.docx": "f9fa601cdbb054f31b5c1c92abc90a15c874909f135ca2c9eeb64bdcceabca61",
+      "sample-leaky.pdf": "04bae88977ebef7de70cd1eb9257dc21650ccb6ac1e212ab10d42197fbb3e018"
+    }
+  },
+  "files": [
+    {
+      "name": "sample-clean.docx",
+      "type": "docx",
+      "verdict": "pass",
+      "findings": []
+    },
+    {
+      "name": "sample-leaky.docx",
+      "type": "docx",
+      "verdict": "warn",
+      "findings": [
+        {
+          "field": "cp:lastModifiedBy",
+          "location": "docProps/core.xml cp:lastModifiedBy",
+          "value_redacted": "T… (20 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty core property. A reviewer can open it from document properties."
+        },
+        {
+          "field": "dc:creator",
+          "location": "docProps/core.xml dc:creator",
+          "value_redacted": "M… (26 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty core property. A reviewer can open it from document properties."
+        },
+        {
+          "field": "w:comment id=0 @author",
+          "location": "word/comments.xml w:comment id=0 @author",
+          "value_redacted": "M… (26 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty comment author. A reviewer sees this name on the comment, not in document properties."
+        },
+        {
+          "field": "w:ins id=1 @author",
+          "location": "word/document.xml w:ins id=1 @author",
+          "value_redacted": "T… (20 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty tracked-change author. A reviewer sees this name on the revision markup, not in document properties."
+        }
+      ]
+    },
+    {
+      "name": "sample-leaky.pdf",
+      "type": "pdf",
+      "verdict": "warn",
+      "findings": [
+        {
+          "field": "Info /Author",
+          "location": "pdf Info /Author",
+          "value_redacted": "M… (26 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty PDF Info field. A reviewer can open it from the Info dictionary."
+        },
+        {
+          "field": "annot[0] /T",
+          "location": "pdf annot[0] /T",
+          "value_redacted": "M… (26 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty PDF annotation title. A reviewer sees this name on the comment."
+        },
+        {
+          "field": "annot[1] /URI",
+          "location": "pdf annot[1] /URI",
+          "value_redacted": "h… (52 characters)",
+          "rule": "absolute_path",
+          "why": "Absolute path, file:// URL, home-directory path, or an http(s) URL with a ~user path segment, in metadata, a relationship target, a field code, a bookmark title, or a link URI."
+        },
+        {
+          "field": "catalog /Metadata dc:creator[0]",
+          "location": "pdf catalog /Metadata dc:creator[0]",
+          "value_redacted": "T… (20 characters)",
+          "rule": "identity_property",
+          "why": "Non-empty XMP field. A reviewer can open it from the embedded metadata packet."
+        },
+        {
+          "field": "outline[0] /Title",
+          "location": "pdf outline[0] /Title",
+          "value_redacted": "Q… (29 characters)",
+          "rule": "bookmark_filename",
+          "why": "Bookmark title contains a file name. Merged-file outlines often carry a person's or institution's file name. Heuristic: ordinary section titles are not flagged. The saved DAPR page names bookmarks but does not define this pattern."
+        },
+        {
+          "field": "outline[3] /Title",
+          "location": "pdf outline[3] /Title",
+          "value_redacted": "T… (23 characters)",
+          "rule": "bookmark_vita",
+          "why": "Bookmark title ends with a curriculum-vitae marker. Nested outlines are included. Heuristic: ordinary section titles are not flagged, and a bare personal name with no file name, email, path, or CV marker still passes. The saved DAPR page names bookmarks but does not define this pattern."
+        }
+      ]
+    }
+  ]
+}

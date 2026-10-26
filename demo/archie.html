@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARCH-IE 4.0 · Bryant Systems</title>
+<meta name="description" content="ARCH-IE 4.0: what it is, acceptance evidence, today's gates, and this sprint's agent roster.">
+<meta name="theme-color" content="#0f1113">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preload" href="fonts/Archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/AzeretMono-var.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Fonts ship with the page (SIL OFL 1.1) so it renders offline. Same declarations as BS-KB-001. */
+  @font-face { font-family: "Archivo"; src: url("fonts/Archivo-var.woff2") format("woff2"); font-weight: 400 600; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: "Azeret Mono"; src: url("fonts/AzeretMono-var.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+  /* Drawing sheet BS-AR-001: one sheet, drafting linework in one colour at two weights, title block on the border. */
+  :root {
+    --page: #0f1113;
+    --sheet: #1a1c1f;
+    --line: #8c7457;     /* drafting linework, one colour, two weights */
+    --mark: #c9976a;     /* Facet mark, flat copper */
+    --copper: #4a3a2c;   /* resting nets */
+    --heat: #ff9d66;     /* live / energised only */
+    --crimson: #a54840;  /* the one primary action */
+    --gold: #ecc37d;     /* callouts only */
+    --ink: #ece6dc;
+    --ink-2: #a8a093;
+    --ink-3: #736c62;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --data: "Azeret Mono", "SF Mono", Menlo, monospace;
+    --thick: 1px;
+    --thin: 0.5px;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; min-width: 0; }
+  html, body { background: var(--page); }
+  body {
+    min-height: 100vh; color: var(--ink);
+    display: flex; justify-content: center; align-items: flex-start;
+    padding-block: max(16px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-bottom));
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+    font: 400 14px/1.45 var(--data);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+
+  /* sheet + border (thin outer line, thick inner line, as on the card) */
+  .sheet {
+    position: relative; width: 100%; max-width: 760px; min-width: 0;
+    background: var(--sheet); border: var(--thick) solid var(--line);
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,.85);
+    outline: var(--thin) solid var(--line); outline-offset: 5px;
+    margin: 6px;
+  }
+  .body { padding: 18px 16px 8px; display: grid; gap: 22px; }
+  @media (min-width: 560px) { .body { padding: 24px 28px 10px; gap: 28px; } }
+
+  /* type */
+  .lab, .k, .cap-k, .tb-lab, .nav, .status, .chip, th, .lane-k, .fig-cap {
+    font: 500 10.5px var(--data); letter-spacing: .1em; text-transform: uppercase;
+  }
+  .mono { font-family: var(--data); font-variant-numeric: tabular-nums; }
+  .num { font-variant-numeric: tabular-nums; }
+  h1 { font-family: var(--display); font-weight: 500; font-stretch: 125%; font-size: clamp(34px, 10vw, 52px); line-height: 1; letter-spacing: -.012em; color: var(--ink); }
+  h2 { font: 400 20px/1.2 var(--display); font-stretch: 112%; color: var(--ink); }
+  .sub { font: 400 15px/1.45 var(--display); color: var(--ink-2); text-wrap: pretty; }
+  .prose { font: 400 16px/1.5 var(--display); color: var(--ink); text-wrap: pretty; overflow-wrap: anywhere; }
+  .muted { color: var(--ink-3); }
+  .path { font: 400 12px/1.5 var(--data); color: var(--ink-2); overflow-wrap: anywhere; word-break: break-all; }
+  .small { font-size: 12px; }
+
+  /* header */
+  .head { display: grid; gap: 14px; }
+  .navrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .nav { color: var(--ink-2); text-decoration: none; padding: 6px 0; }
+  .nav:hover { color: var(--ink); }
+  .mark { width: 34px; height: 34px; display: block; flex: none; }
+  .m-fill { fill: var(--mark); }
+  .m-line { fill: none; stroke: var(--mark); stroke-width: 2; stroke-linejoin: round; }
+  .m-slot { fill: var(--sheet); }
+  .hr { border: 0; border-top: var(--thin) solid var(--line); }
+
+  /* sections */
+  section { display: grid; gap: 12px; border-top: var(--thick) solid var(--line); padding-top: 14px; }
+  .sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .k { color: var(--ink-3); flex: none; }
+  .src { font: 400 11px/1.5 var(--data); color: var(--ink-3); overflow-wrap: anywhere; border-top: var(--thin) solid var(--line); padding-top: 8px; }
+
+  /* panels */
+  .panel { border: var(--thin) solid var(--line); padding: 12px 14px; display: grid; gap: 8px; }
+  .status { color: var(--ink-2); border: var(--thin) solid var(--line); padding: 8px 12px; display: none; }
+  .status[data-show] { display: block; }
+  .banner { border: var(--thin) solid var(--line); border-left: 3px solid var(--line); padding: 8px 12px; color: var(--ink-2); font: 500 11px/1.5 var(--data); letter-spacing: .06em; text-transform: uppercase; }
+
+  /* acceptance */
+  .acc { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: end; border: var(--thin) solid var(--line); padding: 14px; }
+  .big { font: 500 clamp(44px, 14vw, 64px)/1 var(--data); font-variant-numeric: tabular-nums; letter-spacing: -.02em; color: var(--ink); }
+  .acc .cell { display: grid; gap: 4px; }
+  .acc .path { grid-column: 1 / -1; border-top: var(--thin) solid var(--line); padding-top: 8px; }
+  .facts { display: grid; gap: 6px; padding-left: 0; list-style: none; }
+  .facts li { font: 400 14px/1.45 var(--display); color: var(--ink-2); padding-left: 14px; position: relative; overflow-wrap: anywhere; }
+  .facts li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 1px; background: var(--line); }
+  .facts .path { display: block; color: var(--ink-3); font-size: 11px; }
+
+  .gallery { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  figure { border: var(--thin) solid var(--line); padding: 8px; display: grid; gap: 8px; background: var(--page); }
+  figure img { width: 100%; height: auto; display: block; border: var(--thin) solid var(--copper); }
+  figure[data-missing] img { display: none; }
+  figure[data-missing]::after { content: "capture not found at " attr(data-path); font: 400 11px/1.5 var(--data); color: var(--ink-3); overflow-wrap: anywhere; }
+  .fig-cap { color: var(--ink-2); display: grid; gap: 8px; overflow-wrap: anywhere; line-height: 1.5; }
+  .fig-cap .n { color: var(--ink-3); text-transform: none; letter-spacing: 0; }
+
+  /* gates */
+  .gates { display: grid; gap: 0; border: var(--thin) solid var(--line); }
+  .gate { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 10px 12px; border-top: var(--thin) solid var(--line); }
+  .gate:first-child { border-top: 0; }
+  .gate .name { font: 400 15px/1.35 var(--display); color: var(--ink); overflow-wrap: anywhere; }
+  .gate { grid-template-columns: minmax(0, 1fr); }
+  .gate .st { font: 500 12px/1.45 var(--data); letter-spacing: .02em; color: var(--ink-2); text-align: left; white-space: normal; overflow-wrap: anywhere; }
+  .gate .st::before { content: "status  "; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+  .gate .st.live { color: var(--heat); }
+  .gate .meta { grid-column: 1 / -1; font: 400 11px/1.5 var(--data); color: var(--ink-3); overflow-wrap: anywhere; }
+  .gate .meta b { font-weight: 500; color: var(--ink-2); }
+
+  /* Detail A-style callout: gold is reserved for this */
+  .cap { border: var(--thin) solid var(--gold); padding: 12px 14px; display: grid; gap: 8px; position: relative; }
+  .cap::before { content: ""; position: absolute; left: -1px; top: 12px; bottom: 12px; width: 2px; background: var(--gold); }
+  .cap-k { color: var(--gold); }
+  .cap-t { font: 400 15px/1.5 var(--display); color: var(--ink); text-wrap: pretty; overflow-wrap: anywhere; }
+  .cap-s { font: 400 11px/1.5 var(--data); color: var(--ink-3); overflow-wrap: anywhere; }
+
+  /* roster */
+  .kv { display: grid; grid-template-columns: minmax(86px, auto) 1fr; gap: 6px 14px; align-items: baseline; }
+  .kv .lab { color: var(--ink-3); }
+  .kv .v { font: 400 14px/1.45 var(--display); color: var(--ink); overflow-wrap: anywhere; }
+  .kv .v.mono { font: 400 13px/1.45 var(--data); }
+  .panel h3 { font: 500 11px var(--data); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding-bottom: 6px; border-bottom: var(--thin) solid var(--line); }
+
+  table { width: 100%; border-collapse: collapse; border: var(--thin) solid var(--line); }
+  caption { text-align: left; padding: 0 0 8px; color: var(--ink-2); }
+  th { color: var(--ink-3); text-align: left; padding: 8px 10px; border-bottom: var(--thin) solid var(--line); font-weight: 500; }
+  td { padding: 8px 10px; vertical-align: top; font: 400 13px/1.45 var(--display); color: var(--ink); border-top: var(--thin) solid var(--line); overflow-wrap: anywhere; }
+  td.lane-k { font: 500 16px/1 var(--data); color: var(--ink); letter-spacing: 0; }
+  td.mono { font: 400 12.5px/1.45 var(--data); color: var(--ink-2); }
+  @media (max-width: 600px) {
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    tr { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; padding: 10px 12px; border-top: var(--thin) solid var(--line); }
+    tbody tr:first-child { border-top: 0; }
+    td { display: block; padding: 2px 0; border: 0; }
+    td.lane-k { grid-column: 1 / -1; display: flex; gap: 10px; align-items: baseline; padding-bottom: 4px; }
+    td::before { content: attr(data-k); display: block; font: 500 10px var(--data); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+    td.lane-k::before { display: inline; }
+    td[data-k="Work"] { grid-column: 1 / -1; }
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; }
+  .chip { color: var(--ink-2); border: var(--thin) solid var(--line); padding: 5px 8px; text-transform: none; letter-spacing: .02em; font-size: 12px; }
+
+  /* title block, on the border, as on the card */
+  .tb { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: var(--thick) solid var(--line); margin-top: 10px; }
+  @media (max-width: 420px) { .tb { grid-template-columns: 1.4fr 1fr .7fr; } }
+  .tb div { padding: 6px 10px 8px; border-top: var(--thin) solid var(--line); border-left: var(--thin) solid var(--line); display: grid; gap: 2px; }
+  .tb div:nth-child(-n+3) { border-top: 0; }
+  .tb div:nth-child(3n+1) { border-left: 0; }
+  .tb-lab { font-size: 9px; letter-spacing: .08em; color: var(--ink-3); }
+  .tb-val { font: 500 12px/1.3 var(--data); color: var(--ink-2); overflow-wrap: anywhere; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<main class="sheet" aria-label="ARCH-IE 4.0, Bryant Systems">
+  <div class="body">
+    <header class="head">
+      <div class="navrow">
+        <a class="nav" href="index.html">&larr; Hub</a>
+        <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+          <g transform="translate(0 0) scale(1)">
+            <circle cx="12" cy="2.7" r="1.85" class="m-fill"/>
+            <path d="M8.4 6.1 H15.6 L19.4 9.9 V15.4 L15.6 20.3 H8.4 L4.6 15.4 V9.9 Z" class="m-line"/>
+            <path d="M7.5 10.7 H16.5 L14.9 13.9 H9.1 Z" class="m-fill"/>
+            <path d="M8.85 11.6 H15.15 V12.6 H8.85 Z" class="m-slot"/>
+            <rect x="9.2" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+            <rect x="11.35" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+            <rect x="13.5" y="16.2" width="1.3" height="1.3" class="m-fill"/>
+          </g>
+        </svg>
+      </div>
+      <p class="lab muted">Bryant Systems &middot; drawing BS-AR-001</p>
+      <h1>ARCH-IE 4.0</h1>
+      <p class="sub">A foundation for persistent tasks, project context and verified execution evidence. The sections below show its bounded acceptance results, open release gates and the team building it, with source paths and fetch times.</p>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </header>
+
+    <!-- 1 · What it is -->
+    <section id="what" aria-labelledby="what-h">
+      <div class="sec-head"><h2 id="what-h">What it is</h2><span class="k">1</span></div>
+      <div id="what-body" class="prose"></div>
+      <p class="src" id="what-src"></p>
+    </section>
+
+    <!-- 2 · Acceptance evidence -->
+    <section id="acc" aria-labelledby="acc-h">
+      <div class="sec-head"><h2 id="acc-h">Acceptance evidence</h2><span class="k">2</span></div>
+      <div id="acc-body"></div>
+      <p class="small"><a href="data/archie-evidence.json">Open test reports and inspection records (JSON)</a>. The reports retain their original inspection-pending status; separate capture reviews are included. Open a capture below to view it at full size.</p>
+      <div class="gallery" id="gallery" aria-label="Acceptance captures"></div>
+      <p class="path small" id="gallery-note"></p>
+      <p class="src" id="acc-src"></p>
+      <p class="small"><a href="data/archie.json">View acceptance and gate source data</a></p>
+    </section>
+
+    <!-- 3 · Gates today -->
+    <section id="gates" aria-labelledby="gates-h">
+      <div class="sec-head"><h2 id="gates-h">Gates today</h2><span class="k">3</span></div>
+      <div id="gates-body"></div>
+      <div class="cap" id="decision">
+        <p class="cap-k">Decision today</p>
+        <p class="cap-t" id="decision-sum"></p>
+        <p class="cap-s" id="decision-path"></p>
+      </div>
+      <p class="src" id="gates-src"></p>
+    </section>
+
+    <!-- 4 · Roster -->
+    <section id="roster" aria-labelledby="roster-h">
+      <div class="sec-head"><h2 id="roster-h">This sprint's agent roster</h2><span class="k">4</span></div>
+      <p class="small muted">The campaign team building and reviewing these products. This roster is separate from the isolated ARCH-IE acceptance run above.</p>
+      <div id="roster-body" style="display:grid;gap:12px"></div>
+      <p class="src" id="roster-src"></p>
+      <p class="small"><a href="data/roster.json">View roster source data</a></p>
+    </section>
+  </div>
+
+  <footer class="tb" aria-label="Title block">
+    <div><span class="tb-lab">Title</span><span class="tb-val">ARCH-IE 4.0</span></div>
+    <div><span class="tb-lab">Drawing no.</span><span class="tb-val">BS-AR-001</span></div>
+    <div><span class="tb-lab">Rev</span><span class="tb-val">A</span></div>
+    <div><span class="tb-lab">Originator</span><span class="tb-val">Bryant Systems</span></div>
+    <div><span class="tb-lab">Issued</span><span class="tb-val">2026-10-24</span></div>
+    <div><span class="tb-lab">Sheet</span><span class="tb-val">1 of 1</span></div>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var UNKNOWN = "UNKNOWN";
+
+  // DOM helpers: everything from data goes through textContent, never innerHTML.
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined && text !== null) e.textContent = String(text);
+    return e;
+  }
+  function str(v) {
+    if (v === undefined || v === null || v === "") return UNKNOWN;
+    if (Array.isArray(v)) return v.length ? v.map(str).join(" · ") : UNKNOWN;
+    if (typeof v === "object") return JSON.stringify(v);
+    return String(v);
+  }
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+  function kv(pairs, monoKeys) {
+    var g = el("div", "kv");
+    pairs.forEach(function (p) {
+      g.appendChild(el("span", "lab", p[0]));
+      g.appendChild(el("span", "v" + ((monoKeys || []).indexOf(p[0]) >= 0 ? " mono" : ""), str(p[1])));
+    });
+    return g;
+  }
+  function srcLine(file, meta) {
+    if (!meta) return "Source: " + file + " — meta missing";
+    return "Source: " + file + " " + str(meta.source) + " · fetched " + str(meta.fetched_at) + " · " + str(meta.generator);
+  }
+  function basename(p) { return String(p).split("/").pop(); }
+  function captionFromName(name) {
+    var stem = name.replace(/\.[a-z0-9]+$/i, "");
+    var m = stem.match(/^(\d+)[-_ ]?(.*)$/);
+    if (m) return { n: m[1], t: (m[2] || "").replace(/[-_]+/g, " ").trim() || UNKNOWN };
+    return { n: "", t: stem.replace(/[-_]+/g, " ") };
+  }
+
+  var SRC_CAMPAIGN = "~/sprint-20261024/CAMPAIGN.md";
+  var SRC_STATUS_A = "~/sprint-20261024/status/A.md";
+  var CAPTURE_SRC = "~/ARCH-IE-Forge-v4-integration/evidence/v4-integration/sprint-20261024/baseline/";
+  var DEFAULT_CAPTURES = [
+    "01-denied.png", "02-proposa-grid.png", "03-execution-verified.png",
+    "04-registered-worker.png", "05-narrow-grid.png", "06-narrow-reduced-motion.png"
+  ];
+
+  // ---------- 1 · What it is ----------
+  function renderWhat(a, loaded) {
+    var body = $("what-body"); clear(body);
+    if (loaded && a && a.what_it_is) {
+      body.appendChild(el("p", null, str(a.what_it_is)));
+    } else {
+      body.appendChild(el("p", "banner", "Placeholder — archie.json not yet landed"));
+      body.appendChild(el("p", null, "The current product description is unavailable until the source data loads."));
+    }
+    $("what-src").textContent = loaded ? srcLine("archie.json", a.meta) : "Source: data/archie.json — not loaded · fallback from " + SRC_CAMPAIGN;
+  }
+
+  // ---------- 2 · Acceptance ----------
+  function renderAcceptance(a, loaded) {
+    var body = $("acc-body"); clear(body);
+    var acc = (loaded && a && a.acceptance) ? a.acceptance : null;
+    var box = el("div", "acc");
+    var passed = acc ? str(acc.checks_passed) : "15";
+    var total = acc ? str(acc.checks_total) : "15";
+    var date = acc ? str(acc.date) : "2026-10-22";
+    var report = acc ? str(acc.report_path) : UNKNOWN;
+
+    var c1 = el("div", "cell");
+    c1.appendChild(el("span", "lab muted", "Checks passed"));
+    c1.appendChild(el("span", "big", passed + "/" + total));
+    var c2 = el("div", "cell");
+    c2.appendChild(el("span", "lab muted", "Harness run date"));
+    c2.appendChild(el("span", "mono num", date));
+    var c3 = el("div", "path");
+    c3.textContent = "Report: " + report;
+    box.appendChild(c1); box.appendChild(c2); box.appendChild(c3);
+    body.appendChild(box);
+    if (acc && acc.scope) body.appendChild(el("p", "small", "Test scope: " + str(acc.scope) + ". Human product acceptance and operational readiness remain pending; see today's gates."));
+
+    if (!acc) {
+      body.appendChild(el("p", "banner", "archie.json not loaded — known facts shown with their source paths"));
+      var ul = el("ul", "facts");
+      [
+        ["Acceptance date 2026-10-22.", SRC_CAMPAIGN],
+        ["Combined HTTP / browser / process-restart acceptance rerun from disposable checkouts: 15/15 checks, zero browser errors.", SRC_STATUS_A],
+        ["Full pytest: 145 passed. Ruff check and format passed.", SRC_STATUS_A],
+        ["Decision: bounded foundation harness accepted on aa676d78; Proposa adoption and release acceptance WITHHELD.", SRC_STATUS_A],
+        ["Decision doc: docs/V4_PHASE1_GATE_DECISION_20261024.md (in ~/ARCH-IE-Forge-v4-integration).", SRC_STATUS_A]
+      ].forEach(function (f) {
+        var li = el("li", null, f[0]);
+        li.appendChild(el("span", "path", "source " + f[1]));
+        ul.appendChild(li);
+      });
+      body.appendChild(ul);
+    }
+
+    // gallery
+    var g = $("gallery"); clear(g);
+    var list = (acc && Array.isArray(acc.captures) && acc.captures.length) ? acc.captures : DEFAULT_CAPTURES;
+    list.forEach(function (c) {
+      var p = (c && typeof c === "object") ? c.path : c;
+      var bn = basename(str(p));
+      var cap = captionFromName(bn);
+      var captionText = (c && typeof c === "object" && c.caption) ? String(c.caption) : cap.t;
+      var fig = el("figure");
+      // captures from the 2026-10-22 submitted run live in assets/accept-20261022/ (sha256 in archie.json verified at copy time);
+      // the 2026-10-24 rerun baseline captures live in assets/ directly.
+      var src = (String(p).indexOf("combined-submitted-20261022") >= 0 ? "assets/accept-20261022/" : "assets/") + bn;
+      fig.setAttribute("data-path", src);
+      var img = el("img");
+      img.loading = "lazy"; img.decoding = "async";
+      img.alt = "Acceptance capture " + (cap.n ? cap.n + " " : "") + captionText;
+      img.src = src;
+      img.addEventListener("error", function () { fig.setAttribute("data-missing", ""); });
+      var fc = el("figcaption", "fig-cap");
+      fc.appendChild(el("span", null, (cap.n ? cap.n + " · " : "") + captionText));
+      fc.appendChild(el("span", "n", bn));
+      var full = el("a");
+      full.href = src;
+      full.setAttribute("aria-label", "Open full-size capture: " + captionText);
+      full.appendChild(img);
+      fig.appendChild(full); fig.appendChild(fc);
+      g.appendChild(fig);
+    });
+    if (acc && Array.isArray(acc.captures) && acc.captures.length) {
+      var who = [];
+      if (acc.executed_by) who.push("executed by " + str(acc.executed_by));
+      if (acc.inspected_by) who.push("inspected by " + str(acc.inspected_by));
+      if (acc.scope) who.push("scope: " + str(acc.scope));
+      $("gallery-note").textContent = "Captures from the " + str(acc.date) + " acceptance run on " + str(acc.tested_commit || UNKNOWN) +
+        " (sha256 of each file is recorded in archie.json and was verified when copied into assets/). " + who.join(". ") + ".";
+      // reruns and the check list, from the file
+      var extra = el("div", "facts-extra");
+      if (Array.isArray(acc.reruns) && acc.reruns.length) {
+        var ul2 = el("ul", "facts");
+        acc.reruns.forEach(function (r) {
+          var li = el("li", null, "Rerun " + str(r.date) + ": " + str(r.checks_passed) + "/" + str(r.checks_total) + " on " + str(r.tested_commit) + ", browser errors " + str(r.browser_errors) + ". " + str(r.executed_by) + ".");
+          li.appendChild(el("span", "path", "report " + str(r.report_path)));
+          ul2.appendChild(li);
+        });
+        extra.appendChild(el("p", "lab muted", "Independent reruns")); extra.appendChild(ul2);
+      }
+      if (Array.isArray(acc.checks) && acc.checks.length) {
+        var ul3 = el("ul", "facts");
+        acc.checks.forEach(function (c, i) { ul3.appendChild(el("li", null, (i + 1) + ". " + str(c))); });
+        extra.appendChild(el("p", "lab muted", "The " + acc.checks.length + " checks")); extra.appendChild(ul3);
+      }
+      if (acc.report_status) extra.appendChild(el("p", "path small", "report status " + str(acc.report_status) + (acc.harness ? " · harness " + str(acc.harness) : "")));
+      g.parentNode.insertBefore(extra, g);
+    } else {
+      $("gallery-note").textContent = "Captured by Lane A's acceptance rerun on 2026-10-24 (baseline aa676d78, 15/15; manifest recorded 2026-10-24T13:10:49Z; scope: real isolated HTTP, deterministic executor and Chromium, no live service; reviewer: automated agent, not human product acceptance). Source path " + CAPTURE_SRC + " and ../manifest.json";
+    }
+    $("acc-src").textContent = loaded ? srcLine("archie.json", a.meta)
+      : "Source: data/archie.json — not loaded · fallback from " + SRC_CAMPAIGN + " and " + SRC_STATUS_A;
+  }
+
+  // ---------- 3 · Gates ----------
+  function renderGates(a, loaded) {
+    var body = $("gates-body"); clear(body);
+    var gates = (loaded && a && Array.isArray(a.gates)) ? a.gates : null;
+    var wrap = el("div", "gates");
+    var rows = gates || [
+      { name: "Bounded foundation harness", status: "accepted on aa676d78", owner: "Lane A", evidence_path: SRC_STATUS_A },
+      { name: "Proposa adoption", status: "withheld", owner: "Lane A", evidence_path: SRC_STATUS_A },
+      { name: "Release acceptance", status: "withheld", owner: "Lane A", evidence_path: SRC_STATUS_A }
+    ];
+    if (!gates) body.appendChild(el("p", "banner", "archie.json not loaded — gate status below is from " + SRC_STATUS_A));
+    if (!rows.length) wrap.appendChild(el("div", "gate", "No gates listed."));
+    rows.forEach(function (r) {
+      var row = el("div", "gate");
+      row.appendChild(el("span", "name", str(r.name)));
+      var st = el("span", "st", str(r.status));
+      if (/\b(live|running)\b/i.test(str(r.status))) st.classList.add("live");
+      row.appendChild(st);
+      var m = el("span", "meta");
+      m.appendChild(el("b", null, "owner "));
+      m.appendChild(document.createTextNode(str(r.owner) + "  ·  "));
+      m.appendChild(el("b", null, (gates ? "evidence " : "source ")));
+      m.appendChild(document.createTextNode(str(r.evidence_path)));
+      row.appendChild(m);
+      wrap.appendChild(row);
+    });
+    body.appendChild(wrap);
+
+    var d = (loaded && a && a.decision_today) ? a.decision_today : null;
+    if (d) {
+      $("decision-sum").textContent = str(d.summary);
+      $("decision-path").textContent = str(d.path);
+    } else {
+      $("decision-sum").textContent = "Bounded foundation harness accepted on aa676d78. Proposa adoption and release acceptance withheld. (Fallback wording from " + SRC_STATUS_A + ".)";
+      $("decision-path").textContent = "docs/V4_PHASE1_GATE_DECISION_20261024.md · source " + SRC_STATUS_A;
+    }
+    $("gates-src").textContent = loaded ? srcLine("archie.json", a.meta)
+      : "Source: data/archie.json — not loaded · fallback from " + SRC_STATUS_A;
+  }
+
+  // ---------- 4 · Roster ----------
+  function renderRoster(r, loaded) {
+    var body = $("roster-body"); clear(body);
+    if (!loaded || !r) {
+      body.appendChild(el("p", "banner", "roster.json not loaded"));
+      $("roster-src").textContent = "Source: data/roster.json — not loaded";
+      return;
+    }
+    var h = r.host || {}, c = r.conductor || {};
+    var p1 = el("div", "panel"); p1.appendChild(el("h3", null, "Host"));
+    p1.appendChild(kv([["Name", h.name], ["Hardware", h.hardware], ["Role", h.role]], ["Name", "Hardware"]));
+    var p2 = el("div", "panel"); p2.appendChild(el("h3", null, "Conductor"));
+    p2.appendChild(kv([["Agent", c.agent], ["Model", c.model], ["Role", c.role]], ["Agent", "Model"]));
+    body.appendChild(p1); body.appendChild(p2);
+
+    var t = el("table");
+    t.appendChild(el("caption", "lab", "Lanes"));
+    var thead = el("thead"), hr = el("tr");
+    ["Lane", "Product", "Work", "Agent", "Model", "Commit"].forEach(function (k) { hr.appendChild(el("th", null, k)); });
+    thead.appendChild(hr); t.appendChild(thead);
+    var tb = el("tbody");
+    var lanes = Array.isArray(r.lanes) ? r.lanes : [];
+    if (!lanes.length) { var tr0 = el("tr"); tr0.appendChild(el("td", null, "No lanes listed.")); tb.appendChild(tr0); }
+    lanes.forEach(function (l) {
+      var tr = el("tr");
+      var tdL = el("td", "lane-k", str(l.lane)); tdL.setAttribute("data-k", "Lane"); tr.appendChild(tdL);
+      [["Product", l.product, ""], ["Work", l.work, ""], ["Agent", l.agent, "mono"], ["Model", l.model, "mono"],
+       ["Commit", ("commit" in l) ? (l.commit === null ? "none yet" : l.commit) : undefined, "mono"]].forEach(function (x) {
+        var td = el("td", x[2], str(x[1])); td.setAttribute("data-k", x[0]); tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb); body.appendChild(t);
+
+    var p3 = el("div", "panel"); p3.appendChild(el("h3", null, "Review"));
+    var rev = Array.isArray(r.review) ? r.review : (r.review ? [r.review] : []);
+    if (!rev.length) p3.appendChild(el("p", "muted", UNKNOWN));
+    rev.forEach(function (x) { p3.appendChild(kv([["Agent", x.agent], ["Model", x.model], ["Role", x.role]], ["Agent", "Model"])); });
+    body.appendChild(p3);
+
+    var p4 = el("div", "panel"); p4.appendChild(el("h3", null, "Local models"));
+    var ul = el("ul", "chips");
+    var lm = Array.isArray(r.local_models) ? r.local_models : [];
+    if (!lm.length) ul.appendChild(el("li", "chip", UNKNOWN));
+    lm.forEach(function (m) { ul.appendChild(el("li", "chip mono", str(m))); });
+    p4.appendChild(ul); body.appendChild(p4);
+
+    $("roster-src").textContent = srcLine("roster.json", r.meta);
+  }
+
+  // ---------- load ----------
+  function getJSON(url) {
+    return fetch(url, { cache: "no-store" }).then(function (res) {
+      if (!res.ok) throw new Error(url + " HTTP " + res.status);
+      return res.json();
+    });
+  }
+  function run() {
+    var fetcher = (typeof fetch === "function")
+      ? Promise.allSettled([getJSON("data/archie.json"), getJSON("data/roster.json")])
+      : Promise.resolve([{ status: "rejected", reason: new Error("fetch unavailable") }, { status: "rejected", reason: new Error("fetch unavailable") }]);
+    fetcher.then(function (rs) {
+      var A = rs[0], R = rs[1];
+      var archie = A.status === "fulfilled" && A.value && typeof A.value === "object" ? A.value : null;
+      var roster = R.status === "fulfilled" && R.value && typeof R.value === "object" ? R.value : null;
+      var notes = [];
+      if (!archie) notes.push("data/archie.json not loaded (" + (A.reason && A.reason.message ? A.reason.message : "no data") + ") — fallback content shown");
+      if (!roster) notes.push("data/roster.json not loaded (" + (R.reason && R.reason.message ? R.reason.message : "no data") + ")");
+      var s = $("status");
+      if (notes.length) { s.textContent = notes.join(" · "); s.setAttribute("data-show", ""); } else { s.removeAttribute("data-show"); s.textContent = ""; }
+      try { renderWhat(archie, !!archie); } catch (e) { $("what-body").textContent = "Render error: " + e.message; }
+      try { renderAcceptance(archie, !!archie); } catch (e) { $("acc-body").textContent = "Render error: " + e.message; }
+      try { renderGates(archie, !!archie); } catch (e) { $("gates-body").textContent = "Render error: " + e.message; }
+      try { renderRoster(roster, !!roster); } catch (e) { $("roster-body").textContent = "Render error: " + e.message; }
+    });
+  }
+  // Render fallbacks immediately so the page is never blank, then replace with fetched data.
+  renderWhat(null, false); renderAcceptance(null, false); renderGates(null, false); renderRoster(null, false);
+  run();
+})();
+</script>
+</body>
+</html>
